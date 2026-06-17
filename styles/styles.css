@@ -40,6 +40,10 @@
   --nav-height: 64px;
 }
 
+h1 {
+  color: red;
+}
+
 /* fallback fonts */
 @font-face {
   font-family: roboto-condensed-fallback;
