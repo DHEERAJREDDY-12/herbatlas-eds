@@ -128,8 +128,6 @@
 .hero.commerce h1 {
   font-size: 56px;
   margin-bottom: 14px;
-  line-height: 1.05;
-  min-height: 1.15em;
 }
 
 .hero.dark h1 {
@@ -152,7 +150,6 @@
   line-height: 1.7;
   margin: 0;
   max-width: 640px;
-  min-height: 3.4em;
 }
 
 .hero .hero-description {
@@ -201,7 +198,6 @@
   letter-spacing: 0.3px;
   line-height: 1.4;
   padding: 10px 16px;
-  min-height: 1.4em;
 }
 
 .hero .hero-badge {
