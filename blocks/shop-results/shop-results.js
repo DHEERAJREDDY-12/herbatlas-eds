@@ -365,7 +365,7 @@ function filterAndSort(products, state) {
   return filtered;
 }
 
-function buildCard(product, state) {
+function buildCard(product, state, isFirstVisible) {
   const weight = getCardWeight(product);
   const price = getPriceForWeight(product, weight);
   const href = getProductHref(product, state.config, weight);
@@ -383,12 +383,12 @@ function buildCard(product, state) {
   image.alt = product.name;
   image.width = 400;
   image.height = 300;
-  // First product image should be eager-loaded for LCP optimization
-  const isFirstProduct = product === state.products?.[0];
-  image.loading = isFirstProduct ? 'eager' : 'lazy';
-  if (isFirstProduct) {
+  // First visible product on current page should be eager-loaded for LCP optimization
+  image.loading = isFirstVisible ? 'eager' : 'lazy';
+  if (isFirstVisible) {
     image.fetchPriority = 'high';
   }
+  image.decoding = 'async';
   image.addEventListener('error', () => {
     image.src = product.image;
   }, { once: true });
@@ -556,8 +556,9 @@ function render(state, shell, block) {
     shell.empty.classList.remove('hidden');
   } else {
     shell.empty.classList.add('hidden');
-    pageProducts.forEach((product) => {
-      shell.grid.append(buildCard(product, state));
+    pageProducts.forEach((product, index) => {
+      const card = buildCard(product, state, index === 0);
+      shell.grid.append(card);
     });
   }
 
