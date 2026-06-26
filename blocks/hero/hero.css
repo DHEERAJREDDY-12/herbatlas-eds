@@ -145,7 +145,7 @@
   color: var(--hero-green-pale);
 }
 
-.hero .hero-description {
+.hero.commerce .hero-description {
   color: var(--hero-text-mid);
   font-family: var(--hero-font-body);
   font-size: 14px;
@@ -153,6 +153,15 @@
   margin: 0;
   max-width: 640px;
   min-height: 3.4em;
+}
+
+.hero .hero-description {
+  color: var(--hero-text-mid);
+  font-family: var(--hero-font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 640px;
 }
 
 .hero.image-right .hero-description {
@@ -179,7 +188,7 @@
   justify-content: center;
 }
 
-.hero .hero-badge {
+.hero.commerce .hero-badge {
   align-items: center;
   background: rgb(255 255 255 / 7%);
   border: 1px solid rgb(184 212 160 / 20%);
@@ -193,6 +202,21 @@
   line-height: 1.4;
   padding: 10px 16px;
   min-height: 1.4em;
+}
+
+.hero .hero-badge {
+  align-items: center;
+  background: rgb(255 255 255 / 7%);
+  border: 1px solid rgb(184 212 160 / 20%);
+  border-radius: 8px;
+  color: var(--hero-green-pale);
+  display: inline-flex;
+  font-family: var(--hero-font-body);
+  font-size: 12px;
+  gap: 8px;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  padding: 10px 16px;
 }
 
 .hero:not(.dark) .hero-badge {
