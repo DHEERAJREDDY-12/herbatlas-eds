@@ -75,7 +75,12 @@ function createImage(cell, alt, isLcpImage = false) {
   if (picture) {
     const clonedPicture = picture.cloneNode(true);
     const img = clonedPicture.querySelector('img');
-    if (img && alt) img.alt = alt;
+    if (img) {
+      if (alt) img.alt = alt;
+      // Set dimensions to prevent CLS
+      if (!img.width) img.width = 260;
+      if (!img.height) img.height = 173;
+    }
     setImageLoadingPriority(clonedPicture, isLcpImage);
     return clonedPicture;
   }
@@ -84,6 +89,9 @@ function createImage(cell, alt, isLcpImage = false) {
   if (img) {
     const clonedImg = img.cloneNode(true);
     if (alt) clonedImg.alt = alt;
+    // Set dimensions to prevent CLS
+    if (!clonedImg.width) clonedImg.width = 260;
+    if (!clonedImg.height) clonedImg.height = 173;
     setImageLoadingPriority(clonedImg, isLcpImage);
     return clonedImg;
   }
@@ -94,6 +102,9 @@ function createImage(cell, alt, isLcpImage = false) {
   const fallbackImg = document.createElement('img');
   fallbackImg.src = src;
   fallbackImg.alt = alt || '';
+  // Set dimensions to prevent CLS
+  fallbackImg.width = 260;
+  fallbackImg.height = 173;
   setImageLoadingPriority(fallbackImg, isLcpImage);
   return fallbackImg;
 }

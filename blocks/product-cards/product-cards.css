@@ -121,7 +121,7 @@
 }
 
 .product-card-badge.bestseller {
-  background: #b97a30;
+  background: #9d5f1f;
 }
 
 .product-card-body {
@@ -175,7 +175,7 @@
 }
 
 .product-card-price-weight {
-  color: rgb(248 244 236 / 45%);
+  color: rgb(248 244 236 / 85%);
   font-size: 11px;
   margin-top: 2px;
 }

@@ -30,7 +30,7 @@
 }
 
 .reviews-grid-label {
-  color: #8a8a78;
+  color: #3a3a2f;
   font-size: 10px;
   letter-spacing: 3px;
   line-height: 1.4;
@@ -170,7 +170,7 @@
 }
 
 .reviews-grid-product {
-  color: #767668;
+  color: #3a3a2f;
   display: block;
   font-size: 11px;
   line-height: 1.3;
@@ -232,7 +232,7 @@
 }
 
 .reviews-grid-agg-count {
-  color: #767668;
+  color: #3a3a2f;
   font-size: 12px;
   margin-top: 4px;
 }

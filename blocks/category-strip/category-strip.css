@@ -40,7 +40,7 @@
 }
 
 .category-strip-label {
-  color: var(--category-strip-text-light);
+  color: #3a3a2f;
   flex: 0 0 auto;
   font-family: var(--category-strip-font-body);
   font-size: 10px;

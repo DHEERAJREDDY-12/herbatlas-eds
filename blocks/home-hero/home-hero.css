@@ -194,7 +194,13 @@
   object-position: center;
 }
 
-.home-hero .hh-slide h4 {
+.home-hero .hh-img-wrap picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-hero .hh-slide h3 {
   color: var(--hh-cream);
   font-family: var(--hh-font-head);
   font-size: 26px;
@@ -345,7 +351,7 @@
     padding: 10px 16px;
   }
 
-  .home-hero .hh-slide h4 {
+  .home-hero .hh-slide h3 {
     font-size: 22px;
   }
 
