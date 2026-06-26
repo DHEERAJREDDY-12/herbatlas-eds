@@ -166,7 +166,6 @@ function buildCard(herb, detailBase) {
   const card = document.createElement('a');
   card.className = 'herb-card';
   card.href = href;
-  card.setAttribute('aria-label', `View ${herb.name}`);
 
   const imageWrap = document.createElement('div');
   imageWrap.className = 'herb-card-img';

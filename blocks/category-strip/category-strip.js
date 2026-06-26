@@ -78,6 +78,7 @@ export default function decorate(block) {
     pill.className = 'category-strip-pill';
     pill.type = 'button';
     pill.textContent = item.label;
+    pill.setAttribute('aria-label', `Browse by ${item.label}`);
 
     if (item.target) {
       pill.addEventListener('click', () => {

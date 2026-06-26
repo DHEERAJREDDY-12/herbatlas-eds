@@ -256,7 +256,7 @@ function buildSlide(slide, index) {
   article.append(imageWrap);
 
   if (slide.title) {
-    const title = document.createElement('h4');
+    const title = document.createElement('h2');
     title.innerHTML = normalizeAuthoredHeroHtml(slide.title);
     article.append(title);
   }
