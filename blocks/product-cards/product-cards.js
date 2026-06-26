@@ -293,6 +293,7 @@ function buildCard(product, config) {
   button.className = 'product-card-button';
   button.href = href;
   button.textContent = config.buttonText;
+  button.setAttribute('aria-label', `View ${product.name} product`);
 
   footer.append(priceWrap, button);
   card.append(imageLink, body, footer);

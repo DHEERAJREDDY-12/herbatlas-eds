@@ -121,21 +121,30 @@ function readConfig(rows) {
 }
 
 function buildStars(rating) {
+  const container = document.createElement('div');
+  
   const stars = document.createElement('div');
   stars.className = 'reviews-grid-stars';
-  stars.setAttribute('aria-label', `${rating} out of 5 stars`);
+  stars.setAttribute('aria-hidden', 'true');
 
   for (let i = 1; i <= 5; i += 1) {
     const star = document.createElement('span');
     star.className = i > rating
       ? 'reviews-grid-star empty'
       : 'reviews-grid-star';
-    star.setAttribute('aria-hidden', 'true');
     star.innerHTML = '&#9733;';
     stars.append(star);
   }
 
-  return stars;
+  container.append(stars);
+
+  // Add screen-reader-only text outside aria-hidden parent
+  const srText = document.createElement('span');
+  srText.className = 'sr-only';
+  srText.textContent = `${rating} out of 5 stars`;
+  container.append(srText);
+
+  return container;
 }
 
 function buildHeader(config) {

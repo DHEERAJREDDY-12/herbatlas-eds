@@ -301,7 +301,7 @@
   border-radius: 3px;
   cursor: pointer;
   height: 6px;
-  padding: 0;
+  padding: 19px;
   transition: width 0.3s ease, background 0.3s ease;
   width: 6px;
 }
