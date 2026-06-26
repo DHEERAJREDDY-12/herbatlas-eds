@@ -197,7 +197,7 @@
   padding: 18px;
 }
 
-.shop-results-card-body h3 {
+.shop-results-card-body h2 {
   color: #162a0f;
   font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
   font-size: 20px;
