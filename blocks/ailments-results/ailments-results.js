@@ -418,7 +418,7 @@ function buildShell(config) {
   resultsLabel.className = 'ailments-results-label';
   headerText.append(resultsLabel);
 
-  const resultsTitle = document.createElement('h2');
+  const resultsTitle = document.createElement('h3');
   resultsTitle.className = 'ailments-results-title';
   headerText.append(resultsTitle);
 
