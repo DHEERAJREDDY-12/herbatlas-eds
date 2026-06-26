@@ -381,7 +381,14 @@ function buildCard(product, state) {
   const image = document.createElement('img');
   image.src = getProductImage(product);
   image.alt = product.name;
-  image.loading = 'lazy';
+  image.width = 400;
+  image.height = 300;
+  // First product image should be eager-loaded for LCP optimization
+  const isFirstProduct = product === state.products?.[0];
+  image.loading = isFirstProduct ? 'eager' : 'lazy';
+  if (isFirstProduct) {
+    image.fetchPriority = 'high';
+  }
   image.addEventListener('error', () => {
     image.src = product.image;
   }, { once: true });
@@ -407,7 +414,7 @@ function buildCard(product, state) {
   const body = document.createElement('div');
   body.className = 'shop-results-card-body';
 
-  const title = document.createElement('h3');
+  const title = document.createElement('h2');
   title.textContent = product.name;
   body.append(title);
 
@@ -432,6 +439,7 @@ function buildCard(product, state) {
   const details = document.createElement('a');
   details.className = 'shop-results-view-link';
   details.href = href;
+  details.setAttribute('aria-label', `View ${product.name} product`);
   details.textContent = state.config.productDetailsLabel;
   body.append(details);
 
