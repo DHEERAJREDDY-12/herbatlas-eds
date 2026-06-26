@@ -205,7 +205,7 @@ function renderFooter(footer, parsed) {
   parsed.sections.forEach((section) => {
     const column = document.createElement('div');
     column.className = 'footer-col';
-    column.innerHTML = `<h4>${section.title}</h4>`;
+    column.innerHTML = `<h3>${section.title}</h3>`;
     section.links.forEach((item) => column.append(createLink(item, section.title)));
     grid.append(column);
   });
