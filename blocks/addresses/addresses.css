@@ -1,0 +1,339 @@
+.addresses-container {
+  background: #f8f4ec;
+}
+
+.addresses-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.addresses {
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.addresses-page {
+  background: #f8f4ec;
+  min-height: 70vh;
+}
+
+.addresses-body {
+  align-items: start;
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr 420px;
+  padding: 40px 52px 64px;
+}
+
+.addresses-list-section h2,
+.address-form-panel h2 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.addresses-list-section h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.address-card {
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  padding: 22px 24px;
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.address-card:hover,
+.address-card:focus-within {
+  border-color: #b8d4a0;
+  box-shadow: 0 2px 12px rgb(22 42 15 / 8%);
+}
+
+.address-card.is-default {
+  border-color: #2f5d24;
+}
+
+.address-default-badge {
+  background: #162a0f;
+  border-radius: 12px;
+  color: #c5e3a8;
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding: 3px 10px;
+  text-transform: uppercase;
+}
+
+.address-card-name {
+  color: #162a0f;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.address-card-phone {
+  color: #6b6b5d;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.address-card-lines {
+  color: #6b6b5d;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.address-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.addr-action-btn {
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 8px;
+  color: #6b6b5d;
+  cursor: pointer;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 12px;
+  padding: 6px 14px;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.addr-action-btn:hover,
+.addr-action-btn:focus {
+  border-color: #2f5d24;
+  color: #2f5d24;
+}
+
+.addr-action-btn.set-default {
+  border-color: #b8d4a0;
+  color: #2f5d24;
+}
+
+.addr-action-btn.delete {
+  border-color: rgb(160 0 0 / 20%);
+  color: #a00000;
+}
+
+.addr-action-btn.delete:hover,
+.addr-action-btn.delete:focus {
+  background: #fff5f5;
+  border-color: #a00000;
+}
+
+.addresses-empty {
+  background: #fff;
+  border: 1.5px dashed #ede7d9;
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.addresses-empty p {
+  color: #8a8a78;
+  font-size: 14px;
+  margin: 0;
+}
+
+.addresses-add-btn {
+  background: #2f5d24;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  margin-top: 8px;
+  padding: 12px 18px;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+
+.addresses-add-btn:hover,
+.addresses-add-btn:focus {
+  background: #162a0f;
+  color: #fff;
+}
+
+.address-form-panel {
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgb(22 42 15 / 8%);
+  padding: 28px;
+  position: sticky;
+  top: calc(var(--nav-height, 80px) + 20px);
+}
+
+.address-form-panel h2 {
+  font-size: 24px;
+  margin-bottom: 22px;
+}
+
+.addr-field {
+  margin-bottom: 16px;
+}
+
+.addr-field label,
+.addr-default-field label {
+  color: #162a0f;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.addr-field label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.addr-field label span.req {
+  color: #a00000;
+  margin-left: 2px;
+}
+
+.addr-field input,
+.addr-field select {
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 8px;
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 13px;
+  outline: none;
+  padding: 10px 14px;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.addr-default-field input {
+  accent-color: #2f5d24;
+  height: 16px;
+  width: 16px;
+}
+
+.addr-field input:focus,
+.addr-field select:focus {
+  border-color: #2f5d24;
+}
+
+.addr-field input.error,
+.addr-field select.error {
+  border-color: #a00000;
+}
+
+.addr-field-error {
+  color: #a00000;
+  display: block;
+  font-size: 11px;
+  margin-top: 4px;
+  min-height: 14px;
+}
+
+.addr-field-row {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.addr-default-field {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin: 4px 0 16px;
+}
+
+.addr-default-field label {
+  font-weight: 400;
+}
+
+.addr-save-btn,
+.addr-cancel-btn {
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 13px;
+  padding: 12px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+}
+
+.addr-save-btn {
+  background: #2f5d24;
+  border: 0;
+  color: #fff;
+  letter-spacing: 0.8px;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.addr-save-btn:hover,
+.addr-save-btn:focus {
+  background: #162a0f;
+}
+
+.addr-cancel-btn {
+  background: transparent;
+  border: 1.5px solid #ede7d9;
+  color: #6b6b5d;
+  margin-top: 8px;
+}
+
+.addr-cancel-btn:hover,
+.addr-cancel-btn:focus {
+  border-color: #2f5d24;
+  color: #2f5d24;
+}
+
+.addr-cancel-btn.hidden {
+  display: none;
+}
+
+@media (width < 1000px) {
+  .addresses-body {
+    grid-template-columns: 1fr;
+    padding: 28px 20px 48px;
+  }
+
+  .address-form-panel {
+    position: static;
+  }
+}
+
+@media (width < 768px) {
+  .addr-field-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (width < 480px) {
+  .addresses-body {
+    padding: 20px 12px 44px;
+  }
+
+  .address-card,
+  .address-form-panel {
+    padding: 18px;
+  }
+
+  .address-card-actions {
+    gap: 8px;
+  }
+
+  .addr-action-btn {
+    flex: 1 1 auto;
+  }
+}

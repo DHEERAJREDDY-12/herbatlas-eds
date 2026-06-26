@@ -1,0 +1,107 @@
+.category-strip-container .category-strip-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.category-strip,
+.category-strip *,
+.category-strip *::before,
+.category-strip *::after {
+  box-sizing: border-box;
+}
+
+.category-strip {
+  --category-strip-green-dark: #162a0f;
+  --category-strip-cream-dark: #ede7d9;
+  --category-strip-white: #fff;
+  --category-strip-text-light: #8a8a78;
+  --category-strip-shadow-sm: 0 2px 12px rgb(22 42 15 / 8%);
+  --category-strip-transition: all 0.25s ease;
+  --category-strip-font-body: outfit, var(--body-font-family), sans-serif;
+
+  align-items: center;
+  background: var(--category-strip-cream-dark);
+  border-bottom: 1px solid rgb(0 0 0 / 6%);
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 25px 50px;
+  scrollbar-width: none;
+}
+
+.category-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.category-strip::after {
+  content: "";
+  flex: 0 0 2px;
+}
+
+.category-strip-label {
+  color: var(--category-strip-text-light);
+  flex: 0 0 auto;
+  font-family: var(--category-strip-font-body);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  line-height: 1.4;
+  margin-right: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.category-strip-pill {
+  align-items: center;
+  background: var(--category-strip-white);
+  border: 1.5px solid rgb(237 231 217 / 80%);
+  border-radius: 40px;
+  box-shadow: var(--category-strip-shadow-sm);
+  color: var(--category-strip-green-dark);
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  font-family: var(--category-strip-font-body);
+  font-size: 13px;
+  gap: 8px;
+  line-height: 1.4;
+  padding: 10px 20px;
+  transition: var(--category-strip-transition);
+  white-space: nowrap;
+}
+
+.category-strip-pill:hover,
+.category-strip-pill:focus-visible {
+  background: var(--category-strip-green-dark);
+  border-color: var(--category-strip-green-dark);
+  color: var(--category-strip-white);
+}
+
+@media (width < 768px) {
+  .category-strip {
+    gap: 8px;
+    padding: 18px 16px;
+  }
+
+  .category-strip-pill {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+}
+
+@media (width < 360px) {
+  .category-strip {
+    gap: 6px;
+    padding: 16px 12px;
+    scroll-padding-inline: 12px;
+  }
+
+  .category-strip-label {
+    letter-spacing: 2px;
+    margin-right: 4px;
+  }
+
+  .category-strip-pill {
+    padding: 8px 12px;
+  }
+}

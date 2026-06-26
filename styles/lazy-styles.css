@@ -1,1 +1,158 @@
 /* add global styles that can be loaded post LCP here */
+
+.toast-root {
+  position: fixed;
+  top: calc(var(--nav-height, 72px) + 18px);
+  right: 20px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  width: min(360px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid rgb(184 212 160 / 22%);
+  border-left-width: 4px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgb(34 52 28 / 78%), rgb(22 34 18 / 88%)),
+    rgb(20 31 16 / 72%);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 42px rgb(10 18 8 / 26%);
+  color: var(--cream, #f8f4ec);
+  opacity: 0;
+  pointer-events: auto;
+  transform: translate3d(28px, -10px, 0) scale(0.97);
+  transition:
+    opacity 0.24s ease,
+    transform 0.28s ease,
+    border-color 0.24s ease,
+    box-shadow 0.24s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.toast.is-leaving {
+  opacity: 0;
+  transform: translate3d(18px, -8px, 0) scale(0.98);
+}
+
+.toast:focus-within {
+  box-shadow: 0 0 0 1px rgb(248 244 236 / 18%), 0 18px 42px rgb(10 18 8 / 30%);
+}
+
+.toast-content {
+  min-width: 0;
+}
+
+.toast-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.toast-message {
+  margin: 0;
+  color: rgb(248 244 236 / 92%);
+  font-size: 0.96rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.toast-dismiss {
+  padding: 7px 12px;
+  border: 1px solid rgb(248 244 236 / 14%);
+  border-radius: 999px;
+  background: rgb(248 244 236 / 6%);
+  color: rgb(248 244 236 / 88%);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.toast-dismiss:hover,
+.toast-dismiss:focus-visible {
+  border-color: rgb(248 244 236 / 28%);
+  background: rgb(248 244 236 / 12%);
+  color: var(--cream, #f8f4ec);
+  outline: none;
+}
+
+.toast-success {
+  border-color: rgb(132 190 120 / 48%);
+}
+
+.toast-success .toast-eyebrow {
+  color: #a8d49a;
+}
+
+.toast-error {
+  border-color: rgb(204 122 122 / 52%);
+}
+
+.toast-error .toast-eyebrow {
+  color: #e2a0a0;
+}
+
+.toast-warning {
+  border-color: rgb(204 166 98 / 56%);
+}
+
+.toast-warning .toast-eyebrow {
+  color: #e0c27d;
+}
+
+.toast-info {
+  border-color: rgb(115 157 201 / 56%);
+}
+
+.toast-info .toast-eyebrow {
+  color: #a3c1e6;
+}
+
+@media (width < 768px) {
+  .toast-root {
+    top: calc(var(--nav-height, 72px) + 12px);
+    right: auto;
+    left: 50%;
+    align-items: stretch;
+    width: min(420px, calc(100vw - 24px));
+    transform: translateX(-50%);
+  }
+
+  .toast {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    transform: translate3d(0, -16px, 0) scale(0.97);
+  }
+
+  .toast.is-visible {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  .toast.is-leaving {
+    transform: translate3d(0, -12px, 0) scale(0.98);
+  }
+
+  .toast-dismiss {
+    justify-self: start;
+  }
+}

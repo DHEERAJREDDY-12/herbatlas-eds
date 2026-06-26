@@ -1,0 +1,416 @@
+.home-hero-container .home-hero-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.home-hero,
+.home-hero *,
+.home-hero *::before,
+.home-hero *::after {
+  box-sizing: border-box;
+}
+
+.home-hero {
+  --hh-green-dark: #162a0f;
+  --hh-green-mid: #2a5220;
+  --hh-green-pale: #b8d4a0;
+  --hh-cream: #f8f4ec;
+  --hh-brown-light: #c4956a;
+  --hh-font-head: "Cormorant Garamond", var(--heading-font-family), georgia, serif;
+  --hh-font-body: outfit, var(--body-font-family), sans-serif;
+
+  align-items: center;
+  background: var(--hh-green-dark);
+  display: grid;
+  gap: 60px;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  min-height: 580px;
+  overflow: hidden;
+  padding: 60px 52px;
+  position: relative;
+}
+
+.home-hero::before {
+  background: radial-gradient(circle, rgb(67 122 50 / 20%) 0%, transparent 70%);
+  border-radius: 50%;
+  content: "";
+  height: 400px;
+  position: absolute;
+  right: 360px;
+  top: -80px;
+  width: 400px;
+}
+
+.home-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero h1 {
+  color: var(--hh-cream);
+  font-family: var(--hh-font-head);
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 1.03;
+  margin: 0 0 20px;
+}
+
+.home-hero h1 em,
+.home-hero .hh-eyebrow,
+.home-hero .hh-card-uses,
+.home-hero .hh-stat-num {
+  color: var(--hh-green-pale);
+}
+
+.home-hero .hh-eyebrow,
+.home-hero .hh-stat-label,
+.home-hero .hh-card-label {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.home-hero .hh-eyebrow {
+  align-items: center;
+  display: flex;
+  font-family: var(--hh-font-body);
+  font-size: 11px;
+  gap: 12px;
+  line-height: 1.4;
+  margin: 0 0 20px;
+}
+
+.home-hero .hh-eyebrow::before {
+  background: var(--hh-green-pale);
+  content: "";
+  height: 1px;
+  width: 32px;
+}
+
+.home-hero .hh-sub {
+  color: rgb(250 245 235 / 60%);
+  font-family: var(--hh-font-body);
+  font-size: 15px;
+  line-height: 1.75;
+  margin: 0 0 36px;
+  max-width: 440px;
+}
+
+.home-hero .hh-stats {
+  display: flex;
+  gap: 40px;
+}
+
+.home-hero .hh-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-hero .hh-stat-num {
+  font-family: var(--hh-font-head);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.home-hero .hh-stat-label {
+  color: rgb(248 244 236 / 45%);
+  font-family: var(--hh-font-body);
+  font-size: 11px;
+}
+
+.home-hero .hh-carousel {
+  justify-self: end;
+  max-width: 420px;
+  position: relative;
+  width: 100%;
+}
+
+.home-hero .hh-track {
+  min-height: 480px;
+  position: relative;
+}
+
+.home-hero .hh-slide {
+  align-items: center;
+  background: rgb(255 255 255 / 7%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(184 212 160 / 18%);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  inset: 0;
+  opacity: 0;
+  padding: 28px;
+  position: absolute;
+  text-align: center;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+  visibility: hidden;
+  width: 100%;
+}
+
+.home-hero .hh-slide-active {
+  opacity: 1;
+  position: relative;
+  transition: opacity 0.5s ease, visibility 0s linear 0s;
+  visibility: visible;
+}
+
+.home-hero .hh-card-label {
+  background: rgb(122 82 40 / 20%);
+  border-radius: 20px;
+  color: var(--hh-brown-light);
+  display: inline-block;
+  font-family: var(--hh-font-body);
+  font-size: 10px;
+  margin-bottom: 16px;
+  padding: 4px 14px;
+}
+
+.home-hero .hh-img-wrap {
+  align-items: center;
+  background: rgb(22 42 15 / 55%);
+  border-radius: 12px;
+  display: flex;
+  flex-shrink: 0;
+  height: 260px;
+  justify-content: center;
+  margin-bottom: 18px;
+  overflow: hidden;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+.home-hero .hh-img-wrap img,
+.home-hero .hh-img-wrap picture {
+  display: block;
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+}
+
+.home-hero .hh-img-wrap img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.home-hero .hh-slide h4 {
+  color: var(--hh-cream);
+  font-family: var(--hh-font-head);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+
+.home-hero .hh-slide p {
+  color: rgb(248 244 236 / 55%);
+  font-family: var(--hh-font-body);
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+.home-hero .hh-card-uses {
+  font-family: var(--hh-font-body);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.home-hero .hh-btn {
+  background: var(--hh-green-mid);
+  border-radius: 6px;
+  color: #fff;
+  display: inline-flex;
+  font-family: var(--hh-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  justify-content: center;
+  letter-spacing: 0.6px;
+  margin-top: auto;
+  padding: 12px 22px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-hero .hh-btn:hover,
+.home-hero .hh-btn:focus-visible {
+  background: var(--hh-green-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.home-hero .hh-arrow {
+  align-items: center;
+  backdrop-filter: blur(8px);
+  background: rgb(22 42 15 / 45%);
+  border: 1px solid rgb(184 212 160 / 25%);
+  border-radius: 50%;
+  color: var(--hh-green-pale);
+  cursor: pointer;
+  display: flex;
+  font-size: 22px;
+  height: 38px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  position: absolute;
+  top: calc(50% - 20px);
+  transform: translateY(-50%);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  width: 38px;
+  z-index: 5;
+}
+
+.home-hero .hh-arrow-prev {
+  left: 12px;
+}
+
+.home-hero .hh-arrow-next {
+  right: 12px;
+}
+
+.home-hero .hh-arrow:hover,
+.home-hero .hh-arrow:focus-visible {
+  background: rgb(255 255 255 / 14%);
+  border-color: rgb(184 212 160 / 55%);
+  color: var(--hh-cream);
+}
+
+.home-hero .hh-dots {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.home-hero .hh-dot {
+  background: rgb(184 212 160 / 35%);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  height: 6px;
+  padding: 0;
+  transition: width 0.3s ease, background 0.3s ease;
+  width: 6px;
+}
+
+.home-hero .hh-dot-active {
+  background: var(--hh-green-pale);
+  width: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero .hh-slide,
+  .home-hero .hh-dot,
+  .home-hero .hh-btn,
+  .home-hero .hh-arrow {
+    transition: none;
+  }
+}
+
+@media (width < 1000px) {
+  .home-hero {
+    gap: 32px;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    padding: 48px 28px;
+  }
+
+  .home-hero h1 {
+    font-size: 48px;
+  }
+
+  .home-hero .hh-sub {
+    max-width: 100%;
+  }
+
+  .home-hero .hh-stats {
+    gap: 28px;
+  }
+
+  .home-hero .hh-track {
+    min-height: 440px;
+  }
+
+  .home-hero .hh-slide {
+    padding: 22px;
+  }
+
+  .home-hero .hh-img-wrap {
+    height: 220px;
+    padding: 10px 16px;
+  }
+
+  .home-hero .hh-slide h4 {
+    font-size: 22px;
+  }
+
+  .home-hero .hh-arrow-prev {
+    left: 10px;
+  }
+
+  .home-hero .hh-arrow-next {
+    right: 10px;
+  }
+}
+
+@media (width < 768px) {
+  .home-hero .hh-arrow {
+    font-size: 20px;
+    height: 34px;
+    width: 34px;
+  }
+
+  .home-hero .hh-arrow-prev {
+    left: 8px;
+  }
+
+  .home-hero .hh-arrow-next {
+    right: 8px;
+  }
+
+  .home-hero .hh-img-wrap {
+    height: 200px;
+    padding: 8px 12px;
+  }
+}
+
+@media (width < 680px) {
+  .home-hero {
+    gap: 32px;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 40px 20px;
+  }
+
+  .home-hero::before {
+    right: -120px;
+  }
+
+  .home-hero h1 {
+    font-size: 40px;
+  }
+
+  .home-hero .hh-stats {
+    gap: 24px;
+  }
+
+  .home-hero .hh-carousel {
+    margin: 0 auto;
+    max-width: 340px;
+    overflow: visible;
+  }
+
+  .home-hero .hh-track {
+    min-height: 460px;
+  }
+
+  .home-hero .hh-img-wrap {
+    height: 190px;
+    padding: 8px 10px;
+  }
+}

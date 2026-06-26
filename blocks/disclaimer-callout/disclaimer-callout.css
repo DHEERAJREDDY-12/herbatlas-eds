@@ -1,0 +1,177 @@
+.disclaimer-callout-wrapper {
+  background: linear-gradient(180deg, #17330d 0%, #102409 100%);
+  margin: 0 calc(50% - 50vw);
+  max-width: none;
+  padding: 80px 52px;
+  width: 100vw;
+}
+
+.disclaimer-callout-wrapper:has(.disclaimer-callout.card),
+.disclaimer-callout-wrapper:has(.disclaimer-callout.warning),
+.disclaimer-callout-wrapper:has(.disclaimer-callout.caution) {
+  background: transparent;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 52px;
+  width: auto;
+}
+
+.disclaimer-callout,
+.disclaimer-callout *,
+.disclaimer-callout *::before,
+.disclaimer-callout *::after {
+  box-sizing: border-box;
+}
+
+.disclaimer-callout {
+  color: #f8f4ec;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  margin: 0 auto;
+  max-width: 820px;
+  text-align: center;
+}
+
+.disclaimer-callout-icon {
+  align-items: center;
+  background: rgb(184 212 160 / 16%);
+  border: 1px solid rgb(184 212 160 / 24%);
+  border-radius: 50%;
+  color: #b8d4a0;
+  display: inline-flex;
+  font-size: 18px;
+  height: 46px;
+  justify-content: center;
+  line-height: 1;
+  margin: 0 auto 18px;
+  width: 46px;
+}
+
+.disclaimer-callout-eyebrow {
+  color: rgb(184 212 160 / 82%);
+  display: block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  line-height: 1.4;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.disclaimer-callout-title {
+  color: #f8f4ec;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0 0 20px;
+}
+
+.disclaimer-callout-title em {
+  color: #b8d4a0;
+  font-style: italic;
+}
+
+.disclaimer-callout-body {
+  color: rgb(248 244 236 / 72%);
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0 auto;
+}
+
+.disclaimer-callout-body + .disclaimer-callout-body {
+  margin-top: 16px;
+}
+
+.disclaimer-callout-meta {
+  color: rgb(248 244 236 / 52%);
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  line-height: 1.6;
+  margin: 24px auto 0;
+}
+
+.disclaimer-callout.card,
+.disclaimer-callout.warning,
+.disclaimer-callout.caution {
+  border-radius: 12px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  text-align: left;
+}
+
+.disclaimer-callout.card {
+  background: #f8f4ec;
+  border: 1px solid #ede7d9;
+  color: #1a1a14;
+}
+
+.disclaimer-callout.warning,
+.disclaimer-callout.caution {
+  background: #fff9e6;
+  border: 1px solid #f0d060;
+  color: #5a4200;
+}
+
+.disclaimer-callout.card .disclaimer-callout-title,
+.disclaimer-callout.warning .disclaimer-callout-title,
+.disclaimer-callout.caution .disclaimer-callout-title {
+  color: #162a0f;
+  font-size: 28px;
+}
+
+.disclaimer-callout.warning .disclaimer-callout-title,
+.disclaimer-callout.caution .disclaimer-callout-title {
+  color: #7a5a00;
+}
+
+.disclaimer-callout.card .disclaimer-callout-eyebrow,
+.disclaimer-callout.card .disclaimer-callout-body,
+.disclaimer-callout.card .disclaimer-callout-meta {
+  color: #4a4a3c;
+}
+
+.disclaimer-callout.warning .disclaimer-callout-eyebrow,
+.disclaimer-callout.caution .disclaimer-callout-eyebrow,
+.disclaimer-callout.warning .disclaimer-callout-body,
+.disclaimer-callout.caution .disclaimer-callout-body,
+.disclaimer-callout.warning .disclaimer-callout-meta,
+.disclaimer-callout.caution .disclaimer-callout-meta {
+  color: #5a4200;
+}
+
+.disclaimer-callout.card .disclaimer-callout-icon {
+  background: rgb(184 212 160 / 22%);
+  color: #162a0f;
+}
+
+.disclaimer-callout.warning .disclaimer-callout-icon,
+.disclaimer-callout.caution .disclaimer-callout-icon {
+  background: rgb(240 208 96 / 22%);
+  border-color: rgb(240 208 96 / 45%);
+  color: #7a5a00;
+}
+
+@media (width < 640px) {
+  .disclaimer-callout-wrapper {
+    padding: 64px 20px;
+  }
+
+  .disclaimer-callout-wrapper:has(.disclaimer-callout.card),
+  .disclaimer-callout-wrapper:has(.disclaimer-callout.warning),
+  .disclaimer-callout-wrapper:has(.disclaimer-callout.caution) {
+    padding: 0 20px;
+  }
+
+  .disclaimer-callout-title {
+    font-size: 32px;
+  }
+
+  .disclaimer-callout-body {
+    font-size: 15px;
+  }
+
+  .disclaimer-callout.card,
+  .disclaimer-callout.warning,
+  .disclaimer-callout.caution {
+    padding: 22px 20px;
+  }
+}

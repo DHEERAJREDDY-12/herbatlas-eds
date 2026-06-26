@@ -1,0 +1,579 @@
+.ailments-results-container {
+  background: #f8f4ec;
+  margin: 0;
+}
+
+.ailments-results-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.ailments-results {
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.ailments-results a:any-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ailments-results-guide {
+  background: #f8f4ec;
+  box-sizing: border-box;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 32px max(52px, calc((100vw - 1200px) / 2 + 52px)) 0;
+}
+
+.ailments-results-guide-card {
+  background: #fff;
+  border: 1px solid #ede7d9;
+  border-radius: 8px;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 18px;
+}
+
+.ailments-results-guide-card span {
+  align-items: center;
+  background: #e4f2dc;
+  border-radius: 50%;
+  color: #162a0f;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 600;
+  height: 28px;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 28px;
+}
+
+.ailments-results-guide-card strong {
+  color: #162a0f;
+  display: block;
+  font-size: 15px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-guide-card p {
+  color: #767668;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-body {
+  background: #f8f4ec;
+  box-sizing: border-box;
+  padding: 52px max(52px, calc((100vw - 1200px) / 2 + 52px));
+}
+
+.ailments-results-cards-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ailments-results-ailment-card {
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgb(22 42 15 / 8%);
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  min-width: 0;
+  padding: 28px 20px;
+  text-align: center;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+}
+
+.ailments-results-ailment-card:hover,
+.ailments-results-ailment-card:focus {
+  border-color: #b8d4a0;
+  box-shadow: 0 16px 48px rgb(22 42 15 / 18%);
+  transform: translateY(-4px);
+}
+
+.ailments-results-ailment-card.active {
+  background: #e4f2dc;
+  border-color: #162a0f;
+  box-shadow: 0 16px 48px rgb(22 42 15 / 18%);
+  transform: translateY(-4px);
+}
+
+.ailments-results-ailment-icon {
+  align-items: center;
+  background: #e4f2dc;
+  border-radius: 14px;
+  color: #162a0f;
+  display: flex;
+  font-size: 11px;
+  font-weight: 600;
+  height: 56px;
+  justify-content: center;
+  margin: 0 auto 14px;
+  overflow: hidden;
+  transition: background 0.28s ease;
+  width: 56px;
+}
+
+.ailments-results-ailment-card.active .ailments-results-ailment-icon {
+  background: #b8d4a0;
+}
+
+.ailments-results-ailment-icon img {
+  display: block;
+  height: 32px;
+  object-fit: contain;
+  width: 32px;
+}
+
+.ailments-results-ailment-title {
+  color: #162a0f;
+  display: block;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-ailment-desc {
+  color: #767668;
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-ailment-count {
+  color: #437a32;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: auto;
+}
+
+.ailments-results-panel {
+  background: #ede7d9;
+  box-sizing: border-box;
+  display: none;
+  overflow-x: clip;
+  padding: 52px max(52px, calc((100vw - 1200px) / 2 + 52px));
+}
+
+.ailments-results-panel.show {
+  display: block;
+}
+
+.ailments-results-header {
+  align-items: flex-end;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.ailments-results-header > div {
+  min-width: 0;
+}
+
+.ailments-results-label {
+  color: #8a8a78;
+  font-size: 10px;
+  letter-spacing: 3px;
+  line-height: 1.4;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+
+.ailments-results-title {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-title em {
+  color: #437a32;
+}
+
+.ailments-results-tip {
+  color: #437a32;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 6px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-clear {
+  background: transparent;
+  border: 1.5px solid #b8d4a0;
+  border-radius: 6px;
+  color: #2a5220;
+  cursor: pointer;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  padding: 11px 20px;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.ailments-results-clear:hover,
+.ailments-results-clear:focus {
+  background: #2a5220;
+  border-color: #2a5220;
+  color: #fff;
+}
+
+.ailments-results-herbs-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ailments-results-herbs-grid.hidden {
+  display: none;
+}
+
+.ailments-results-herb-card {
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgb(22 42 15 / 8%);
+  color: inherit;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.ailments-results-herb-card:hover,
+.ailments-results-herb-card:focus {
+  border-color: #b8d4a0;
+  box-shadow: 0 16px 48px rgb(22 42 15 / 18%);
+  transform: translateY(-5px);
+}
+
+.ailments-results-herb-img {
+  background: linear-gradient(135deg, #2a5220, #437a32);
+  height: 190px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ailments-results-herb-img img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  transform: translateY(0) scale(1);
+  transition: transform 0.4s ease;
+  width: 100%;
+}
+
+.ailments-results-herb-card:hover .ailments-results-herb-img img,
+.ailments-results-herb-card:focus .ailments-results-herb-img img {
+  transform: translateY(-4px) scale(1.04);
+}
+
+.ailments-results-herb-badge {
+  background: rgb(22 42 15 / 82%);
+  border-radius: 20px;
+  color: #b8d4a0;
+  font-size: 10px;
+  letter-spacing: 1px;
+  line-height: 1.25;
+  max-width: calc(100% - 24px);
+  padding: 3px 10px;
+  position: absolute;
+  right: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  top: 12px;
+}
+
+.ailments-results-herb-body {
+  min-width: 0;
+  padding: 18px;
+}
+
+.ailments-results-herb-body h3 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 2px;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-herb-sci {
+  color: #767668;
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-herb-body p {
+  color: #4a4a3c;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+  overflow-wrap: anywhere;
+}
+
+.ailments-results-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ailments-results-tag {
+  border-radius: 20px;
+  font-size: 11px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 3px 10px;
+  text-align: center;
+}
+
+.ailments-results-tag.tag-green {
+  background: #e4f2dc;
+  color: #2a5220;
+}
+
+.ailments-results-tag.tag-safe {
+  background: #dff2e4;
+  color: #1a6e36;
+}
+
+.ailments-results-tag.tag-caution {
+  background: #fff8dc;
+  color: #7a5a00;
+}
+
+.ailments-results-empty {
+  background: #fff;
+  border: 1px solid #ede7d9;
+  border-radius: 12px;
+  padding: 48px 20px;
+  text-align: center;
+}
+
+.ailments-results-empty.hidden {
+  display: none;
+}
+
+.ailments-results-empty h3 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 28px;
+  font-weight: 300;
+  margin: 0 0 12px;
+}
+
+.ailments-results-empty p {
+  color: #767668;
+  font-size: 14px;
+  margin: 0;
+}
+
+.ailments-results-pagination {
+  align-items: center;
+  background: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 28px;
+  padding: 28px 0 0;
+}
+
+.ailments-results-page {
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 6px;
+  color: #4a4a3c;
+  cursor: pointer;
+  display: flex;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 13px;
+  height: 38px;
+  justify-content: center;
+  transition: all 0.25s ease;
+  width: 38px;
+}
+
+.ailments-results-page:hover,
+.ailments-results-page:focus {
+  border-color: #2a5220;
+  color: #2a5220;
+}
+
+.ailments-results-page.active {
+  background: #162a0f;
+  border-color: #162a0f;
+  color: #fff;
+}
+
+.ailments-results-page.arrow {
+  border-color: #b8d4a0;
+  color: #2a5220;
+  font-size: 16px;
+}
+
+.ailments-results-page.arrow:hover,
+.ailments-results-page.arrow:focus {
+  background: #2a5220;
+  color: #fff;
+}
+
+.ailments-results-page.disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.ailments-results-error {
+  background: #fff;
+  border: 1px solid #ede7d9;
+  border-radius: 12px;
+  color: #4a4a3c;
+  font-size: 14px;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 18px;
+}
+
+@media (width < 1180px) {
+  .ailments-results-herbs-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (width < 1000px) {
+  .ailments-results-guide {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 28px 32px 0;
+  }
+
+  .ailments-results-body,
+  .ailments-results-panel {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .ailments-results-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (width < 950px) {
+  .ailments-results-cards-grid,
+  .ailments-results-herbs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width < 700px) {
+  .ailments-results-guide {
+    grid-template-columns: 1fr;
+    padding: 24px 20px 0;
+  }
+
+  .ailments-results-body,
+  .ailments-results-panel {
+    padding: 32px 20px;
+  }
+
+  .ailments-results-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ailments-results-herbs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ailments-results-herb-img {
+    height: 220px;
+  }
+}
+
+@media (width < 480px) {
+  .ailments-results-guide {
+    gap: 12px;
+    padding: 20px 14px 0;
+  }
+
+  .ailments-results-body,
+  .ailments-results-panel {
+    padding: 24px 14px;
+  }
+
+  .ailments-results-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ailments-results-ailment-card {
+    padding: 20px 14px;
+  }
+
+  .ailments-results-title {
+    font-size: 32px;
+  }
+
+  .ailments-results-clear {
+    width: 100%;
+  }
+
+  .ailments-results-herb-img {
+    height: 200px;
+  }
+
+  .ailments-results-herb-body {
+    padding: 16px 14px;
+  }
+}
+
+@media (width < 320px) {
+  .ailments-results-guide {
+    padding: 16px 10px 0;
+  }
+
+  .ailments-results-body,
+  .ailments-results-panel {
+    padding: 18px 10px;
+  }
+
+  .ailments-results-ailment-title {
+    font-size: 18px;
+  }
+
+  .ailments-results-page {
+    font-size: 11px;
+    height: 30px;
+    width: 30px;
+  }
+}

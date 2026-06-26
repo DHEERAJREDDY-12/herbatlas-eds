@@ -1,0 +1,671 @@
+.herb-detail-container {
+  background: #f8f4ec;
+}
+
+.herb-detail-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.herb-detail {
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.herb-detail-hero {
+  align-items: center;
+  background: #162a0f;
+  display: grid;
+  gap: 52px;
+  grid-template-columns: 260px 1fr;
+  min-height: 364px;
+  overflow: hidden;
+  padding: 52px;
+  position: relative;
+}
+
+.herb-detail-hero::after {
+  background: radial-gradient(circle at center, rgb(184 212 160 / 12%), transparent 60%);
+  content: "";
+  height: 420px;
+  position: absolute;
+  right: -120px;
+  top: -120px;
+  width: 420px;
+}
+
+.herb-detail-image-wrap,
+.herb-detail-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.herb-detail-image-wrap {
+  align-self: center;
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(184 212 160 / 22%);
+  border-radius: 16px;
+  height: 260px;
+  overflow: hidden;
+  width: 260px;
+}
+
+.herb-detail-image {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.herb-detail-back {
+  color: rgb(248 244 236 / 58%);
+  display: inline-flex;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  margin-bottom: 28px;
+  text-decoration: none;
+}
+
+.herb-detail-back::before {
+  content: "<";
+  margin-right: 8px;
+}
+
+.herb-detail-back:hover {
+  color: #b8d4a0;
+}
+
+.herb-detail-hero h1 {
+  color: #f8f4ec;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+
+.herb-detail-scientific {
+  color: rgb(248 244 236 / 48%);
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 17px;
+  font-style: italic;
+  margin: 0 0 20px;
+}
+
+.herb-detail-description {
+  color: rgb(248 244 236 / 72%);
+  font-size: 16px;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 720px;
+}
+
+.herb-detail-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.herb-detail-badge {
+  border-radius: 8px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  padding: 7px 12px;
+}
+
+.herb-detail-badge.badge-safe {
+  background: rgb(67 122 50 / 25%);
+  border: 1px solid rgb(67 122 50 / 35%);
+  color: #b8d4a0;
+}
+
+.herb-detail-badge.badge-caution {
+  background: rgb(122 92 40 / 25%);
+  border: 1px solid rgb(122 92 40 / 35%);
+  color: #e5b572;
+}
+
+.herb-detail-badge.badge-region,
+.herb-detail-badge.badge-type {
+  background: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 12%);
+  color: rgb(248 244 236 / 72%);
+}
+
+.herb-detail-glance {
+  align-items: center;
+  background: #ede7d9;
+  border-bottom: 1px solid rgb(22 42 15 / 8%);
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  min-height: 92px;
+  padding: 24px 52px;
+}
+
+.herb-detail-glance-item {
+  min-width: 0;
+  text-align: center;
+}
+
+.herb-detail-glance-label {
+  color: #8a8a78;
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.herb-detail-glance-value {
+  color: #162a0f;
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.herb-detail-glance-value.safety-safe {
+  color: #437a32;
+}
+
+.herb-detail-glance-value.safety-caution {
+  color: #9a6d20;
+}
+
+.herb-detail-body {
+  align-items: start;
+  background: #f8f4ec;
+  display: grid;
+  gap: 48px;
+  grid-template-columns: 1fr 340px;
+  padding: 52px;
+}
+
+.herb-detail-section {
+  margin-bottom: 44px;
+}
+
+.herb-detail-section-title {
+  border-bottom: 1px solid #e5dece;
+  color: #162a0f;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 22px;
+  padding-bottom: 14px;
+}
+
+.herb-detail-uses-list,
+.herb-detail-warning-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.herb-detail-uses-list li {
+  border-bottom: 1px solid #eee7da;
+  color: #4a4a3c;
+  font-size: 15px;
+  line-height: 1.65;
+  padding: 13px 0 13px 26px;
+  position: relative;
+}
+
+.herb-detail-uses-list li::before {
+  background: #437a32;
+  border-radius: 999px;
+  content: "";
+  height: 7px;
+  left: 0;
+  position: absolute;
+  top: 22px;
+  width: 7px;
+}
+
+.herb-detail-dosage-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.herb-detail-dosage-card {
+  background: #ede7d9;
+  border: 1px solid rgb(0 0 0 / 6%);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.herb-detail-dosage-card h3 {
+  color: #162a0f;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.herb-detail-dosage-card p {
+  color: #4a4a3c;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.herb-detail-warning-box {
+  border-radius: 10px;
+  margin-bottom: 14px;
+  padding: 20px;
+}
+
+.herb-detail-warning-box h3 {
+  color: inherit;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.herb-detail-warning-list li {
+  color: inherit;
+  display: flex;
+  font-size: 13px;
+  gap: 8px;
+  line-height: 1.65;
+  padding: 5px 0;
+}
+
+.herb-detail-warning-list li::before {
+  color: currentcolor;
+  content: "\2022";
+  flex-shrink: 0;
+}
+
+.herb-detail-warning-box.warning-yellow {
+  background: #fff4cf;
+  border: 1px solid #edd892;
+  color: #5a4200;
+}
+
+.herb-detail-warning-box.warning-red {
+  background: #fff1ed;
+  border: 1px solid #ebc3b7;
+  color: #5a0000;
+}
+
+.herb-detail-warning-box.warning-caution {
+  background: #fff8e0;
+  border: 1px solid #e5b572;
+  color: #513405;
+}
+
+.herb-detail-warning-box.warning-yellow li::before {
+  color: #f0d060;
+}
+
+.herb-detail-warning-box.warning-red li::before {
+  color: #f0a0a0;
+}
+
+.herb-detail-warning-box.warning-caution li::before {
+  color: #d6a23a;
+}
+
+.herb-detail-doctor-note {
+  border-top: 1px solid rgb(154 109 32 / 22%);
+  color: #6c4b12;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 14px 0 0;
+  padding-top: 12px;
+}
+
+.herb-detail-fun-fact-section {
+  margin-bottom: 44px;
+}
+
+.herb-detail-fun-fact-box {
+  background: linear-gradient(135deg, #162a0f, #2f5d24);
+  border-radius: 14px;
+  color: #fff;
+  min-height: 0;
+  padding: 32px;
+  transition: box-shadow 0.2s ease;
+}
+
+.herb-detail-fun-fact-box:hover {
+  box-shadow: 0 8px 28px rgb(22 42 15 / 28%);
+}
+
+.herb-detail-fun-fact-box h2 {
+  border: none;
+  color: #b8d4a0;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin: 0 0 16px;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.herb-detail-fun-fact-box p {
+  color: #f8f4ec;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.65;
+  margin: 0 0 12px;
+}
+
+.herb-detail-fun-fact-box span {
+  color: rgb(248 244 236 / 48%);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.herb-detail-sidebar {
+  align-self: start;
+  position: relative;
+}
+
+.herb-detail-sidebar-inner {
+  position: relative;
+}
+
+.herb-detail-sidebar-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgb(22 42 15 / 8%);
+  margin-bottom: 20px;
+  padding: 24px;
+}
+
+.herb-detail-sidebar-card h3 {
+  color: #162a0f;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 18px;
+}
+
+.herb-detail-shop-card {
+  border: 1px solid #b8d4a0;
+}
+
+.herb-detail-shop-card p {
+  color: #4a4a3c;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+.herb-detail-shop-link,
+.herb-detail-shop-add {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  min-height: 44px;
+  padding: 11px 14px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.22s ease, color 0.22s ease, opacity 0.22s ease;
+  width: 100%;
+}
+
+.herb-detail-shop-link {
+  background: #2f5d24;
+  color: #fff;
+}
+
+.herb-detail-shop-link:hover,
+.herb-detail-shop-link:focus {
+  background: #162a0f;
+  color: #fff;
+}
+
+.herb-detail-shop-add {
+  background: #8a5d2a;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.herb-detail-shop-add:hover,
+.herb-detail-shop-add:focus {
+  background: #a87435;
+}
+
+.herb-detail-shop-add.added {
+  background: #2f5d24;
+}
+
+.herb-detail-shop-add:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.herb-detail-shop-card .herb-detail-shop-note {
+  color: #8a8a78;
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+.herb-detail-related-list {
+  min-height: 288px;
+}
+
+.herb-detail-related-row {
+  align-items: center;
+  border-bottom: 1px solid #f5f0e8;
+  color: inherit;
+  display: flex;
+  gap: 14px;
+  padding: 12px 0;
+  text-decoration: none;
+  transform: translateX(0);
+  transition: transform 0.22s ease, padding-left 0.22s ease;
+}
+
+.herb-detail-related-row:last-child {
+  border-bottom: none;
+}
+
+.herb-detail-related-row:hover {
+  padding-left: 4px;
+  transform: translateX(4px);
+}
+
+.herb-detail-related-thumb {
+  aspect-ratio: 1 / 1;
+  background: #eef6e8;
+  border-radius: 8px;
+  flex-shrink: 0;
+  height: 48px;
+  overflow: hidden;
+  width: 48px;
+}
+
+.herb-detail-related-thumb img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.herb-detail-related-info {
+  display: grid;
+  gap: 2px;
+}
+
+.herb-detail-related-info strong {
+  color: #162a0f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.herb-detail-related-info span {
+  color: #8a8a78;
+  font-size: 12px;
+}
+
+.herb-detail-missing {
+  background: #f8f4ec;
+  color: #162a0f;
+  min-height: 420px;
+  padding: 80px 52px;
+  text-align: center;
+}
+
+.herb-detail-missing h1 {
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 48px;
+  font-weight: 300;
+  margin: 0 0 12px;
+}
+
+.herb-detail-missing p {
+  color: #4a4a3c;
+  margin: 0 0 24px;
+}
+
+.herb-detail-missing a {
+  background: #2f5d24;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  padding: 12px 18px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.herb-detail-missing a:hover {
+  background: #162a0f;
+}
+
+@media (width >= 1000px) {
+  .herb-detail-sidebar-inner {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+@media (width < 1000px) {
+  .herb-detail-body {
+    grid-template-columns: 1fr;
+    padding: 32px;
+  }
+
+  .herb-detail-sidebar,
+  .herb-detail-sidebar-inner {
+    position: static;
+  }
+
+  .herb-detail-related-list {
+    min-height: 272px;
+  }
+}
+
+@media (width < 768px) {
+  .herb-detail-hero {
+    gap: 28px;
+    grid-template-columns: 1fr;
+    padding: 36px 20px;
+    text-align: center;
+  }
+
+  .herb-detail-image-wrap {
+    justify-self: center;
+  }
+
+  .herb-detail-hero h1 {
+    font-size: 38px;
+  }
+
+  .herb-detail-description {
+    font-size: 14px;
+  }
+
+  .herb-detail-badges {
+    justify-content: center;
+  }
+
+  .herb-detail-glance {
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    min-height: 132px;
+    padding: 20px;
+  }
+
+  .herb-detail-glance-item {
+    border-right: none;
+  }
+
+  .herb-detail-dosage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .herb-detail-body {
+    padding: 24px 20px;
+  }
+
+  .herb-detail-fun-fact-box {
+    min-height: 220px;
+    padding: 24px 20px;
+  }
+
+  .herb-detail-fun-fact-box p {
+    font-size: 17px;
+  }
+
+  .herb-detail-missing {
+    padding: 64px 20px;
+  }
+}
+
+@media (width < 480px) {
+  .herb-detail-image-wrap {
+    height: 220px;
+    width: 220px;
+  }
+
+  .herb-detail-hero h1 {
+    font-size: 34px;
+  }
+
+  .herb-detail-glance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 176px;
+  }
+
+  .herb-detail-dosage-card {
+    min-height: 0;
+  }
+
+  .herb-detail-fun-fact-box {
+    min-height: 208px;
+    padding: 20px 16px;
+  }
+
+  .herb-detail-fun-fact-box p {
+    font-size: 15px;
+  }
+}

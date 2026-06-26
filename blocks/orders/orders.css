@@ -1,0 +1,283 @@
+.orders-container {
+  background: #f8f4ec;
+}
+
+.orders-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.orders {
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.orders-page {
+  background: #f8f4ec;
+  min-height: 70vh;
+}
+
+.orders-body {
+  padding: 40px 52px 64px;
+}
+
+.orders-empty {
+  background: #fff;
+  border-radius: 12px;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.orders-empty h3 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.orders-empty p {
+  color: #8a8a78;
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+.orders-empty-cta {
+  background: #2f5d24;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  padding: 12px 18px;
+  text-transform: uppercase;
+}
+
+.orders-empty-cta:hover,
+.orders-empty-cta:focus {
+  background: #162a0f;
+  color: #fff;
+}
+
+.order-card {
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.order-card:hover {
+  border-color: #b8d4a0;
+}
+
+.order-card-head {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 18px 24px;
+  text-align: left;
+  width: 100%;
+}
+
+.order-card-info {
+  display: grid;
+  gap: 2px;
+}
+
+.order-id {
+  color: #162a0f;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.order-date {
+  color: #8a8a78;
+  font-size: 12px;
+}
+
+.order-amount {
+  color: #162a0f;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.order-status-badge {
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  text-transform: uppercase;
+}
+
+.order-status-badge.pending {
+  background: #fff8dc;
+  color: #7a5a00;
+}
+
+.order-status-badge.processing {
+  background: #e8f0fe;
+  color: #1a56a0;
+}
+
+.order-status-badge.shipped {
+  background: #e8f5e0;
+  color: #1a6e1a;
+}
+
+.order-status-badge.delivered {
+  background: #e0f0e8;
+  color: #0a5c32;
+}
+
+.order-toggle-icon {
+  color: #8a8a78;
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.order-card.open .order-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.order-detail {
+  border-top: 1px solid #ede7d9;
+  display: none;
+  padding: 24px;
+}
+
+.order-card.open .order-detail {
+  display: block;
+}
+
+.order-detail-grid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 24px;
+}
+
+.order-detail-block h4 {
+  color: #8a8a78;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.order-detail-block p {
+  color: #6b6b5d;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.order-detail-block strong {
+  color: #162a0f;
+}
+
+.order-items-table {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.order-items-table th {
+  border-bottom: 1px solid #ede7d9;
+  color: #8a8a78;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 8px 0;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.order-items-table td {
+  border-bottom: 1px solid #f8f4ec;
+  color: #6b6b5d;
+  font-size: 13px;
+  padding: 10px 0;
+  vertical-align: top;
+}
+
+.order-totals {
+  border-top: 2px solid #162a0f;
+  padding-top: 14px;
+}
+
+.order-total-row {
+  color: #6b6b5d;
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.order-total-row.discount {
+  color: #1a6e36;
+  font-weight: 500;
+}
+
+.order-total-row.grand {
+  color: #162a0f;
+  font-size: 16px;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+@media (width < 768px) {
+  .orders-body {
+    padding: 28px 20px 48px;
+  }
+
+  .order-card-head {
+    padding: 14px 16px;
+  }
+
+  .order-detail {
+    padding: 18px 16px;
+  }
+
+  .order-detail-grid {
+    gap: 18px;
+    grid-template-columns: 1fr;
+  }
+
+  .order-items-table th,
+  .order-items-table td {
+    font-size: 12px;
+  }
+}
+
+@media (width < 480px) {
+  .orders-body {
+    padding: 20px 12px 44px;
+  }
+
+  .order-card-head {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .order-amount {
+    width: calc(100% - 34px);
+  }
+
+  .order-items-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

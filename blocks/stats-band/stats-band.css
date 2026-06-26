@@ -1,0 +1,79 @@
+.stats-band-container {
+  background: transparent;
+}
+
+.stats-band-wrapper {
+  background: linear-gradient(180deg, #17330d 0%, #102409 100%);
+  margin: 88px calc(50% - 50vw);
+  max-width: none;
+  padding: 88px 0;
+  width: 100vw;
+}
+
+.stats-band,
+.stats-band *,
+.stats-band *::before,
+.stats-band *::after {
+  box-sizing: border-box;
+}
+
+.stats-band {
+  color: #f8f4ec;
+  display: grid;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  gap: 20px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 52px;
+  text-align: center;
+}
+
+.stats-band-item {
+  color: #f8f4ec;
+  min-width: 0;
+}
+
+.stats-band-number {
+  color: #b8d4a0;
+  display: block;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: clamp(2.6rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.stats-band-label {
+  color: rgb(248 244 236 / 70%);
+  display: block;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.stats-band-description {
+  color: rgb(248 244 236 / 58%);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 8px auto 0;
+  max-width: 220px;
+}
+
+@media (width < 1000px) {
+  .stats-band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 28px;
+  }
+}
+
+@media (width < 640px) {
+  .stats-band-wrapper {
+    margin: 64px calc(50% - 50vw);
+    padding: 64px 0;
+  }
+
+  .stats-band {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+}

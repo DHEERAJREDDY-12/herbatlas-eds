@@ -1,0 +1,896 @@
+.checkout-flow-container {
+  background: #f8f4ec;
+}
+
+.checkout-flow-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.checkout-flow {
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.checkout-steps {
+  background: #fff;
+  border-bottom: 1px solid #ede7d9;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding: 0 52px;
+}
+
+.checkout-step {
+  border-bottom: 2px solid transparent;
+  color: #6b6b5d;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  margin-right: 32px;
+  padding: 14px 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.checkout-step.active {
+  border-bottom-color: #2f5d24;
+  color: #162a0f;
+}
+
+.checkout-step.done {
+  color: #1a6e36;
+}
+
+.checkout-page {
+  background: #f8f4ec;
+  min-height: 70vh;
+}
+
+.checkout-body {
+  align-items: start;
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr 380px;
+  padding: 36px 52px 64px;
+}
+
+.checkout-sections-col,
+.checkout-right-rail {
+  min-width: 0;
+}
+
+.checkout-right-rail {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: calc(var(--nav-height, 80px) + 16px);
+}
+
+.checkout-section,
+.checkout-coupon-panel,
+.checkout-order-summary {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgb(22 42 15 / 8%);
+}
+
+.checkout-section {
+  border: 1.5px solid #ede7d9;
+  margin-bottom: 20px;
+  padding: 28px;
+}
+
+.checkout-section-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.checkout-section-head h2 {
+  align-items: center;
+  color: #162a0f;
+  display: flex;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  gap: 10px;
+  margin: 0;
+}
+
+.checkout-section-num {
+  align-items: center;
+  background: #162a0f;
+  border-radius: 50%;
+  color: #b8d4a0;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 13px;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+
+.checkout-addr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-addr-card {
+  align-items: flex-start;
+  border: 1.5px solid #ede7d9;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  padding: 16px 18px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.checkout-addr-card:hover {
+  border-color: #b8d4a0;
+}
+
+.checkout-addr-card.selected {
+  background: rgb(47 93 36 / 4%);
+  border-color: #2f5d24;
+}
+
+.checkout-addr-card input[type="radio"] {
+  accent-color: #2f5d24;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.checkout-addr-card-body {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.checkout-addr-name,
+.checkout-addr-phone,
+.checkout-addr-text {
+  display: block;
+}
+
+.checkout-addr-name {
+  color: #162a0f;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.checkout-addr-phone {
+  color: #6b6b5d;
+  font-size: 12px;
+  margin: 2px 0 6px;
+}
+
+.checkout-addr-text {
+  color: #6b6b5d;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.checkout-addr-empty {
+  background: rgb(248 244 236 / 50%);
+  border: 1.5px dashed #ede7d9;
+  border-radius: 12px;
+  padding: 36px 24px 28px;
+  text-align: center;
+}
+
+.checkout-addr-empty-icon {
+  align-items: center;
+  background: #eef6e8;
+  border-radius: 50%;
+  display: flex;
+  height: 52px;
+  justify-content: center;
+  margin: 0 auto 16px;
+  width: 52px;
+}
+
+.checkout-addr-empty-icon::before {
+  background: #2f5d24;
+  border-radius: 50% 50% 50% 0;
+  content: "";
+  display: block;
+  height: 20px;
+  transform: rotate(-45deg);
+  width: 20px;
+}
+
+.checkout-addr-empty-title {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.checkout-addr-empty-sub {
+  color: #6b6b5d;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 auto 22px;
+  max-width: 320px;
+}
+
+.checkout-addr-empty-cta,
+.checkout-add-addr-btn {
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.checkout-addr-empty-cta {
+  background: #162a0f;
+  border: 0;
+  border-radius: 8px;
+  color: #f8f4ec;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  padding: 13px 28px;
+  transition: background 0.2s ease;
+}
+
+.checkout-addr-empty-cta:hover,
+.checkout-addr-empty-cta:focus {
+  background: #2f5d24;
+}
+
+.checkout-add-addr-btn {
+  align-items: center;
+  background: none;
+  border: 1.5px dashed #b8d4a0;
+  border-radius: 8px;
+  color: #2f5d24;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 13px;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 10px 18px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  width: 100%;
+}
+
+.checkout-add-addr-btn:hover,
+.checkout-add-addr-btn:focus {
+  background: rgb(47 93 36 / 5%);
+  border-color: #2f5d24;
+}
+
+.checkout-payment-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.payment-method-group {
+  margin-bottom: 16px;
+}
+
+.payment-method-group:last-child {
+  margin-bottom: 0;
+}
+
+.payment-method-trigger {
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.payment-method-trigger:hover {
+  border-color: #b8d4a0;
+}
+
+.payment-method-trigger.selected {
+  background: rgb(47 93 36 / 4%);
+  border-color: #2f5d24;
+}
+
+.payment-method-trigger input[type="radio"] {
+  accent-color: #2f5d24;
+  flex-shrink: 0;
+}
+
+.payment-method-icon {
+  align-items: center;
+  background: #eef6e8;
+  border-radius: 50%;
+  display: inline-flex;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+
+.payment-method-icon::before {
+  color: #2f5d24;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-method-icon.icon-mobile::before {
+  content: "UP";
+}
+
+.payment-method-icon.icon-bank::before {
+  content: "BK";
+}
+
+.payment-method-icon.icon-card::before {
+  content: "CC";
+}
+
+.payment-method-icon.icon-cash::before {
+  content: "Rs";
+}
+
+.payment-method-label {
+  color: #162a0f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.payment-sub-panel {
+  background: rgb(47 93 36 / 2%);
+  border: 1.5px solid #b8d4a0;
+  border-radius: 0 0 8px 8px;
+  border-top: 0;
+  display: none;
+  padding: 16px 18px 18px;
+}
+
+.payment-sub-panel.visible {
+  display: block;
+}
+
+.payment-sub-options {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.payment-sub-opt {
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 8px;
+  color: #6b6b5d;
+  cursor: pointer;
+  display: flex;
+  font-size: 13px;
+  gap: 8px;
+  padding: 10px 14px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.payment-sub-opt:hover {
+  border-color: #b8d4a0;
+}
+
+.payment-sub-opt.selected {
+  background: rgb(47 93 36 / 4%);
+  border-color: #2f5d24;
+  color: #162a0f;
+}
+
+.payment-sub-opt input[type="radio"] {
+  accent-color: #2f5d24;
+}
+
+.upi-id-wrap {
+  display: none;
+  margin-top: 14px;
+}
+
+.upi-id-wrap.visible {
+  display: block;
+}
+
+.upi-id-wrap label,
+.card-field label {
+  color: #6b6b5d;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.upi-id-wrap input,
+.card-field input,
+.coupon-input {
+  background: #fff;
+  border: 1.5px solid #ede7d9;
+  border-radius: 8px;
+  color: #1a1a14;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.upi-id-wrap input,
+.card-field input {
+  font-size: 14px;
+  padding: 10px 14px;
+}
+
+.upi-id-wrap input:focus,
+.card-field input:focus {
+  border-color: #2f5d24;
+}
+
+.card-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.card-field-row {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.card-field input.error {
+  border-color: #a00000;
+}
+
+.field-error {
+  color: #a00000;
+  display: block;
+  font-size: 11px;
+  margin-top: 4px;
+  min-height: 14px;
+}
+
+.cod-note {
+  color: #6b6b5d;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 12px 0 4px;
+}
+
+.checkout-coupon-panel,
+.checkout-order-summary {
+  padding: 24px 28px;
+}
+
+.checkout-coupon-panel.hidden {
+  display: none;
+}
+
+.coupon-panel-title {
+  color: #4a4a3c;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.coupon-available {
+  align-items: center;
+  background: rgb(22 42 15 / 4%);
+  border: 1px solid rgb(184 212 160 / 45%);
+  border-radius: 12px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+}
+
+.coupon-available-label {
+  color: #8a8a78;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.coupon-available-card {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 3px 4px;
+}
+
+.coupon-available-code {
+  color: #162a0f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.coupon-available-value {
+  color: #1a6e36;
+  font-size: 12px;
+}
+
+.coupon-form {
+  align-items: stretch;
+  display: flex;
+  gap: 8px;
+}
+
+.coupon-input {
+  flex: 1;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  min-width: 0;
+  padding: 9px 14px;
+  text-transform: uppercase;
+}
+
+.coupon-input:focus {
+  border-color: #2f5d24;
+}
+
+.coupon-input::placeholder {
+  color: #8a8a78;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.coupon-input:disabled {
+  background: #f8f4ec;
+  color: #8a8a78;
+  cursor: not-allowed;
+}
+
+.coupon-apply-btn {
+  background: #162a0f;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  padding: 9px 18px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.coupon-apply-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.coupon-msg {
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 8px;
+  min-height: 16px;
+}
+
+.coupon-msg.success {
+  color: #1a6e36;
+}
+
+.coupon-msg.error {
+  color: #a00000;
+}
+
+.coupon-applied {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  min-height: 32px;
+}
+
+.coupon-applied.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.coupon-applied-tag {
+  align-items: center;
+  background: rgb(22 42 15 / 7%);
+  border: 1px solid rgb(184 212 160 / 60%);
+  border-radius: 20px;
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px 12px 4px 14px;
+}
+
+.coupon-applied-code {
+  color: #162a0f;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.coupon-remove-btn {
+  background: none;
+  border: 0;
+  color: #8a8a78;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.coupon-applied-label {
+  color: #1a6e36;
+  font-size: 12px;
+}
+
+.checkout-order-summary h2 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 18px;
+}
+
+.co-item-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.co-item-row {
+  align-items: flex-start;
+  border-bottom: 1px solid #ede7d9;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.co-item-row:last-child {
+  border-bottom: 0;
+}
+
+.co-item-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.co-item-name {
+  color: #1a1a14;
+  font-size: 13px;
+}
+
+.co-item-weight {
+  color: #8a8a78;
+  font-size: 12px;
+}
+
+.co-item-qty {
+  color: #6b6b5d;
+  font-size: 12px;
+  margin: 0 10px;
+  white-space: nowrap;
+}
+
+.co-item-price {
+  color: #1a1a14;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.checkout-order-summary hr {
+  border: 0;
+  border-top: 1px solid #ede7d9;
+  margin: 14px 0 10px;
+}
+
+.sum-row,
+.sum-total {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.sum-row {
+  border-bottom: 1px solid #ede7d9;
+  color: #6b6b5d;
+  font-size: 14px;
+  padding: 12px 0;
+}
+
+.sum-row.free,
+.sum-row-discount {
+  color: #1a6e36;
+}
+
+.sum-row.hidden {
+  display: none;
+}
+
+.sum-total {
+  color: #162a0f;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px 0 4px;
+}
+
+.place-order-btn {
+  background: #2f5d24;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+  padding: 16px;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.place-order-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.place-order-btn:hover:not(:disabled),
+.place-order-btn:focus:not(:disabled) {
+  background: #162a0f;
+}
+
+.place-order-err {
+  color: #a00000;
+  font-size: 12px;
+  margin-top: 8px;
+  min-height: 16px;
+  text-align: center;
+}
+
+.checkout-secure-note {
+  color: #8a8a78;
+  font-size: 12px;
+  margin: 8px 0 0;
+  text-align: center;
+}
+
+.checkout-empty {
+  background: #f8f4ec;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.checkout-empty h2 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.checkout-empty p {
+  color: #6b6b5d;
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+.checkout-empty a {
+  background: #2f5d24;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  padding: 12px 18px;
+  text-transform: uppercase;
+}
+
+.checkout-sr-only {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (width < 1000px) {
+  .checkout-body {
+    grid-template-columns: 1fr;
+    padding: 28px 20px 48px;
+  }
+
+  .checkout-right-rail {
+    position: static;
+  }
+}
+
+@media (width < 768px) {
+  .checkout-steps {
+    padding: 0 20px;
+  }
+
+  .payment-sub-options,
+  .card-field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .place-order-btn {
+    bottom: 16px;
+    box-shadow: 0 16px 28px rgb(14 31 10 / 18%);
+    font-size: 15px;
+    margin-top: 16px;
+    padding: 18px;
+    position: sticky;
+    z-index: 10;
+  }
+}
+
+@media (width < 480px) {
+  .checkout-body {
+    gap: 16px;
+    padding: 20px 12px 48px;
+  }
+
+  .checkout-steps {
+    padding: 0 12px;
+  }
+
+  .checkout-step {
+    font-size: 11px;
+    margin-right: 20px;
+  }
+
+  .checkout-section,
+  .checkout-coupon-panel,
+  .checkout-order-summary {
+    padding: 16px;
+  }
+
+  .checkout-section-head h2,
+  .checkout-order-summary h2 {
+    font-size: 18px;
+  }
+
+  .checkout-addr-card,
+  .payment-method-trigger,
+  .payment-sub-panel {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .coupon-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .coupon-apply-btn {
+    padding: 9px 12px;
+  }
+}

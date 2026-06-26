@@ -1,0 +1,240 @@
+.herb-cards-container {
+  background: #f8f4ec;
+}
+
+.herb-cards-wrapper {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 80px 52px;
+}
+
+.herb-cards {
+  color: #2f2b22;
+  font-family: Outfit, var(--body-font-family), sans-serif;
+}
+
+.herb-cards-header {
+  align-items: end;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.herb-cards-label {
+  color: #8a8a78;
+  font-size: 11px;
+  letter-spacing: 2.4px;
+  line-height: 1.4;
+  margin: 0 0 7px;
+  text-transform: uppercase;
+}
+
+.herb-cards-title {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.herb-cards-title em {
+  color: #437a32;
+}
+
+.herb-cards-view-all {
+  border-bottom: 1px solid #b8d4a0;
+  color: #437a32;
+  font-size: 13px;
+  font-weight: 500;
+  padding-bottom: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.herb-cards-view-all:hover {
+  color: #162a0f;
+  border-color: #162a0f;
+  text-decoration: none;
+}
+
+.herb-cards-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.herb-card {
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgb(22 42 15 / 8%);
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-decoration: none;
+  transform: translateY(0);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.herb-card:hover {
+  border-color: #b8d4a0;
+  box-shadow: 0 18px 36px rgb(22 42 15 / 14%);
+  text-decoration: none;
+  transform: translateY(-5px);
+}
+
+.herb-card-img {
+  background: linear-gradient(135deg, #437a32, #5c8f45);
+  height: 190px;
+  overflow: hidden;
+  position: relative;
+}
+
+.herb-card-img img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  transform: translateY(0) scale(1);
+  transition: transform 0.4s ease;
+  width: 100%;
+}
+
+.herb-card:hover .herb-card-img img {
+  transform: translateY(-4px) scale(1.04);
+}
+
+.herb-card-badge {
+  background: rgb(22 42 15 / 82%);
+  border-radius: 20px;
+  color: #c9e6b8;
+  font-size: 10px;
+  letter-spacing: 1px;
+  line-height: 1.25;
+  max-width: calc(100% - 24px);
+  padding: 3px 10px;
+  position: absolute;
+  right: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  top: 12px;
+  white-space: normal;
+}
+
+.herb-card-body {
+  min-width: 0;
+  padding: 18px;
+}
+
+.herb-card-body h3 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 2px;
+  overflow-wrap: anywhere;
+}
+
+.herb-card-sci {
+  color: #767668;
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+
+.herb-card-body p:not(.herb-card-sci) {
+  color: #4a4a3c;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+  overflow-wrap: anywhere;
+}
+
+.herb-cards-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.herb-cards-tag {
+  border-radius: 20px;
+  font-size: 11px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 3px 10px;
+  text-align: center;
+  white-space: normal;
+}
+
+.herb-cards-tag.tag-green {
+  background: #e4f2dc;
+  color: #2a5220;
+}
+
+.herb-cards-tag.tag-brown {
+  background: #f5ede0;
+  color: #8b5e2f;
+}
+
+.herb-cards-tag.tag-safe {
+  background: #dff2e4;
+  color: #1a6e36;
+}
+
+.herb-cards-tag.tag-caution {
+  background: #fff8dc;
+  color: #7a5a00;
+}
+
+.herb-cards-error {
+  background: #fff;
+  border: 1px solid #e6dfd0;
+  border-radius: 12px;
+  color: #4a4a3c;
+  font-size: 14px;
+  padding: 18px;
+}
+
+@media (width < 1000px) {
+  .herb-cards-wrapper {
+    padding: 64px 32px;
+  }
+
+  .herb-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (width < 768px) {
+  .herb-cards-wrapper {
+    padding: 48px 20px;
+  }
+
+  .herb-cards-header {
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .herb-cards-title {
+    font-size: 34px;
+  }
+
+  .herb-cards-grid {
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width < 480px) {
+  .herb-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
