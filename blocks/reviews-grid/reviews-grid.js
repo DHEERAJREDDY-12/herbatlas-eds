@@ -122,7 +122,7 @@ function readConfig(rows) {
 
 function buildStars(rating) {
   const container = document.createElement('div');
-  
+
   const stars = document.createElement('div');
   stars.className = 'reviews-grid-stars';
   stars.setAttribute('aria-hidden', 'true');

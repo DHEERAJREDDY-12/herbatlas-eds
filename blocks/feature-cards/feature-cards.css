@@ -68,6 +68,15 @@ button.feature-card {
   border-color: rgb(160 0 0 / 15%);
 }
 
+.feature-card h3 {
+  color: #162a0f;
+  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0 0 12px;
+}
+
 .feature-cards.nav .feature-card-logout h3 {
   color: #a00000;
 }
@@ -142,15 +151,6 @@ button.feature-card {
   aspect-ratio: 4 / 3;
   height: auto;
   object-fit: cover;
-}
-
-.feature-card h3 {
-  color: #162a0f;
-  font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
-  font-size: 30px;
-  font-weight: 300;
-  line-height: 1.1;
-  margin: 0 0 12px;
 }
 
 .feature-cards.nav .feature-card h3 {

@@ -1,7 +1,3 @@
-function getCell(row, index) {
-  return row?.children[index] || null;
-}
-
 function getText(cell) {
   return cell?.textContent.trim() || '';
 }
@@ -58,12 +54,13 @@ function getConfigPairs(rows) {
     }
 
     if (cells.length === 1) {
+      const [cell] = cells;
       if (!pendingLabel) {
-        pendingLabel = cells[0];
+        pendingLabel = cell;
         return;
       }
 
-      pairs.push([pendingLabel, cells[0]]);
+      pairs.push([pendingLabel, cell]);
       pendingLabel = null;
     }
   });

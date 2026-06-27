@@ -204,7 +204,8 @@ function buildIntro(config) {
   if (config.description) {
     const description = document.createElement('p');
     description.className = 'hh-sub';
-    description.innerHTML = replaceHerbCountPlaceholder(normalizeAuthoredHeroHtml(config.description));
+    const descHtml = replaceHerbCountPlaceholder(normalizeAuthoredHeroHtml(config.description));
+    description.innerHTML = descHtml;
     content.append(description);
   }
 

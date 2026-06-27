@@ -1,2 +1,4 @@
 helix-importer-ui
 *.min.js
+data/herbs-data.js
+data/ailments-data.js

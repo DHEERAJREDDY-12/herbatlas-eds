@@ -91,7 +91,10 @@ function createMedia(cell) {
 function buildCard(cardData) {
   const isLogout = cardData.action === 'sign-out';
   const isWholeCardLink = Boolean(cardData.linkUrl) && !isLogout;
-  const card = document.createElement(isLogout ? 'button' : isWholeCardLink ? 'a' : 'article');
+  let cardTag = 'article';
+  if (isLogout) cardTag = 'button';
+  else if (isWholeCardLink) cardTag = 'a';
+  const card = document.createElement(cardTag);
   card.className = 'feature-card';
 
   if (isWholeCardLink) {

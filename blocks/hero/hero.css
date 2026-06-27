@@ -143,7 +143,7 @@
   color: var(--hero-green-pale);
 }
 
-.hero.commerce .hero-description {
+.hero .hero-description {
   color: var(--hero-text-mid);
   font-family: var(--hero-font-body);
   font-size: 14px;
@@ -152,7 +152,7 @@
   max-width: 640px;
 }
 
-.hero .hero-description {
+.hero.commerce .hero-description {
   color: var(--hero-text-mid);
   font-family: var(--hero-font-body);
   font-size: 14px;
@@ -185,7 +185,7 @@
   justify-content: center;
 }
 
-.hero.commerce .hero-badge {
+.hero .hero-badge {
   align-items: center;
   background: rgb(255 255 255 / 7%);
   border: 1px solid rgb(184 212 160 / 20%);
@@ -200,7 +200,7 @@
   padding: 10px 16px;
 }
 
-.hero .hero-badge {
+.hero.commerce .hero-badge {
   align-items: center;
   background: rgb(255 255 255 / 7%);
   border: 1px solid rgb(184 212 160 / 20%);
