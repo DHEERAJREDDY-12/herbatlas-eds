@@ -4,14 +4,6 @@
   padding: 80px 52px 0;
 }
 
-.section-header-container:has(.section-header.dark) {
-  background: #162a0f;
-}
-
-.section-header-container:has(.section-header:not(.dark)) {
-  background: transparent;
-}
-
 .section-header-container:has(+ .feature-cards-container),
 .section-header-container:has(+ .team-cards-container) {
   background: #fff;
@@ -19,6 +11,10 @@
 
 .section-header-container:has(+ .process-list-container) {
   background: #ede7d9;
+}
+
+.section-header-container:has(.section-header.dark) {
+  background: #162a0f;
 }
 
 .section-header {
