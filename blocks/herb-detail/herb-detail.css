@@ -425,13 +425,13 @@
   width: 100%;
 }
 
-.herb-detail-shop-link {
+.herb-detail-shop-link:any-link {
   background: #2f5d24;
   color: #fff;
 }
 
-.herb-detail-shop-link:hover,
-.herb-detail-shop-link:focus {
+.herb-detail-shop-link:any-link:hover,
+.herb-detail-shop-link:any-link:focus {
   background: #162a0f;
   color: #fff;
 }

@@ -431,18 +431,6 @@ function buildLayout(config) {
   const page = document.createElement('main');
   page.className = 'account-profile-page';
 
-  const intro = document.createElement('div');
-  intro.className = 'account-profile-intro';
-
-  const text = document.createElement('p');
-  text.textContent = `Hi ${getUserName()}, save your details once and HerbAtlas will tune home-page recommendations to your profile.`;
-
-  const back = document.createElement('a');
-  back.href = config.profilePath;
-  back.textContent = 'Back to My Account';
-
-  intro.append(text, back);
-
   const grid = document.createElement('section');
   grid.className = 'account-profile-grid';
 
@@ -450,7 +438,7 @@ function buildLayout(config) {
   const formRefs = buildForm(config);
 
   grid.append(summaryRefs.summary, formRefs.form);
-  page.append(intro, grid);
+  page.append(grid);
 
   return {
     page,
@@ -460,11 +448,22 @@ function buildLayout(config) {
   };
 }
 
+function updateAccountHeroIntro(block) {
+  const main = block.closest('main') || document;
+  const hero = main.querySelector('.hero.simple.dark') || document.querySelector('.hero.simple.dark');
+  const description = hero?.querySelector('.hero-description');
+  if (!description) return;
+
+  description.textContent = `Hi ${getUserName()}, save your details once and HerbAtlas will tune home-page recommendations to your profile.`;
+}
+
 export default function decorate(block) {
   const config = readConfig([...block.children]);
   block.textContent = '';
 
   if (requireLogin(config)) return;
+
+  updateAccountHeroIntro(block);
 
   const refs = buildLayout(config);
   block.append(refs.page);

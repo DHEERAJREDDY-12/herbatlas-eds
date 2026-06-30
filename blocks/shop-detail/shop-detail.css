@@ -144,7 +144,7 @@
 }
 
 .shop-detail-sci {
-  color: #8a8a78;
+  color: #4a4a3c;
   display: block;
   font-size: 15px;
   font-style: italic;
@@ -183,7 +183,7 @@
 }
 
 .shop-detail-review-count {
-  color: #8a8a78;
+  color: #4a4a3c;
   font-size: 13px;
 }
 
@@ -196,14 +196,14 @@
 }
 
 .shop-detail-price-note {
-  color: #8a8a78;
+  color: #4a4a3c;
   display: block;
   font-size: 13px;
   margin-bottom: 24px;
 }
 
 .shop-detail-weight-label {
-  color: #8a8a78;
+  color: #4a4a3c;
   display: block;
   font-size: 11px;
   letter-spacing: 1.5px;
@@ -385,7 +385,7 @@
   border-left-color: #2f5d24;
 }
 
-.shop-detail-policy-item h4 {
+.shop-detail-policy-item h2 {
   color: #162a0f;
   font-size: 13px;
   font-weight: 600;
@@ -393,7 +393,7 @@
 }
 
 .shop-detail-policy-item p {
-  color: #8a8a78;
+  color: #4a4a3c;
   font-size: 11px;
   line-height: 1.4;
   margin: 0;
@@ -562,7 +562,7 @@
 }
 
 .shop-detail-reviews-title p {
-  color: #8a8a78;
+  color: #4a4a3c;
   font-size: 12px;
   letter-spacing: 1.8px;
   margin: 0;
@@ -590,7 +590,7 @@
 }
 
 .shop-detail-overall-count {
-  color: #8a8a78;
+  color: #4a4a3c;
   display: block;
   font-size: 13px;
 }
@@ -626,7 +626,7 @@
 }
 
 .shop-detail-review-date {
-  color: #8a8a78;
+  color: #4a4a3c;
   font-size: 12px;
 }
 
@@ -678,7 +678,7 @@
 }
 
 .shop-detail-write-review p {
-  color: #8a8a78;
+  color: #4a4a3c;
   font-size: 13px;
   line-height: 1.55;
   margin: 0 0 20px;

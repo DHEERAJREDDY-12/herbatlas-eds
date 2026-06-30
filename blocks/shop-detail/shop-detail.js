@@ -756,7 +756,7 @@ function buildPolicy(config) {
     const item = document.createElement('div');
     item.className = 'shop-detail-policy-item';
 
-    const title = document.createElement('h4');
+    const title = document.createElement('h2');
     title.textContent = titleText;
 
     const body = document.createElement('p');

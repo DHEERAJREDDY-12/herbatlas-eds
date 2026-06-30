@@ -20,35 +20,6 @@
   padding: 40px 52px 72px;
 }
 
-.account-profile-intro {
-  background: #162a0f;
-  border-radius: 12px;
-  color: #f8f4ec;
-  display: flex;
-  gap: 18px;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  padding: 20px 24px;
-}
-
-.account-profile-intro p {
-  color: rgb(248 244 236 / 72%);
-  font-size: 14px;
-  line-height: 1.55;
-  margin: 0;
-  max-width: 620px;
-}
-
-.account-profile-intro a {
-  border-bottom: 1px solid rgb(184 212 160 / 35%);
-  color: rgb(248 244 236 / 78%);
-  flex-shrink: 0;
-  font-size: 13px;
-  padding-bottom: 2px;
-  text-decoration: none;
-  transition: color 0.25s ease, border-color 0.25s ease;
-}
-
 .account-profile-grid {
   display: grid;
   gap: 28px;
@@ -113,12 +84,6 @@
 .account-profile-summary-actions a:focus {
   background: #b8d4a0;
   color: #162a0f;
-}
-
-.account-profile-intro a:hover,
-.account-profile-intro a:focus {
-  border-color: #b8d4a0;
-  color: #f8f4ec;
 }
 
 .account-profile-panel {
@@ -251,7 +216,6 @@
     padding: 28px 20px 56px;
   }
 
-  .account-profile-intro,
   .account-profile-summary {
     align-items: flex-start;
     flex-direction: column;

@@ -12,6 +12,11 @@
   background: transparent;
 }
 
+.section-header-container:has(+ .feature-cards-container),
+.section-header-container:has(+ .team-cards-container) {
+  background: #fff;
+}
+
 .section-header {
   align-items: flex-end;
   box-sizing: border-box;
