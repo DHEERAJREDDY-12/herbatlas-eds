@@ -89,7 +89,7 @@
   min-width: 0;
 }
 
-.cart-item-info h3 {
+.cart-item-info h2 {
   color: #162a0f;
   font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
   font-size: 20px;
@@ -208,7 +208,7 @@
 }
 
 .cart-coupon-available-label {
-  color: #8a8a78;
+  color: #4a4a3c;
   font-size: 11px;
   letter-spacing: 0.6px;
   text-transform: uppercase;
@@ -562,7 +562,7 @@
     width: 64px;
   }
 
-  .cart-item-info h3 {
+  .cart-item-info h2 {
     font-size: 17px;
   }
 

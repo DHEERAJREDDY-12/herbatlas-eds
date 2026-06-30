@@ -444,7 +444,7 @@ function buildCartItem(item, index, config, onChange) {
   const info = document.createElement('div');
   info.className = 'cart-item-info';
 
-  const title = document.createElement('h3');
+  const title = document.createElement('h2');
   title.textContent = item.name;
 
   const meta = document.createElement('p');
