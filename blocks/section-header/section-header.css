@@ -9,7 +9,7 @@
   background: #fff;
   margin: 0 calc(50% - 50vw);
   max-width: none;
-  padding: 80px 0 0;
+  padding: 80px 0 36px;
   width: 100vw;
 }
 
@@ -17,7 +17,7 @@
   background: #ede7d9;
   margin: 0 calc(50% - 50vw);
   max-width: none;
-  padding: 80px 0 0;
+  padding: 80px 0 36px;
   width: 100vw;
 }
 
@@ -41,6 +41,7 @@
 .stats-band-wrapper + .section-header-wrapper .section-header {
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0;
   max-width: 1200px;
   padding: 0 52px;
 }
@@ -150,7 +151,7 @@
   .image-text-wrapper + .section-header-wrapper,
   .process-list-wrapper + .section-header-wrapper,
   .stats-band-wrapper + .section-header-wrapper {
-    padding: 56px 0 0;
+    padding: 56px 0 28px;
   }
 
   .section-header {
