@@ -474,9 +474,86 @@ function buildCard(product, state, isFirstVisible) {
   return card;
 }
 
+function isVisible(element) {
+  return element && window.getComputedStyle(element).display !== 'none';
+}
+
+function getStickyTop() {
+  const mobileSearch = document.querySelector('.mobile-search-bar');
+  if (isVisible(mobileSearch)) {
+    return Math.round(mobileSearch.getBoundingClientRect().bottom);
+  }
+
+  const nav = document.querySelector('header .nav-wrapper');
+  return nav ? Math.round(nav.getBoundingClientRect().bottom) : 0;
+}
+
 function scrollToBlock(block) {
-  const top = block.getBoundingClientRect().top + window.scrollY - 110;
+  const top = block.getBoundingClientRect().top + window.scrollY - getStickyTop();
   window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+}
+
+function bindStickyFilter(block, filterBar) {
+  const spacer = document.createElement('div');
+  let ticking = false;
+
+  spacer.className = 'shop-results-sticky-spacer';
+  filterBar.insertAdjacentElement('afterend', spacer);
+
+  function resetFilter() {
+    spacer.classList.remove('active');
+    spacer.style.height = '0px';
+    filterBar.classList.remove('is-fixed', 'is-bottom');
+    filterBar.style.top = '';
+    filterBar.style.left = '';
+    filterBar.style.right = '';
+    filterBar.style.bottom = '';
+    filterBar.style.width = '';
+  }
+
+  function updateStickyFilter() {
+    ticking = false;
+    resetFilter();
+
+    if (!isVisible(filterBar)) return;
+
+    const stickyTop = getStickyTop();
+    const blockRect = block.getBoundingClientRect();
+    const filterRect = filterBar.getBoundingClientRect();
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const filterDocTop = scrollTop + filterRect.top;
+    const blockDocTop = scrollTop + blockRect.top;
+    const filterHeight = filterBar.offsetHeight;
+    const maxFixedScroll = blockDocTop + block.offsetHeight - filterHeight - stickyTop;
+
+    if (scrollTop + stickyTop <= filterDocTop) return;
+
+    spacer.classList.add('active');
+    spacer.style.height = `${filterHeight}px`;
+
+    if (scrollTop < maxFixedScroll) {
+      filterBar.classList.add('is-fixed');
+      filterBar.style.top = `${stickyTop}px`;
+      filterBar.style.left = `${Math.round(blockRect.left)}px`;
+      filterBar.style.width = `${Math.round(blockRect.width)}px`;
+      return;
+    }
+
+    filterBar.classList.add('is-bottom');
+    filterBar.style.bottom = '0px';
+    filterBar.style.width = '100%';
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateStickyFilter);
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  window.addEventListener('load', requestUpdate);
+  requestUpdate();
 }
 
 function renderFilters(state, shell, onUpdate) {
@@ -578,6 +655,7 @@ export default async function decorate(block) {
 
   const shell = buildShell(config);
   block.append(shell.filterBar, shell.body, shell.pagination);
+  bindStickyFilter(block, shell.filterBar);
 
   try {
     const products = await loadProducts();

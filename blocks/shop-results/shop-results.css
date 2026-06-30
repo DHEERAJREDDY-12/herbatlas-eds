@@ -11,6 +11,7 @@
 .shop-results {
   color: #1a1a14;
   font-family: Outfit, var(--body-font-family), sans-serif;
+  position: relative;
 }
 
 .shop-results a:any-link {
@@ -30,7 +31,28 @@
   padding: 16px max(52px, calc((100vw - 1200px) / 2 + 52px));
   position: sticky;
   top: var(--nav-height);
-  z-index: 20;
+  z-index: 220;
+}
+
+.shop-results-sticky-spacer {
+  display: none;
+  pointer-events: none;
+  width: 100%;
+}
+
+.shop-results-sticky-spacer.active {
+  display: block;
+}
+
+.shop-results-filter.is-fixed {
+  position: fixed;
+}
+
+.shop-results-filter.is-bottom {
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: auto;
 }
 
 .shop-results-filter-label {

@@ -11,6 +11,7 @@
 .browse-results {
   color: #1a1a14;
   font-family: Outfit, var(--body-font-family), sans-serif;
+  position: relative;
 }
 
 .browse-results a:any-link {
@@ -30,7 +31,28 @@
   padding: 16px max(52px, calc((100vw - 1200px) / 2 + 52px));
   position: sticky;
   top: var(--nav-height);
-  z-index: 20;
+  z-index: 220;
+}
+
+.browse-results-sticky-spacer {
+  display: none;
+  pointer-events: none;
+  width: 100%;
+}
+
+.browse-results-sticky-spacer.active {
+  display: block;
+}
+
+.browse-results-filter.is-fixed {
+  position: fixed;
+}
+
+.browse-results-filter.is-bottom {
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: auto;
 }
 
 .browse-results-filter-label {
