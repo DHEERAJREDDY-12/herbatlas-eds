@@ -14,6 +14,12 @@
   background: #ede7d9;
 }
 
+main > .section.process-list-container,
+main > .section.section-header-container.process-list-container,
+main > .section:has(+ .section.process-list-container) {
+  background: #ede7d9;
+}
+
 .section-header-container:has(.section-header.dark) {
   background: #162a0f;
 }
