@@ -1,11 +1,13 @@
 .team-cards-container {
-  background: #fff;
+  background: transparent;
 }
 
 .team-cards-wrapper {
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 52px 88px;
+  background: #fff;
+  margin: 0 calc(50% - 50vw);
+  max-width: none;
+  padding: 0 0 88px;
+  width: 100vw;
 }
 
 .team-cards,
@@ -21,6 +23,9 @@
   font-family: Outfit, var(--body-font-family), sans-serif;
   gap: 24px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 52px;
 }
 
 .team-card {
@@ -101,18 +106,23 @@
 
 @media (width < 1000px) {
   .team-cards-wrapper {
-    padding: 0 32px 64px;
+    padding: 0 0 64px;
   }
 
   .team-cards {
     grid-template-columns: 1fr;
     margin: 0 auto;
     max-width: 720px;
+    padding: 0 32px;
   }
 }
 
 @media (width < 640px) {
   .team-cards-wrapper {
-    padding: 0 20px 64px;
+    padding: 0 0 64px;
+  }
+
+  .team-cards {
+    padding: 0 20px;
   }
 }

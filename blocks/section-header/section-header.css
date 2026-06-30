@@ -4,38 +4,21 @@
   padding: 80px 52px 0;
 }
 
-.section-header-container:has(+ .team-cards-container),
-.section-header-container:has(+ .feature-cards-container) {
+.image-text-wrapper + .section-header-wrapper,
+.process-list-wrapper + .section-header-wrapper {
   background: #fff;
+  margin: 0 calc(50% - 50vw);
+  max-width: none;
+  padding: 80px 0 0;
+  width: 100vw;
 }
 
-main > .section.team-cards-container,
-main > .section.section-header-container.team-cards-container {
-  background: #fff;
-}
-
-.stats-band-container + .section-header-container,
-.section-header-container:has(+ .process-list-container) {
+.stats-band-wrapper + .section-header-wrapper {
   background: #ede7d9;
-}
-
-main > .section.process-list-container,
-main > .section.section-header-container.process-list-container {
-  background: #ede7d9;
-}
-
-main > .section:has(+ .section.process-list-container) {
-  background: #ede7d9;
-}
-
-main > .section:has(+ .section.team-cards-container) {
-  background: #fff;
-}
-
-main > .section.feature-cards-container:has(.feature-cards:not(.nav, .contact)),
-main > .section.section-header-container.feature-cards-container,
-main > .section:has(+ .section.feature-cards-container .feature-cards:not(.nav, .contact)) {
-  background: #fff;
+  margin: 0 calc(50% - 50vw);
+  max-width: none;
+  padding: 80px 0 0;
+  width: 100vw;
 }
 
 .section-header-container:has(.section-header.dark) {
@@ -51,6 +34,15 @@ main > .section:has(+ .section.feature-cards-container .feature-cards:not(.nav, 
   gap: 24px;
   justify-content: space-between;
   margin-bottom: 36px;
+}
+
+.image-text-wrapper + .section-header-wrapper .section-header,
+.process-list-wrapper + .section-header-wrapper .section-header,
+.stats-band-wrapper + .section-header-wrapper .section-header {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  padding: 0 52px;
 }
 
 .section-header *,
@@ -155,10 +147,22 @@ main > .section:has(+ .section.feature-cards-container .feature-cards:not(.nav, 
     padding: 56px 20px 0;
   }
 
+  .image-text-wrapper + .section-header-wrapper,
+  .process-list-wrapper + .section-header-wrapper,
+  .stats-band-wrapper + .section-header-wrapper {
+    padding: 56px 0 0;
+  }
+
   .section-header {
     align-items: flex-start;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .image-text-wrapper + .section-header-wrapper .section-header,
+  .process-list-wrapper + .section-header-wrapper .section-header,
+  .stats-band-wrapper + .section-header-wrapper .section-header {
+    padding: 0 20px;
   }
 
   .section-header.centered {

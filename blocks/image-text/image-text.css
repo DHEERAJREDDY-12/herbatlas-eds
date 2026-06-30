@@ -1,11 +1,13 @@
 .image-text-container {
-  background: var(--cream);
+  background: transparent;
 }
 
 .image-text-wrapper {
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 88px 52px;
+  background: var(--cream);
+  margin: 0 calc(50% - 50vw);
+  max-width: none;
+  padding: 88px 0;
+  width: 100vw;
 }
 
 .image-text,
@@ -22,6 +24,9 @@
   font-family: Outfit, var(--body-font-family), sans-serif;
   gap: 56px;
   grid-template-columns: minmax(320px, 460px) minmax(0, 1fr);
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 52px;
 }
 
 .image-text.image-right {
@@ -122,13 +127,14 @@
 
 @media (width < 1000px) {
   .image-text-wrapper {
-    padding: 64px 32px;
+    padding: 64px 0;
   }
 
   .image-text,
   .image-text.image-right {
     gap: 28px;
     grid-template-columns: 1fr;
+    padding: 0 32px;
   }
 
   .image-text-content {
@@ -147,7 +153,12 @@
 
 @media (width < 768px) {
   .image-text-wrapper {
-    padding: 56px 20px;
+    padding: 56px 0;
+  }
+
+  .image-text,
+  .image-text.image-right {
+    padding: 0 20px;
   }
 
   .image-text-title {
@@ -157,7 +168,7 @@
 
 @media (width < 480px) {
   .image-text-wrapper {
-    padding: 48px 20px;
+    padding: 48px 0;
   }
 
   .image-text-title {
