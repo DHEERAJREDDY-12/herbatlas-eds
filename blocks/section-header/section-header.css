@@ -4,8 +4,13 @@
   padding: 80px 52px 0;
 }
 
-.section-header-container:has(+ .feature-cards-container),
-.section-header-container:has(+ .team-cards-container) {
+.section-header-container:has(+ .team-cards-container),
+.section-header-container:has(+ .feature-cards-container) {
+  background: #fff;
+}
+
+main > .section.team-cards-container,
+main > .section.section-header-container.team-cards-container {
   background: #fff;
 }
 
@@ -15,9 +20,22 @@
 }
 
 main > .section.process-list-container,
-main > .section.section-header-container.process-list-container,
+main > .section.section-header-container.process-list-container {
+  background: #ede7d9;
+}
+
 main > .section:has(+ .section.process-list-container) {
   background: #ede7d9;
+}
+
+main > .section:has(+ .section.team-cards-container) {
+  background: #fff;
+}
+
+main > .section.feature-cards-container:has(.feature-cards:not(.nav, .contact)),
+main > .section.section-header-container.feature-cards-container,
+main > .section:has(+ .section.feature-cards-container .feature-cards:not(.nav, .contact)) {
+  background: #fff;
 }
 
 .section-header-container:has(.section-header.dark) {
