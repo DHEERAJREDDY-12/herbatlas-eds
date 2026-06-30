@@ -17,6 +17,10 @@
   background: #fff;
 }
 
+.section-header-container:has(+ .process-list-container) {
+  background: #ede7d9;
+}
+
 .section-header {
   align-items: flex-end;
   box-sizing: border-box;

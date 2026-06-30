@@ -94,7 +94,7 @@
   margin-bottom: 0;
 }
 
-.image-text-cta {
+.image-text-cta:any-link {
   background: #2a5220;
   border: 1px solid #2a5220;
   border-radius: 6px;
@@ -111,8 +111,8 @@
   transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 
-.image-text-cta:hover,
-.image-text-cta:focus {
+.image-text-cta:any-link:hover,
+.image-text-cta:any-link:focus {
   background: #437a32;
   border-color: #437a32;
   color: #f8f4ec;
