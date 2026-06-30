@@ -9,6 +9,7 @@
   background: #fff;
 }
 
+.stats-band-container + .section-header-container,
 .section-header-container:has(+ .process-list-container) {
   background: #ede7d9;
 }

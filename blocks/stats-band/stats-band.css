@@ -4,7 +4,7 @@
 
 .stats-band-wrapper {
   background: linear-gradient(180deg, #17330d 0%, #102409 100%);
-  margin: 88px calc(50% - 50vw);
+  margin: 0 calc(50% - 50vw);
   max-width: none;
   padding: 88px 0;
   width: 100vw;
@@ -68,7 +68,7 @@
 
 @media (width < 640px) {
   .stats-band-wrapper {
-    margin: 64px calc(50% - 50vw);
+    margin: 0 calc(50% - 50vw);
     padding: 64px 0;
   }
 

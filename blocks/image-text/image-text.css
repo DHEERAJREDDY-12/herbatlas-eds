@@ -1,8 +1,9 @@
 .image-text-container {
-  background: #f8f4ec;
+  background: var(--cream);
 }
 
 .image-text-wrapper {
+  margin: 0 auto;
   max-width: 1200px;
   padding: 88px 52px;
 }
