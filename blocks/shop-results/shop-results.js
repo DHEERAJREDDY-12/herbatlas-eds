@@ -274,6 +274,109 @@ function buildChip(label, stock, safety, state) {
   return chip;
 }
 
+function buildDrawer(config) {
+  const drawerBar = document.createElement('div');
+  drawerBar.className = 'shop-results-drawer-bar';
+
+  const trigger = document.createElement('button');
+  trigger.className = 'shop-results-drawer-trigger';
+  trigger.type = 'button';
+  trigger.setAttribute('aria-controls', 'shopResultsFilterDrawer');
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.textContent = config.label;
+  drawerBar.append(trigger);
+
+  const drawerCount = document.createElement('span');
+  drawerCount.className = 'shop-results-drawer-count';
+  drawerCount.setAttribute('aria-live', 'polite');
+  drawerCount.setAttribute('aria-atomic', 'true');
+  drawerBar.append(drawerCount);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'shop-results-filter-overlay';
+  overlay.hidden = true;
+
+  const drawer = document.createElement('aside');
+  drawer.id = 'shopResultsFilterDrawer';
+  drawer.className = 'shop-results-filter-drawer';
+  drawer.setAttribute('aria-hidden', 'true');
+  drawer.setAttribute('aria-label', 'Filter shop products');
+
+  const drawerHead = document.createElement('div');
+  drawerHead.className = 'shop-results-filter-drawer-head';
+
+  const drawerTitle = document.createElement('h2');
+  drawerTitle.textContent = config.label;
+  drawerHead.append(drawerTitle);
+
+  const close = document.createElement('button');
+  close.className = 'shop-results-filter-drawer-close';
+  close.type = 'button';
+  close.textContent = 'Close';
+  drawerHead.append(close);
+
+  const drawerBody = document.createElement('div');
+  drawerBody.className = 'shop-results-filter-drawer-body';
+
+  const useLabel = document.createElement('label');
+  useLabel.className = 'shop-results-filter-drawer-label';
+  useLabel.textContent = 'Use';
+  drawerBody.append(useLabel);
+
+  const drawerUseSelect = buildSelect('shop-results-select', 'Filter products by wellness use', config.useOptions);
+  drawerBody.append(drawerUseSelect);
+
+  const sortLabel = document.createElement('label');
+  sortLabel.className = 'shop-results-filter-drawer-label';
+  sortLabel.textContent = 'Sort';
+  drawerBody.append(sortLabel);
+
+  const drawerSortSelect = buildSelect('shop-results-select', 'Sort products', config.sortOptions);
+  drawerBody.append(drawerSortSelect);
+
+  const statusLabel = document.createElement('span');
+  statusLabel.className = 'shop-results-filter-drawer-label';
+  statusLabel.textContent = 'Status';
+  drawerBody.append(statusLabel);
+
+  const drawerChipGroup = document.createElement('div');
+  drawerChipGroup.className = 'shop-results-filter-drawer-chips';
+  drawerChipGroup.setAttribute('role', 'group');
+  drawerChipGroup.setAttribute('aria-label', 'Filter by product status');
+  drawerBody.append(drawerChipGroup);
+
+  const actions = document.createElement('div');
+  actions.className = 'shop-results-filter-drawer-actions';
+
+  const apply = document.createElement('button');
+  apply.className = 'shop-results-filter-drawer-apply';
+  apply.type = 'button';
+  apply.textContent = 'Apply Filters';
+  actions.append(apply);
+
+  const drawerClear = document.createElement('button');
+  drawerClear.className = 'shop-results-filter-drawer-clear';
+  drawerClear.type = 'button';
+  drawerClear.textContent = config.clearText;
+  actions.append(drawerClear);
+
+  drawer.append(drawerHead, drawerBody, actions);
+
+  return {
+    drawerBar,
+    drawerCount,
+    trigger,
+    overlay,
+    drawer,
+    close,
+    drawerUseSelect,
+    drawerSortSelect,
+    drawerChipGroup,
+    apply,
+    drawerClear,
+  };
+}
+
 function buildShell(config) {
   const filterBar = document.createElement('div');
   filterBar.className = 'shop-results-filter';
@@ -332,6 +435,8 @@ function buildShell(config) {
   pagination.className = 'shop-results-pagination';
   pagination.setAttribute('aria-label', 'Shop product pagination');
 
+  const drawer = buildDrawer(config);
+
   return {
     filterBar,
     useSelect,
@@ -343,6 +448,7 @@ function buildShell(config) {
     empty,
     clear,
     pagination,
+    ...drawer,
   };
 }
 
@@ -493,29 +599,33 @@ function scrollToBlock(block) {
   window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
 }
 
-function bindStickyFilter(block, filterBar) {
+function bindStickyFilter(block, bars) {
   const spacer = document.createElement('div');
   let ticking = false;
 
   spacer.className = 'shop-results-sticky-spacer';
-  filterBar.insertAdjacentElement('afterend', spacer);
+  bars[0].insertAdjacentElement('afterend', spacer);
 
-  function resetFilter() {
+  function resetFilter(bar) {
     spacer.classList.remove('active');
     spacer.style.height = '0px';
-    filterBar.classList.remove('is-fixed', 'is-bottom');
-    filterBar.style.top = '';
-    filterBar.style.left = '';
-    filterBar.style.right = '';
-    filterBar.style.bottom = '';
-    filterBar.style.width = '';
+    bar.classList.remove('is-fixed', 'is-bottom');
+    bar.style.top = '';
+    bar.style.left = '';
+    bar.style.right = '';
+    bar.style.bottom = '';
+    bar.style.width = '';
   }
 
   function updateStickyFilter() {
     ticking = false;
-    resetFilter();
+    bars.forEach(resetFilter);
 
+    const filterBar = bars.find(isVisible);
     if (!isVisible(filterBar)) return;
+    if (spacer.previousElementSibling !== filterBar) {
+      filterBar.insertAdjacentElement('afterend', spacer);
+    }
 
     const stickyTop = getStickyTop();
     const blockRect = block.getBoundingClientRect();
@@ -557,21 +667,125 @@ function bindStickyFilter(block, filterBar) {
 }
 
 function renderFilters(state, shell, onUpdate) {
-  shell.chipGroup.textContent = '';
-  shell.chipGroup.append(
-    buildChip(state.config.allLabel, '', '', state),
-    buildChip(state.config.stockLabel, 'true', '', state),
-    buildChip(state.config.safeLabel, '', 'safe', state),
-  );
+  const appendChips = (chipGroup, onClick) => {
+    chipGroup.textContent = '';
+    chipGroup.append(
+      buildChip(state.config.allLabel, '', '', state),
+      buildChip(state.config.stockLabel, 'true', '', state),
+      buildChip(state.config.safeLabel, '', 'safe', state),
+    );
 
-  shell.chipGroup.querySelectorAll('.shop-results-chip').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      state.activeStock = chip.dataset.stock;
-      state.activeSafety = chip.dataset.safety;
-      state.currentPage = 1;
-      state.filtered = filterAndSort(state.products, state);
-      onUpdate(false);
+    chipGroup.querySelectorAll('.shop-results-chip').forEach((chip) => {
+      chip.addEventListener('click', () => onClick(chip));
     });
+  };
+
+  appendChips(shell.chipGroup, (chip) => {
+    state.activeStock = chip.dataset.stock;
+    state.activeSafety = chip.dataset.safety;
+    state.currentPage = 1;
+    state.filtered = filterAndSort(state.products, state);
+    onUpdate(false);
+  });
+
+  appendChips(shell.drawerChipGroup, (chip) => {
+    shell.drawerChipGroup.querySelectorAll('.shop-results-chip').forEach((item) => {
+      item.classList.toggle('active', item === chip);
+      item.setAttribute('aria-pressed', item === chip ? 'true' : 'false');
+    });
+  });
+}
+
+function syncDrawerFromState(state, shell) {
+  shell.drawerUseSelect.value = state.ailment;
+  shell.drawerSortSelect.value = state.sort;
+  shell.drawerChipGroup.querySelectorAll('.shop-results-chip').forEach((chip) => {
+    const isActive = chip.dataset.stock === state.activeStock
+      && chip.dataset.safety === state.activeSafety;
+    chip.classList.toggle('active', isActive);
+    chip.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function applyDrawerFilters(state, shell) {
+  const activeChip = shell.drawerChipGroup.querySelector('.shop-results-chip.active');
+  shell.useSelect.value = shell.drawerUseSelect.value;
+  shell.sortSelect.value = shell.drawerSortSelect.value;
+  state.ailment = shell.drawerUseSelect.value;
+  state.sort = shell.drawerSortSelect.value;
+  state.activeStock = activeChip?.dataset.stock || '';
+  state.activeSafety = activeChip?.dataset.safety || '';
+  state.currentPage = 1;
+  state.filtered = filterAndSort(state.products, state);
+}
+
+function setDrawerPosition(shell) {
+  const top = getStickyTop();
+  shell.overlay.style.top = `${top}px`;
+  shell.drawer.style.top = `${top}px`;
+  shell.drawer.style.height = `calc(100vh - ${top}px)`;
+}
+
+function bindFilterDrawer(state, shell, onApply) {
+  let lastFocused = null;
+  let open = false;
+
+  function closeDrawer() {
+    if (!open) return;
+    open = false;
+    shell.overlay.hidden = true;
+    shell.overlay.classList.remove('open');
+    shell.drawer.classList.remove('open');
+    shell.drawer.setAttribute('aria-hidden', 'true');
+    shell.trigger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('filter-drawer-open');
+    lastFocused?.focus();
+  }
+
+  function openDrawer() {
+    if (!isVisible(shell.drawerBar)) return;
+    lastFocused = document.activeElement;
+    open = true;
+    syncDrawerFromState(state, shell);
+    setDrawerPosition(shell);
+    shell.overlay.hidden = false;
+    shell.overlay.classList.add('open');
+    shell.drawer.classList.add('open');
+    shell.drawer.setAttribute('aria-hidden', 'false');
+    shell.trigger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('filter-drawer-open');
+    shell.drawer.querySelector('.shop-results-select, .shop-results-chip, button')?.focus();
+  }
+
+  shell.trigger.addEventListener('click', openDrawer);
+  shell.close.addEventListener('click', closeDrawer);
+  shell.overlay.addEventListener('click', closeDrawer);
+  shell.apply.addEventListener('click', () => {
+    applyDrawerFilters(state, shell);
+    onApply();
+    closeDrawer();
+  });
+  shell.drawerClear.addEventListener('click', () => {
+    shell.useSelect.value = '';
+    shell.sortSelect.value = '';
+    shell.drawerUseSelect.value = '';
+    shell.drawerSortSelect.value = '';
+    state.ailment = '';
+    state.sort = '';
+    state.activeStock = '';
+    state.activeSafety = '';
+    state.currentPage = 1;
+    state.filtered = [...state.products];
+    onApply();
+    closeDrawer();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeDrawer();
+  });
+  window.addEventListener('resize', () => {
+    if (open && !isVisible(shell.drawerBar)) closeDrawer();
+    if (open) setDrawerPosition(shell);
   });
 }
 
@@ -621,12 +835,14 @@ function render(state, shell, block) {
   };
 
   renderFilters(state, shell, onUpdate);
+  syncDrawerFromState(state, shell);
 
   const start = (state.currentPage - 1) * state.config.pageSize;
   const end = start + state.config.pageSize;
   const pageProducts = state.filtered.slice(start, end);
 
   shell.count.textContent = `${state.filtered.length} products`;
+  shell.drawerCount.textContent = `${state.filtered.length} products`;
   shell.grid.textContent = '';
 
   if (!state.filtered.length) {
@@ -654,8 +870,15 @@ export default async function decorate(block) {
   block.textContent = '';
 
   const shell = buildShell(config);
-  block.append(shell.filterBar, shell.body, shell.pagination);
-  bindStickyFilter(block, shell.filterBar);
+  block.append(
+    shell.filterBar,
+    shell.drawerBar,
+    shell.overlay,
+    shell.drawer,
+    shell.body,
+    shell.pagination,
+  );
+  bindStickyFilter(block, [shell.filterBar, shell.drawerBar]);
 
   try {
     const products = await loadProducts();
@@ -687,6 +910,8 @@ export default async function decorate(block) {
     shell.clear.addEventListener('click', () => {
       shell.useSelect.value = '';
       shell.sortSelect.value = '';
+      shell.drawerUseSelect.value = '';
+      shell.drawerSortSelect.value = '';
       state.ailment = '';
       state.sort = '';
       state.activeStock = '';
@@ -696,6 +921,7 @@ export default async function decorate(block) {
       render(state, shell, block);
     });
 
+    bindFilterDrawer(state, shell, () => render(state, shell, block));
     render(state, shell, block);
     updateCartBadge();
   } catch (error) {
