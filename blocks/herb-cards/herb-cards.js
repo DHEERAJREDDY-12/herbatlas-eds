@@ -1,5 +1,6 @@
 const DEFAULT_LIMIT = 4;
 const DATA_URL = '/data/herbs.json';
+const DEFAULT_ACCOUNT_LINK = '/account';
 
 function getCell(row, index) {
   return row?.children[index] || null;
@@ -35,13 +36,21 @@ function normalizeInlineHtml(html) {
 
 function readConfig(rows) {
   const config = {
+    accountLink: DEFAULT_ACCOUNT_LINK,
+    dataUrl: DATA_URL,
     eyebrow: '',
     title: '',
     ctaText: '',
     ctaLink: '',
+    emptyCtaText: 'Go to Personal Herb Profile',
+    emptyLabel: 'Personalized Suggestions',
+    emptyText: 'Save your wellness goals and preferences to view herb recommendations tailored to your needs.',
+    emptyTitle: 'Create your personal herb profile',
     mode: 'recent',
+    showEmpty: false,
     limit: DEFAULT_LIMIT,
     detailBase: '/herb-detail',
+    unavailableText: 'Recommended herbs are unavailable right now.',
   };
 
   rows.forEach((row) => {
@@ -72,6 +81,55 @@ function readConfig(rows) {
       return;
     }
 
+    if (key === 'data' || key === 'herbs-data') {
+      config.dataUrl = getHref(getCell(row, 1)) || config.dataUrl;
+      return;
+    }
+
+    if (key === 'account-link') {
+      config.accountLink = getHref(getCell(row, 1)) || config.accountLink;
+      return;
+    }
+
+    if (key === 'show-empty') {
+      config.showEmpty = ['yes', 'true', 'show', 'show empty', 'show-empty'].includes(
+        getText(getCell(row, 1)).toLowerCase(),
+      );
+      return;
+    }
+
+    if (key === 'logged-out-behavior') {
+      config.showEmpty = ['show empty', 'show-empty', 'showempty'].includes(
+        getText(getCell(row, 1)).toLowerCase(),
+      );
+      return;
+    }
+
+    if (key === 'empty-label') {
+      config.emptyLabel = getText(getCell(row, 1)) || config.emptyLabel;
+      return;
+    }
+
+    if (key === 'empty-title') {
+      config.emptyTitle = getText(getCell(row, 1)) || config.emptyTitle;
+      return;
+    }
+
+    if (key === 'empty-text') {
+      config.emptyText = getText(getCell(row, 1)) || config.emptyText;
+      return;
+    }
+
+    if (key === 'empty-cta-text') {
+      config.emptyCtaText = getText(getCell(row, 1)) || config.emptyCtaText;
+      return;
+    }
+
+    if (key === 'unavailable-text') {
+      config.unavailableText = getText(getCell(row, 1)) || config.unavailableText;
+      return;
+    }
+
     if (key === 'limit' || key === 'count') {
       const limit = parseInt(getText(getCell(row, 1)), 10);
       if (Number.isFinite(limit) && limit > 0) config.limit = limit;
@@ -86,10 +144,30 @@ function readConfig(rows) {
   return config;
 }
 
-async function loadHerbs() {
-  const response = await fetch(DATA_URL);
+function parseStorageJson(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function getUserEmail() {
+  return localStorage.getItem('userEmail') || '';
+}
+
+function getSavedProfile() {
+  const email = getUserEmail();
+  if (!email) return null;
+
+  const profiles = parseStorageJson('userProfiles', {});
+  return profiles[email] || null;
+}
+
+async function loadHerbs(dataUrl = DATA_URL) {
+  const response = await fetch(dataUrl);
   if (!response.ok) {
-    throw new Error(`Unable to load ${DATA_URL}`);
+    throw new Error(`Unable to load ${dataUrl}`);
   }
 
   const herbs = await response.json();
@@ -97,6 +175,7 @@ async function loadHerbs() {
 }
 
 function getSafetyLabel(safety) {
+  if (safety === 'restricted') return 'Restricted Use';
   return safety === 'safe' ? 'Generally Safe' : 'Use with Caution';
 }
 
@@ -152,13 +231,125 @@ function buildTag(text, className) {
   return tag;
 }
 
+function normalizedList(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function shouldAvoidHerb(herb, profile) {
+  if (profile.safety === 'safe' && herb.safety !== 'safe') return true;
+  if (Number(profile.age) > 0 && Number(profile.age) < 18 && herb.safety === 'restricted') return true;
+  if (profile.sex === 'male' && herb.name === 'Shatavari') return true;
+
+  const warningText = normalizedList(herb.warnings).join(' ').toLowerCase();
+  const drugText = normalizedList(herb.drug_interactions).join(' ').toLowerCase();
+
+  return normalizedList(profile.avoid).some((note) => {
+    const avoidNote = String(note).toLowerCase();
+    if (avoidNote === 'pregnant') return warningText.includes('pregnancy');
+    if (avoidNote === 'breastfeeding') return warningText.includes('breastfeeding');
+    return warningText.includes(avoidNote) || drugText.includes(avoidNote);
+  });
+}
+
+function scoreProfileHerbs(herbs, profile, limit) {
+  if (!profile || !normalizedList(profile.goals).length) return [];
+
+  return herbs
+    .filter((herb) => !shouldAvoidHerb(herb, profile))
+    .map((herb) => {
+      const goalScore = normalizedList(profile.goals).reduce((score, goal) => (
+        normalizedList(herb.ailments).includes(goal) ? score + 10 : score
+      ), 0);
+      const safetyScore = herb.safety === 'safe' ? 2 : 0;
+
+      return {
+        herb,
+        score: goalScore + safetyScore,
+      };
+    })
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((item) => item.herb);
+}
+
+function getRecommendationReason(herb, profile) {
+  const matchedGoals = normalizedList(profile?.goals)
+    .filter((goal) => normalizedList(herb.ailments).includes(goal));
+  const parts = [];
+
+  if (matchedGoals.length) {
+    parts.push(`Matched: ${matchedGoals.slice(0, 2).join(', ')}`);
+  }
+
+  if (herb.safety === 'safe') {
+    parts.push('Safety: generally safe');
+  }
+
+  return parts.join(' | ') || herb.best_for || '';
+}
+
 function selectHerbs(herbs, config) {
+  if (config.mode === 'recommended') {
+    return scoreProfileHerbs(herbs, getSavedProfile(), config.limit);
+  }
+
   if (config.mode === 'recent') {
     return herbs.slice(-config.limit);
   }
 
   // Future modes can branch here without changing the card rendering layer.
   return herbs.slice(-config.limit);
+}
+
+function buildRecommendedCard(herb, profile, index, detailBase) {
+  const card = document.createElement('a');
+  card.className = 'recommended-herbs-card';
+  card.href = getDetailHref(herb, detailBase);
+
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'recommended-herbs-image';
+
+  if (herb.image) {
+    const image = document.createElement('img');
+    image.src = herb.image;
+    image.alt = herb.name;
+    image.loading = 'lazy';
+    imageWrap.append(image);
+  }
+
+  const badge = document.createElement('span');
+  badge.className = 'recommended-herbs-badge';
+  badge.textContent = index === 0 ? 'Best match' : getSafetyLabel(herb.safety);
+  imageWrap.append(badge);
+
+  const body = document.createElement('div');
+  body.className = 'recommended-herbs-body';
+
+  const title = document.createElement('h3');
+  title.textContent = herb.name || '';
+  body.append(title);
+
+  const scientificName = document.createElement('p');
+  scientificName.className = 'recommended-herbs-sci';
+  scientificName.textContent = herb.scientific || herb.scientific_name || '';
+  body.append(scientificName);
+
+  const reason = document.createElement('p');
+  reason.textContent = getRecommendationReason(herb, profile);
+  body.append(reason);
+
+  const tags = document.createElement('div');
+  tags.className = 'recommended-herbs-tags';
+  [herb.region, getSafetyLabel(herb.safety)].filter(Boolean).forEach((tagText) => {
+    const tag = document.createElement('span');
+    tag.textContent = tagText;
+    tags.append(tag);
+  });
+  body.append(tags);
+
+  card.append(imageWrap, body);
+  return card;
 }
 
 function buildCard(herb, detailBase) {
@@ -214,36 +405,78 @@ function buildCard(herb, detailBase) {
 
 function buildGrid(herbs, config) {
   const grid = document.createElement('div');
-  grid.className = 'herb-cards-grid';
+  grid.className = config.mode === 'recommended' ? 'recommended-herbs-grid' : 'herb-cards-grid';
 
-  selectHerbs(herbs, config).forEach((herb) => {
-    grid.append(buildCard(herb, config.detailBase));
+  const profile = getSavedProfile();
+  selectHerbs(herbs, config).forEach((herb, index) => {
+    grid.append(
+      config.mode === 'recommended'
+        ? buildRecommendedCard(herb, profile, index, config.detailBase)
+        : buildCard(herb, config.detailBase),
+    );
   });
 
   return grid;
 }
 
-function renderError(block) {
+function buildEmptyState(config) {
+  const empty = document.createElement('div');
+  empty.className = 'recommended-herbs-empty';
+  empty.innerHTML = `
+    <p class="recommended-herbs-label">${config.emptyLabel}</p>
+    <h3>${config.emptyTitle}</h3>
+    <p>${config.emptyText}</p>
+    <a href="${config.accountLink}">${config.emptyCtaText}</a>
+  `;
+  return empty;
+}
+
+function hideBlock(block) {
+  const wrapper = block.closest('.herb-cards-wrapper');
+  if (wrapper) {
+    wrapper.hidden = true;
+    return;
+  }
+
+  block.hidden = true;
+}
+
+function renderError(block, config) {
   const error = document.createElement('p');
   error.className = 'herb-cards-error';
-  error.textContent = 'Herbs are unavailable right now.';
+  error.textContent = config.mode === 'recommended'
+    ? config.unavailableText
+    : 'Herbs are unavailable right now.';
   block.append(error);
 }
 
 export default async function decorate(block) {
   const config = readConfig([...block.children]);
   block.textContent = '';
+  if (config.mode === 'recommended') block.classList.add('recommended');
+
+  if (config.mode === 'recommended' && !getUserEmail()) {
+    hideBlock(block);
+    return;
+  }
 
   const header = buildHeader(config);
-  if (header) block.append(header);
 
   try {
-    const herbs = await loadHerbs();
-    block.append(buildGrid(herbs, config));
+    const herbs = await loadHerbs(config.dataUrl);
+    const grid = buildGrid(herbs, config);
+
+    if (config.mode === 'recommended' && !grid.children.length) {
+      block.append(buildEmptyState(config));
+      return;
+    }
+
+    if (header) block.append(header);
+    block.append(grid);
   } catch (error) {
     // Keep the page usable if the JSON request fails.
     // eslint-disable-next-line no-console
     console.warn(error);
-    renderError(block);
+    renderError(block, config);
   }
 }

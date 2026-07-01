@@ -87,21 +87,6 @@ Page: `/`
 | Pill | Hormonal | /ailments?ailment=Hormonal+Balance |
 ```
 
-### Recommended Herbs Header
-
-Current page: `/`
-
-Future plan: remove separate `section-header` and move into `herb-cards (recommended)`.
-
-```text
-| section-header |
-| Eyebrow | Based on Your Profile |
-| Title | Recommended <em>Herbs</em> |
-| CTA Text | Update profile |
-| CTA Link | /account |
-| Auth Required | yes |
-```
-
 ### Recommended Herbs
 
 Current page: `/`
@@ -109,17 +94,16 @@ Current page: `/`
 Future final block should be `herb-cards (recommended)`.
 
 ```text
-| recommended-herbs |
-| Herbs Data | /data/herbs.json |
+| herb-cards (recommended) |
+| Eyebrow | Based on Your Profile |
+| Title | Recommended Herbs |
+| CTA Text | Update profile |
+| CTA Link | /account |
+| Mode | recommended |
+| Data | /data/herbs.json |
 | Detail Base | /herb-detail |
-| Account Link | /account |
 | Limit | 4 |
-| Logged Out Behavior | hide |
-| Empty Label | Personalized Suggestions |
-| Empty Title | Create your personal herb profile |
-| Empty Text | Save your wellness goals and preferences to view herb recommendations tailored to your needs. |
-| Empty CTA Text | Go to Personal Herb Profile |
-| Unavailable Text | Recommended herbs are unavailable right now. |
+| Show Empty | yes |
 ```
 
 ### Recently Added Herbs
@@ -144,7 +128,7 @@ Current page: `/`
 Future final block should be `shop-results (featured)`.
 
 ```text
-| product-cards |
+| shop-results (featured) |
 | Eyebrow | Shop Now |
 | Title | Bestselling <em>Products</em> |
 | CTA Text | View all products |
@@ -279,15 +263,16 @@ Page: `/about`
 ```
 
 ```text
-| image-text |
+| hero (image-left) |
+| Image | images/ui/about-bg2.webp |
+| Image Alt | Premium HerbAtlas herb powders arranged on a wooden surface |
 | Eyebrow | Brand Story |
 | Title | How HerbAtlas Started |
 | Description | HerbAtlas began with a simple question - why are the most powerful medicinal herbs in the world so hard to find in their pure form? |
-| Description | We spent years researching ancient Ayurvedic texts, traditional Chinese medicine and herbal traditions from across the world. |
+| Description | We spent years researching ancient Ayurvedic texts, traditional Chinese medicine and herbal traditions from across the world. What we found was extraordinary - nature had already solved most of our modern health problems thousands of years ago. |
+| Description | Today HerbAtlas brings you 40+ of the world's most powerful medicinal herbs in pure powder form. No fillers. No additives. Just nature at its finest. |
 | CTA Text | Explore Our Herbs |
 | CTA Link | /browse |
-| Image | /images/about/about-story.webp |
-| Image Alt | HerbAtlas products and herbs |
 ```
 
 ```text
@@ -629,4 +614,3 @@ These are the future table names after reducing to 23 blocks.
 | Detail Base | /shop-detail |
 | Button Text | View Product |
 ```
-

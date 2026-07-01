@@ -1,5 +1,12 @@
 const DATA_URL = '/data/herbs.json';
 const DEFAULT_PAGE_SIZE = 8;
+const DEFAULT_FEATURED_IDS = [1, 2, 3, 7];
+const DEFAULT_FEATURED_BADGES = {
+  1: 'Bestseller',
+  2: 'Top Rated',
+  3: 'Most Popular',
+  7: 'Staff Pick',
+};
 const DEFAULT_USE_OPTIONS = [
   { label: 'All Uses', value: '' },
   { label: 'Stress', value: 'Stress & Anxiety' },
@@ -24,6 +31,10 @@ function getText(cell) {
   return cell?.textContent.trim() || '';
 }
 
+function getHtml(cell) {
+  return cell?.innerHTML.trim() || '';
+}
+
 function getHref(cell) {
   const link = cell?.querySelector('a[href]');
   return link?.getAttribute('href') || getText(cell);
@@ -33,11 +44,44 @@ function normalizeKey(cell) {
   return getText(cell).toLowerCase().replace(/\s+/g, '-');
 }
 
+function normalizeInlineHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+
+  if (tmp.children.length === 1 && tmp.firstElementChild.tagName === 'P') {
+    return tmp.firstElementChild.innerHTML.trim();
+  }
+
+  return html;
+}
+
+function parseList(value) {
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function parseIds(value) {
+  const ids = parseList(value)
+    .map((item) => parseInt(item, 10))
+    .filter((id) => Number.isFinite(id));
+  return ids.length ? ids : DEFAULT_FEATURED_IDS;
+}
+
 function readConfig(rows) {
   const config = {
+    badges: {},
+    buttonText: 'View Product',
+    ctaLink: '',
+    ctaText: '',
     label: 'Filter',
     detailBase: '/shop-detail',
+    eyebrow: '',
+    featuredIds: DEFAULT_FEATURED_IDS,
+    mode: 'listing',
     pageSize: DEFAULT_PAGE_SIZE,
+    title: '',
     allLabel: 'All',
     stockLabel: 'In Stock',
     safeLabel: 'Safe Only',
@@ -56,6 +100,49 @@ function readConfig(rows) {
   rows.forEach((row) => {
     const key = normalizeKey(getCell(row, 0));
     const value = getText(getCell(row, 1));
+
+    if (key === 'eyebrow') {
+      config.eyebrow = getHtml(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'title') {
+      config.title = getHtml(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'cta-text' || key === 'link-text') {
+      config.ctaText = value;
+      return;
+    }
+
+    if (key === 'cta-link' || key === 'link') {
+      config.ctaLink = getHref(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'mode') {
+      config.mode = value.toLowerCase() || config.mode;
+      return;
+    }
+
+    if (key === 'product-ids' || key === 'ids') {
+      config.featuredIds = parseIds(value);
+      return;
+    }
+
+    if (key === 'badges') {
+      const badges = parseList(value);
+      config.featuredIds.forEach((id, index) => {
+        if (badges[index]) config.badges[id] = badges[index];
+      });
+      return;
+    }
+
+    if (key === 'button-text') {
+      config.buttonText = value || config.buttonText;
+      return;
+    }
 
     if (key === 'label') {
       config.label = value || config.label;
@@ -206,6 +293,134 @@ function getProductImage(product) {
 function getProductHref(product, config, weight) {
   const separator = config.detailBase.includes('?') ? '&' : '?';
   return `${config.detailBase}${separator}id=${encodeURIComponent(product.id)}&weight=${encodeURIComponent(weight)}`;
+}
+
+function selectFeaturedProducts(products, config) {
+  return config.featuredIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter(Boolean);
+}
+
+function buildFeaturedHeader(config) {
+  if (!config.eyebrow && !config.title && !config.ctaText) return null;
+
+  const header = document.createElement('div');
+  header.className = 'shop-results-featured-header';
+
+  const textWrap = document.createElement('div');
+
+  if (config.eyebrow) {
+    const eyebrow = document.createElement('p');
+    eyebrow.className = 'shop-results-featured-label';
+    eyebrow.innerHTML = normalizeInlineHtml(config.eyebrow);
+    textWrap.append(eyebrow);
+  }
+
+  if (config.title) {
+    const title = document.createElement('h2');
+    title.className = 'shop-results-featured-title';
+    title.innerHTML = normalizeInlineHtml(config.title);
+    textWrap.append(title);
+  }
+
+  header.append(textWrap);
+
+  if (config.ctaText && config.ctaLink) {
+    const cta = document.createElement('a');
+    cta.className = 'shop-results-featured-view-all';
+    cta.href = config.ctaLink;
+    cta.textContent = config.ctaText;
+    header.append(cta);
+  }
+
+  return header;
+}
+
+function buildFeaturedCard(product, config) {
+  const weight = getCardWeight(product);
+  const price = getPriceForWeight(product, weight);
+  const href = getProductHref(product, config, weight);
+  const badgeText = config.badges[product.id] || DEFAULT_FEATURED_BADGES[product.id] || 'Organic';
+
+  const card = document.createElement('article');
+  card.className = 'product-card';
+
+  const imageLink = document.createElement('a');
+  imageLink.className = 'product-card-img';
+  imageLink.href = href;
+  imageLink.setAttribute('aria-label', `View ${product.name}`);
+
+  const image = document.createElement('img');
+  image.src = getProductImage(product);
+  image.alt = product.name;
+  image.loading = 'lazy';
+  image.addEventListener('error', () => {
+    image.src = product.image;
+  }, { once: true });
+  imageLink.append(image);
+
+  const badge = document.createElement('span');
+  badge.className = badgeText.toLowerCase() === 'bestseller'
+    ? 'product-card-badge bestseller'
+    : 'product-card-badge';
+  badge.textContent = badgeText;
+  imageLink.append(badge);
+
+  const body = document.createElement('div');
+  body.className = 'product-card-body';
+
+  const title = document.createElement('h3');
+  title.textContent = product.name;
+  body.append(title);
+
+  const scientificName = document.createElement('span');
+  scientificName.className = 'product-card-sci';
+  scientificName.textContent = product.scientific_name;
+  body.append(scientificName);
+
+  const use = document.createElement('p');
+  use.className = 'product-card-use';
+  use.textContent = product.best_for;
+  body.append(use);
+
+  const footer = document.createElement('div');
+  footer.className = 'product-card-footer';
+
+  const priceWrap = document.createElement('div');
+  priceWrap.className = 'product-card-price';
+
+  const amount = document.createElement('span');
+  amount.className = 'product-card-price-amount';
+  amount.innerHTML = `&#8377;${price}`;
+  priceWrap.append(amount);
+
+  const priceWeight = document.createElement('span');
+  priceWeight.className = 'product-card-price-weight';
+  priceWeight.textContent = weight;
+  priceWrap.append(priceWeight);
+
+  const button = document.createElement('a');
+  button.className = 'product-card-button';
+  button.href = href;
+  button.textContent = config.buttonText;
+  button.setAttribute('aria-label', `View ${product.name} product`);
+
+  footer.append(priceWrap, button);
+  card.append(imageLink, body, footer);
+  return card;
+}
+
+function renderFeatured(block, config, products) {
+  const header = buildFeaturedHeader(config);
+  const grid = document.createElement('div');
+  grid.className = 'product-cards-grid';
+
+  selectFeaturedProducts(products, config).forEach((product) => {
+    grid.append(buildFeaturedCard(product, config));
+  });
+
+  if (header) block.append(header);
+  block.append(grid);
 }
 
 function getCartItems() {
@@ -868,6 +1083,20 @@ function renderError(block) {
 export default async function decorate(block) {
   const config = readConfig([...block.children]);
   block.textContent = '';
+  if (config.mode === 'featured') block.classList.add('featured');
+
+  if (config.mode === 'featured') {
+    try {
+      const products = await loadProducts();
+      renderFeatured(block, config, products);
+    } catch (error) {
+      // Keep the page usable if the JSON request fails.
+      // eslint-disable-next-line no-console
+      console.warn(error);
+      renderError(block);
+    }
+    return;
+  }
 
   const shell = buildShell(config);
   block.append(

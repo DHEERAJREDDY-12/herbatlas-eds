@@ -58,7 +58,7 @@ function readConfig(rows) {
   const config = {
     eyebrow: '',
     title: '',
-    description: '',
+    descriptions: [],
     imageCell: null,
     imageAlt: '',
     ctaText: '',
@@ -80,7 +80,8 @@ function readConfig(rows) {
     }
 
     if (key === 'description' || key === 'subtitle') {
-      config.description = getHtml(getCell(row, 1));
+      const description = getHtml(getCell(row, 1));
+      if (description) config.descriptions.push(description);
       return;
     }
 
@@ -130,12 +131,12 @@ function buildContent(config) {
     content.append(title);
   }
 
-  if (config.description) {
+  config.descriptions.forEach((item) => {
     const description = document.createElement('p');
     description.className = 'hero-description';
-    description.innerHTML = normalizeInlineHtml(config.description);
+    description.innerHTML = normalizeInlineHtml(item);
     content.append(description);
-  }
+  });
 
   if (config.badges.length) {
     const badges = document.createElement('div');
@@ -180,7 +181,7 @@ export default function decorate(block) {
 
   const media = buildMedia(config);
   if (media) {
-    block.classList.add('image-right');
+    if (!block.classList.contains('image-left')) block.classList.add('image-right');
     inner.append(media);
   }
 
