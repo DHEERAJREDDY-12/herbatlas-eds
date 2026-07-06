@@ -68,7 +68,7 @@ header .nav-sections {
 header .nav-sections .default-content-wrapper > ul {
   align-items: center;
   display: flex;
-  gap: 36px;
+  gap: 25px;
   justify-content: center;
   list-style: none;
   margin: 0;
@@ -371,6 +371,26 @@ body.nav-open {
 }
 
 @media (width < 1280px) {
+  header nav {
+    gap: 0 16px;
+    padding: 0 32px;
+  }
+
+  header .nav-sections .default-content-wrapper > ul {
+    gap: 20px;
+  }
+
+  header .nav-search {
+    width: 150px;
+  }
+
+  header .nav-search:focus {
+    width: 180px;
+  }
+}
+
+/* stylelint-disable-next-line media-feature-range-notation -- fallback for browsers/tools without range media query support */
+@media (max-width: 1280px) {
   header nav {
     gap: 0 16px;
     padding: 0 32px;
