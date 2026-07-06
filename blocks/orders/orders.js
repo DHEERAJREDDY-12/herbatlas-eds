@@ -23,6 +23,27 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
+function normalizeInlineHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = (html || '')
+    .replace(/&lt;(\/?)(em|strong|br)&gt;/gi, '<$1$2>')
+    .replace(/&lt;br\s*\/&gt;/gi, '<br>');
+
+  tmp.querySelectorAll('*').forEach((el) => {
+    if (!['EM', 'STRONG', 'BR'].includes(el.tagName)) {
+      el.replaceWith(document.createTextNode(el.textContent));
+    }
+  });
+
+  return tmp.innerHTML;
+}
+
+function normalizeSuccessTitle(html) {
+  const normalized = normalizeInlineHtml(html);
+  if (/<em[\s>]/i.test(normalized)) return normalized;
+  return normalized.replace(/Successfully!/i, '<em>Successfully!</em>');
+}
+
 function readConfig(rows) {
   const config = {
     loginPath: '/login',
@@ -43,6 +64,23 @@ function readConfig(rows) {
     shippingLabel: 'Shipping',
     taxLabel: 'GST',
     totalLabel: 'Total',
+    successTitle: 'Order Placed <em>Successfully!</em>',
+    successSubtitle: "Thank you for your order. We'll start processing it right away.",
+    missingTitle: 'Order details could not be found.',
+    missingText: 'The order may have been removed or you may be signed in with a different account.',
+    orderIdLabel: 'Order ID',
+    orderDateLabel: 'Order Date',
+    paymentLabel: 'Payment',
+    deliveryLabel: 'Deliver To',
+    successTotalLabel: 'Total Paid',
+    itemsLabel: 'Ordered Items',
+    estimateTitle: 'Estimated Delivery',
+    estimateFallback: '3-5 Business Days',
+    estimateSuffix: '3-5 business days',
+    ordersText: 'View My Orders',
+    ordersLink: '/orders',
+    shopText: 'Continue Shopping',
+    shopLink: '/shop',
   };
 
   rows.forEach((row) => {
@@ -50,6 +88,17 @@ function readConfig(rows) {
     const value = getText(getCell(row, 1));
 
     ['login-path', 'orders-path', 'shop-path'].forEach((fieldKey) => {
+      if (key !== fieldKey) return;
+      const prop = fieldKey.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+      config[prop] = getHref(getCell(row, 1)) || config[prop];
+    });
+
+    if (key === 'title') {
+      config.successTitle = getCell(row, 1)?.innerHTML.trim() || config.successTitle;
+      return;
+    }
+
+    ['orders-link', 'shop-link'].forEach((fieldKey) => {
       if (key !== fieldKey) return;
       const prop = fieldKey.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
       config[prop] = getHref(getCell(row, 1)) || config[prop];
@@ -75,11 +124,30 @@ function readConfig(rows) {
       'shipping-label',
       'tax-label',
       'total-label',
+      'subtitle',
+      'missing-title',
+      'missing-text',
+      'order-id-label',
+      'order-date-label',
+      'payment-label',
+      'delivery-label',
+      'items-label',
+      'estimate-title',
+      'estimate-fallback',
+      'estimate-suffix',
+      'orders-text',
+      'shop-text',
     ].forEach((fieldKey) => {
       if (key !== fieldKey) return;
       const prop = fieldKey.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
-      config[prop] = value || config[prop];
+      if (fieldKey === 'subtitle') config.successSubtitle = value || config.successSubtitle;
+      else if (fieldKey === 'total-label') config.totalLabel = value || config.totalLabel;
+      else config[prop] = value || config[prop];
     });
+
+    if (key === 'total-label') {
+      config.successTotalLabel = value || config.successTotalLabel;
+    }
   });
 
   return config;
@@ -101,6 +169,15 @@ function getOrders() {
   return Array.isArray(orders) ? orders : [];
 }
 
+function getOrderId() {
+  return new URLSearchParams(window.location.search).get('orderId') || '';
+}
+
+function getOrderById(orderId) {
+  if (!orderId) return null;
+  return getOrders().find((order) => order.orderId === orderId) || null;
+}
+
 function formatDate(iso) {
   if (!iso) return '';
 
@@ -115,6 +192,36 @@ function formatDate(iso) {
   }
 }
 
+function formatSuccessDate(iso) {
+  if (!iso) return '';
+
+  try {
+    return new Date(iso).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+  } catch {
+    return '';
+  }
+}
+
+function estimatedDelivery(iso, fallback) {
+  if (!iso) return fallback;
+
+  try {
+    const base = new Date(iso);
+    base.setDate(base.getDate() + 5);
+    return base.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+  } catch {
+    return fallback;
+  }
+}
+
 function statusClass(status) {
   const map = {
     Pending: 'pending',
@@ -125,6 +232,17 @@ function statusClass(status) {
   return map[status] || 'pending';
 }
 
+function getFullAddressText(address = {}) {
+  return [
+    address.addressLine1,
+    address.addressLine2,
+    address.area,
+    address.city,
+    address.state,
+    address.pincode,
+  ].filter(Boolean).join(', ');
+}
+
 function getAddressText(address = {}) {
   return [
     address.addressLine1,
@@ -132,6 +250,22 @@ function getAddressText(address = {}) {
     address.state,
     address.pincode,
   ].filter(Boolean).join(', ');
+}
+
+function buildSuccessDetailRow(label, value, isStrong = false) {
+  const row = document.createElement('div');
+  row.className = 'osd-row';
+
+  const labelEl = document.createElement('span');
+  labelEl.className = 'osd-label';
+  labelEl.textContent = label;
+
+  const valueEl = document.createElement('div');
+  valueEl.className = 'osd-value';
+  valueEl.innerHTML = isStrong ? `<strong>${value}</strong>` : value;
+
+  row.append(labelEl, valueEl);
+  return row;
 }
 
 function buildEmpty(config) {
@@ -151,6 +285,147 @@ function buildEmpty(config) {
 
   empty.append(title, text, link);
   return empty;
+}
+
+function updateOrdersHero(orders, config) {
+  const heroDescription = document.querySelector('.hero .hero-description');
+  if (!heroDescription) return;
+
+  heroDescription.textContent = orders.length
+    ? `${orders.length} order${orders.length !== 1 ? 's' : ''} placed`
+    : config.emptyTitle;
+}
+
+function buildSuccessItems(order, config) {
+  const section = document.createElement('div');
+  section.className = 'order-success-items';
+
+  const title = document.createElement('h2');
+  title.textContent = config.itemsLabel;
+
+  const list = document.createElement('div');
+  list.className = 'order-success-items-list';
+
+  (order.items || []).forEach((item) => {
+    const row = document.createElement('div');
+    row.className = 'order-success-item';
+    row.innerHTML = `
+      <span class="order-success-item-copy">
+        <strong>${escapeHtml(item.name)}</strong>
+        <span>${escapeHtml(item.weight)} x ${escapeHtml(item.qty)}</span>
+      </span>
+      <span class="order-success-item-price">Rs.${(item.price || 0) * (item.qty || 0)}</span>
+    `;
+    list.append(row);
+  });
+
+  section.append(title, list);
+  return section;
+}
+
+function buildSuccessActions(config) {
+  const actions = document.createElement('div');
+  actions.className = 'order-success-actions';
+
+  const orders = document.createElement('a');
+  orders.className = 'btn-success-primary';
+  orders.href = config.ordersLink;
+  orders.textContent = config.ordersText;
+
+  const shop = document.createElement('a');
+  shop.className = 'btn-success-outline';
+  shop.href = config.shopLink;
+  shop.textContent = config.shopText;
+
+  actions.append(orders, shop);
+  return actions;
+}
+
+function buildSuccessMissing(config) {
+  const page = document.createElement('main');
+  page.className = 'order-success-page';
+
+  const card = document.createElement('div');
+  card.className = 'order-success-card';
+
+  const icon = document.createElement('div');
+  icon.className = 'order-success-icon missing';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = '!';
+
+  const title = document.createElement('h1');
+  title.textContent = config.missingTitle;
+
+  const text = document.createElement('p');
+  text.className = 'order-success-subtitle';
+  text.textContent = config.missingText;
+
+  card.append(icon, title, text, buildSuccessActions(config));
+  page.append(card);
+  return page;
+}
+
+function buildSuccess(order, config) {
+  const page = document.createElement('main');
+  page.className = 'order-success-page';
+
+  const card = document.createElement('div');
+  card.className = 'order-success-card';
+
+  const icon = document.createElement('div');
+  icon.className = 'order-success-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.innerHTML = '&#10003;';
+
+  const title = document.createElement('h1');
+  title.innerHTML = normalizeSuccessTitle(config.successTitle);
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'order-success-subtitle';
+  subtitle.textContent = config.successSubtitle;
+
+  const details = document.createElement('div');
+  details.className = 'order-success-details';
+  details.setAttribute('role', 'region');
+  details.setAttribute('aria-label', 'Order details');
+
+  const address = order.address || {};
+  details.append(
+    buildSuccessDetailRow(config.orderIdLabel, escapeHtml(order.orderId), true),
+    buildSuccessDetailRow(config.orderDateLabel, escapeHtml(formatSuccessDate(order.createdAt))),
+    buildSuccessDetailRow(config.paymentLabel, escapeHtml(order.paymentMethod)),
+    buildSuccessDetailRow(
+      config.deliveryLabel,
+      `<strong>${escapeHtml(address.fullName)}</strong>${escapeHtml(address.phone)}<br>${escapeHtml(getFullAddressText(address))}`,
+    ),
+    buildSuccessDetailRow(config.successTotalLabel, `Rs.${escapeHtml(order.total)}`, true),
+  );
+
+  const estimateDate = estimatedDelivery(order.createdAt, config.estimateFallback);
+  const estimate = document.createElement('div');
+  estimate.className = 'order-delivery-estimate';
+  estimate.setAttribute('role', 'note');
+  estimate.setAttribute('aria-label', 'Delivery estimate');
+  estimate.innerHTML = `
+    <span class="delivery-icon" aria-hidden="true"></span>
+    <span class="delivery-text">
+      <strong>${escapeHtml(config.estimateTitle)}</strong>
+      <span>By ${escapeHtml(estimateDate)} (${escapeHtml(config.estimateSuffix)})</span>
+    </span>
+  `;
+
+  card.append(
+    icon,
+    title,
+    subtitle,
+    details,
+    buildSuccessItems(order, config),
+    estimate,
+    buildSuccessActions(config),
+  );
+  page.append(card);
+  document.title = `Order ${order.orderId} Confirmed - HerbAtlas`;
+  return page;
 }
 
 function buildOrderHead(order) {
@@ -300,6 +575,8 @@ function buildOrderCard(order, index, config) {
 
 function renderOrders(block, config) {
   const orders = getOrders();
+  updateOrdersHero(orders, config);
+
   const body = document.createElement('main');
   body.className = 'orders-page';
 
@@ -318,9 +595,28 @@ function renderOrders(block, config) {
   block.append(body);
 }
 
+function renderSuccess(block, config) {
+  const orderId = getOrderId();
+  if (!orderId) {
+    window.setTimeout(() => {
+      window.location.href = config.ordersLink;
+    }, 0);
+    block.append(buildSuccessMissing(config));
+    return;
+  }
+
+  const order = getOrderById(orderId);
+  block.append(order ? buildSuccess(order, config) : buildSuccessMissing(config));
+}
+
 export default function decorate(block) {
   const config = readConfig([...block.children]);
   block.textContent = '';
+
+  if (block.classList.contains('success')) {
+    renderSuccess(block, config);
+    return;
+  }
 
   if (config.requireLogin && localStorage.getItem('loggedIn') !== 'true') {
     window.location.href = `${config.loginPath}?return=${encodeURIComponent(config.ordersPath)}`;

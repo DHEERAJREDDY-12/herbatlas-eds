@@ -439,6 +439,12 @@ function updateCartBadge() {
   badge.textContent = total;
 }
 
+function showToast(message, type = 'info') {
+  if (typeof window.showToast === 'function') {
+    window.showToast(message, type);
+  }
+}
+
 function addToCart(product, weight) {
   const cart = getCartItems();
   const price = getPriceForWeight(product, weight);
@@ -460,6 +466,7 @@ function addToCart(product, weight) {
 
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartBadge();
+  showToast(`${product.name} ${weight} added to your cart.`, 'success');
 }
 
 function buildOption(option) {

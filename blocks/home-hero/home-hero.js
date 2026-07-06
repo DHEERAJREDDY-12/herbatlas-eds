@@ -1,6 +1,16 @@
 const INTERVAL_MS = 4000;
 const TRANSITION_MS = 500;
 const HERB_COUNT_FALLBACK = 40;
+const DEFAULT_AILMENT_MAP = {
+  Stress: 'Stress & Anxiety',
+  Sleep: 'Sleep Issues',
+  Immunity: 'Low Immunity',
+  Digestion: 'Digestion',
+  Skin: 'Skin Problems',
+  Energy: 'Low Energy',
+  'Joint Pain': 'Joint Pain',
+  Hormonal: 'Hormonal Balance',
+};
 
 function getCell(row, index) {
   return row?.children[index] || null;
@@ -49,6 +59,15 @@ function normalizeKey(cell) {
 function getHref(cell) {
   const link = cell?.querySelector('a[href]');
   return link?.getAttribute('href') || getText(cell);
+}
+
+function getPillTarget(label, value) {
+  if (value && value.includes('?')) return value;
+
+  const ailment = value || DEFAULT_AILMENT_MAP[label];
+  if (!ailment) return '';
+
+  return `/ailments?ailment=${encodeURIComponent(ailment)}`;
 }
 
 function replaceHerbCountPlaceholder(html) {
@@ -116,6 +135,8 @@ function readConfig(rows) {
     description: '',
     stats: [],
     slides: [],
+    pillLabel: 'Browse by',
+    pills: [],
   };
 
   rows.forEach((row) => {
@@ -156,6 +177,23 @@ function readConfig(rows) {
         ctaHref: getHref(getCell(row, 8)),
         offerCode: getText(getCell(row, 9)),
       });
+      return;
+    }
+
+    if (key === 'pill-label' || key === 'pills-label') {
+      config.pillLabel = getText(getCell(row, 1)) || config.pillLabel;
+      return;
+    }
+
+    if (key === 'pill') {
+      const label = getText(getCell(row, 1));
+      const value = getHref(getCell(row, 2));
+      if (label) {
+        config.pills.push({
+          label,
+          target: getPillTarget(label, value),
+        });
+      }
     }
   });
 
@@ -342,6 +380,36 @@ function buildCarousel(config) {
   return carousel;
 }
 
+function buildPillStrip(config) {
+  if (!config.pills.length) return null;
+
+  const strip = document.createElement('div');
+  strip.className = 'hh-category-strip';
+
+  const label = document.createElement('span');
+  label.className = 'hh-category-label';
+  label.textContent = config.pillLabel;
+  strip.append(label);
+
+  config.pills.forEach((item) => {
+    const pill = document.createElement('button');
+    pill.className = 'hh-category-pill';
+    pill.type = 'button';
+    pill.textContent = item.label;
+    pill.setAttribute('aria-label', `Browse by ${item.label}`);
+
+    if (item.target) {
+      pill.addEventListener('click', () => {
+        window.location.href = item.target;
+      });
+    }
+
+    strip.append(pill);
+  });
+
+  return strip;
+}
+
 function initCarousel(carousel) {
   const slides = [...carousel.querySelectorAll('.hh-slide')];
   const dots = [...carousel.querySelectorAll('.hh-dot')];
@@ -466,9 +534,13 @@ export default function decorate(block) {
 
   const intro = buildIntro(config);
   const carousel = buildCarousel(config);
+  const pillStrip = buildPillStrip(config);
+
+  if (pillStrip) block.classList.add('has-category-strip');
 
   block.append(intro);
   if (config.slides.length) block.append(carousel);
+  if (pillStrip) block.append(pillStrip);
 
   updateHerbCount(block);
   initCarousel(carousel);

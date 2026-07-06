@@ -719,6 +719,7 @@ function buildHero(product, state, config, reviews) {
   addButton.addEventListener('click', () => {
     addToCart(product, state.selectedWeight, state.quantity);
     success.classList.add('visible');
+    showToast(`${product.name} ${state.selectedWeight} added to your cart.`, 'success');
     setTimeout(() => success.classList.remove('visible'), 2200);
   });
   buttonRow.append(addButton);

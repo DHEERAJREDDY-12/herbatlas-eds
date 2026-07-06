@@ -68,6 +68,15 @@ function isProcessHeaderRow(row) {
   return labels.includes('step') && labels.includes('title') && labels.includes('description');
 }
 
+function isFaqHeaderRow(row) {
+  const labels = [...row.children].map((cell) => getText(cell).toLowerCase());
+  return labels.includes('question') && labels.includes('answer');
+}
+
+function isOpenValue(value) {
+  return ['open', 'true', 'yes', '1'].includes(value.trim().toLowerCase());
+}
+
 function buildStat(stat) {
   const item = document.createElement('div');
   item.className = 'feature-cards-stat';
@@ -355,6 +364,401 @@ function readCalloutConfig(rows) {
   });
 
   return config;
+}
+
+function getBoolean(value) {
+  return ['true', 'yes', 'verified', '1'].includes(value.toLowerCase());
+}
+
+function getInitial(name) {
+  return (name || '?').trim().charAt(0).toUpperCase();
+}
+
+function clampRating(value) {
+  const rating = parseInt(value, 10);
+  if (!Number.isFinite(rating)) return 5;
+  return Math.min(5, Math.max(0, rating));
+}
+
+function parseBadges(value) {
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function readReviewsConfig(rows) {
+  const config = {
+    eyebrow: '',
+    title: '',
+    ctaText: '',
+    ctaLink: '',
+    reviews: [],
+    aggregate: null,
+  };
+
+  rows.forEach((row) => {
+    const key = normalizeKey(getCell(row, 0));
+
+    if (key === 'eyebrow' || key === 'label') {
+      config.eyebrow = getHtml(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'title') {
+      config.title = getHtml(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'cta-text' || key === 'link-text') {
+      config.ctaText = getText(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'cta-link' || key === 'link') {
+      config.ctaLink = getHref(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'review') {
+      const name = getText(getCell(row, 1));
+      const rating = clampRating(getText(getCell(row, 2)));
+      const text = getHtml(getCell(row, 3));
+      const product = getText(getCell(row, 4));
+      const verified = getBoolean(getText(getCell(row, 5)));
+      const avatar = getText(getCell(row, 6));
+      const location = getText(getCell(row, 7));
+
+      if (name && text) {
+        config.reviews.push({
+          name,
+          rating,
+          text,
+          product,
+          verified,
+          avatar,
+          location,
+        });
+      }
+      return;
+    }
+
+    if (key === 'aggregate') {
+      config.aggregate = {
+        score: getText(getCell(row, 1)),
+        label: getText(getCell(row, 2)) || 'out of 5',
+        count: getText(getCell(row, 3)),
+        badges: parseBadges(getText(getCell(row, 4))),
+      };
+    }
+  });
+
+  return config;
+}
+
+function readFaqConfig(rows) {
+  const config = {
+    title: '',
+    description: '',
+    items: [],
+  };
+
+  rows.forEach((row, index) => {
+    if (isFaqHeaderRow(row)) return;
+
+    const key = normalizeKey(getCell(row, 0));
+
+    if (key === 'title') {
+      config.title = getHtml(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'description' || key === 'subtitle') {
+      config.description = getHtml(getCell(row, 1));
+      return;
+    }
+
+    if (key === 'answer') return;
+
+    if (key === 'question' || key === 'item') {
+      const nextRow = rows[index + 1];
+      const nextKey = normalizeKey(getCell(nextRow, 0));
+      const question = getHtml(getCell(row, 1));
+      const answer = getHtml(getCell(row, 2))
+        || (nextKey === 'answer' ? getHtml(getCell(nextRow, 1)) : '');
+      const open = isOpenValue(getText(getCell(row, 3)));
+
+      if (question || answer) {
+        config.items.push({ question, answer, open });
+      }
+      return;
+    }
+
+    const question = getHtml(getCell(row, 0));
+    const answer = getHtml(getCell(row, 1));
+    const open = isOpenValue(getText(getCell(row, 2)));
+
+    if (question || answer) {
+      config.items.push({ question, answer, open });
+    }
+  });
+
+  return config;
+}
+
+function buildFaqIntro(config) {
+  const intro = document.createElement('div');
+  intro.className = 'feature-cards-faq-intro';
+
+  if (config.title) {
+    const title = document.createElement('h2');
+    title.innerHTML = normalizeInlineHtml(config.title);
+    intro.append(title);
+  }
+
+  if (config.description) {
+    const description = document.createElement('p');
+    description.innerHTML = normalizeInlineHtml(config.description);
+    intro.append(description);
+  }
+
+  return intro;
+}
+
+function buildFaqItem(item) {
+  const details = document.createElement('details');
+  details.className = 'feature-cards-faq-item';
+  if (item.open) details.open = true;
+
+  const summary = document.createElement('summary');
+  summary.innerHTML = normalizeInlineHtml(item.question);
+  details.append(summary);
+
+  if (item.answer) {
+    const answer = document.createElement('div');
+    answer.className = 'feature-cards-faq-answer';
+    answer.innerHTML = normalizeInlineHtml(item.answer);
+    details.append(answer);
+  }
+
+  return details;
+}
+
+function enableSingleOpen(list) {
+  list.addEventListener('toggle', (event) => {
+    const openedItem = event.target;
+    if (!(openedItem instanceof HTMLDetailsElement) || !openedItem.open) return;
+
+    list.querySelectorAll('.feature-cards-faq-item[open]').forEach((item) => {
+      if (item !== openedItem) item.open = false;
+    });
+  }, true);
+}
+
+function buildFaq(config) {
+  const fragment = document.createDocumentFragment();
+  const intro = buildFaqIntro(config);
+  if (intro.children.length) fragment.append(intro);
+
+  const list = document.createElement('div');
+  list.className = 'feature-cards-faq-list';
+
+  config.items.forEach((item) => {
+    list.append(buildFaqItem(item));
+  });
+
+  if (list.children.length) {
+    enableSingleOpen(list);
+    fragment.append(list);
+  }
+
+  return fragment;
+}
+
+function buildReviewStars(rating) {
+  const container = document.createElement('div');
+
+  const stars = document.createElement('div');
+  stars.className = 'feature-cards-reviews-stars';
+  stars.setAttribute('aria-hidden', 'true');
+
+  for (let i = 1; i <= 5; i += 1) {
+    const star = document.createElement('span');
+    star.className = i > rating
+      ? 'feature-cards-reviews-star empty'
+      : 'feature-cards-reviews-star';
+    star.innerHTML = '&#9733;';
+    stars.append(star);
+  }
+
+  container.append(stars);
+
+  const srText = document.createElement('span');
+  srText.className = 'sr-only';
+  srText.textContent = `${rating} out of 5 stars`;
+  container.append(srText);
+
+  return container;
+}
+
+function buildReviewHeader(config) {
+  if (!config.eyebrow && !config.title && !config.ctaText) return null;
+
+  const header = document.createElement('div');
+  header.className = 'feature-cards-reviews-header';
+
+  const textWrap = document.createElement('div');
+
+  if (config.eyebrow) {
+    const eyebrow = document.createElement('p');
+    eyebrow.className = 'feature-cards-reviews-label';
+    eyebrow.innerHTML = normalizeInlineHtml(config.eyebrow);
+    textWrap.append(eyebrow);
+  }
+
+  if (config.title) {
+    const title = document.createElement('h2');
+    title.className = 'feature-cards-reviews-title';
+    title.innerHTML = normalizeInlineHtml(config.title);
+    textWrap.append(title);
+  }
+
+  header.append(textWrap);
+
+  if (config.ctaText && config.ctaLink) {
+    const cta = document.createElement('a');
+    cta.className = 'feature-cards-reviews-cta';
+    cta.href = config.ctaLink;
+    cta.textContent = config.ctaText;
+    header.append(cta);
+  }
+
+  return header;
+}
+
+function buildReviewAvatar(review) {
+  const avatar = document.createElement('div');
+  avatar.className = 'feature-cards-reviews-avatar';
+  avatar.setAttribute('aria-hidden', 'true');
+  avatar.textContent = review.avatar || getInitial(review.name);
+  return avatar;
+}
+
+function buildReviewCard(review) {
+  const card = document.createElement('article');
+  card.className = 'feature-cards-reviews-card';
+
+  card.append(buildReviewStars(review.rating));
+
+  const text = document.createElement('p');
+  text.className = 'feature-cards-reviews-text';
+  text.innerHTML = normalizeInlineHtml(review.text);
+  card.append(text);
+
+  const meta = document.createElement('div');
+  meta.className = 'feature-cards-reviews-meta';
+  meta.append(buildReviewAvatar(review));
+
+  const details = document.createElement('div');
+  details.className = 'feature-cards-reviews-details';
+
+  const name = document.createElement('span');
+  name.className = 'feature-cards-reviews-name';
+  name.textContent = review.name;
+  details.append(name);
+
+  if (review.product || review.location) {
+    const product = document.createElement('span');
+    product.className = 'feature-cards-reviews-product';
+    product.textContent = review.product || review.location;
+    details.append(product);
+  }
+
+  meta.append(details);
+
+  if (review.verified) {
+    const verified = document.createElement('span');
+    verified.className = 'feature-cards-reviews-verified';
+    verified.textContent = 'Verified';
+    meta.append(verified);
+  }
+
+  card.append(meta);
+  return card;
+}
+
+function buildReviewAggregate(aggregate) {
+  if (!aggregate) return null;
+
+  const rating = clampRating(aggregate.score);
+  const strip = document.createElement('div');
+  strip.className = 'feature-cards-reviews-aggregate';
+
+  const score = document.createElement('div');
+  score.className = 'feature-cards-reviews-agg-score';
+
+  const number = document.createElement('span');
+  number.className = 'feature-cards-reviews-agg-num';
+  number.textContent = aggregate.score;
+  score.append(number);
+
+  const label = document.createElement('span');
+  label.className = 'feature-cards-reviews-agg-label';
+  label.textContent = aggregate.label;
+  score.append(label);
+  strip.append(score);
+
+  const stars = document.createElement('div');
+  stars.className = 'feature-cards-reviews-agg-stars';
+  stars.append(buildReviewStars(rating));
+
+  if (aggregate.count) {
+    const count = document.createElement('span');
+    count.className = 'feature-cards-reviews-agg-count';
+    count.textContent = aggregate.count;
+    stars.append(count);
+  }
+  strip.append(stars);
+
+  if (aggregate.badges.length) {
+    const divider = document.createElement('div');
+    divider.className = 'feature-cards-reviews-agg-divider';
+    divider.setAttribute('aria-hidden', 'true');
+    strip.append(divider);
+
+    const badges = document.createElement('div');
+    badges.className = 'feature-cards-reviews-agg-badges';
+    aggregate.badges.forEach((item) => {
+      const badge = document.createElement('span');
+      badge.className = 'feature-cards-reviews-agg-badge';
+      badge.textContent = item;
+      badges.append(badge);
+    });
+    strip.append(badges);
+  }
+
+  return strip;
+}
+
+function buildReviews(config) {
+  const fragment = document.createDocumentFragment();
+  const header = buildReviewHeader(config);
+  if (header) fragment.append(header);
+
+  if (config.reviews.length) {
+    const grid = document.createElement('div');
+    grid.className = 'feature-cards-reviews-list';
+
+    config.reviews.forEach((review) => {
+      grid.append(buildReviewCard(review));
+    });
+
+    fragment.append(grid);
+  }
+
+  const aggregate = buildReviewAggregate(config.aggregate);
+  if (aggregate) fragment.append(aggregate);
+  return fragment;
 }
 
 function addVariantClasses(block, variant) {
@@ -689,6 +1093,20 @@ export default function decorate(block) {
     block.textContent = '';
     if (config.variant) addVariantClasses(block, config.variant);
     block.append(buildCallout(config));
+    return;
+  }
+
+  if (block.classList.contains('reviews')) {
+    const config = readReviewsConfig(rows);
+    block.textContent = '';
+    block.append(buildReviews(config));
+    return;
+  }
+
+  if (block.classList.contains('faq')) {
+    const config = readFaqConfig(rows);
+    block.textContent = '';
+    block.append(buildFaq(config));
     return;
   }
 

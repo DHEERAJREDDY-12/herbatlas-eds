@@ -84,8 +84,13 @@
 }
 
 .hero.simple .hero-inner {
-  padding-bottom: 56px;
-  padding-top: 60px;
+  padding-bottom: 70px;
+  padding-top: 72px;
+}
+
+.hero.collection-hero .hero-inner {
+  padding-bottom: 88px;
+  padding-top: 90px;
 }
 
 .hero.centered {
@@ -198,6 +203,42 @@
 
 .hero.dark .hero-description {
   color: rgb(248 244 236 / 60%);
+}
+
+.hero-account-address {
+  align-items: center;
+  background: rgb(255 255 255 / 7%);
+  border: 1px solid rgb(184 212 160 / 18%);
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 480px;
+  padding: 14px 18px;
+}
+
+.hero-account-address-icon {
+  flex: 0 0 auto;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.hero-account-address-text {
+  color: rgb(248 244 236 / 75%);
+  font-family: var(--hero-font-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hero-account-address-text strong {
+  color: var(--hero-cream);
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hero-account-address-text span {
+  display: block;
 }
 
 .hero.image-right.dark .hero-description {
@@ -405,7 +446,13 @@
   }
 
   .hero.simple .hero-inner {
-    padding-bottom: 32px;
+    padding-bottom: 44px;
+    padding-top: 44px;
+  }
+
+  .hero.collection-hero .hero-inner {
+    padding-bottom: 56px;
+    padding-top: 56px;
   }
 
   .hero h1,
@@ -425,6 +472,12 @@
 
   .hero .hero-badge {
     padding: 8px 12px;
+  }
+
+  .hero-account-address {
+    align-items: flex-start;
+    max-width: none;
+    padding: 14px 16px;
   }
 }
 

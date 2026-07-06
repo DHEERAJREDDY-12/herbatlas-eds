@@ -28,6 +28,54 @@ function normalizeInlineHtml(html) {
   return html;
 }
 
+function readJsonStorage(storage, key, fallback) {
+  try {
+    return JSON.parse(storage.getItem(key) || JSON.stringify(fallback));
+  } catch {
+    return fallback;
+  }
+}
+
+function getAccountAddress(userEmail) {
+  const store = readJsonStorage(localStorage, 'addresses', {});
+  const addresses = Array.isArray(store[userEmail]) ? store[userEmail] : [];
+  return addresses.find((address) => address.isDefault) || addresses[0] || null;
+}
+
+function getAddressLine(address) {
+  if (!address) return '';
+  return [
+    address.city,
+    address.state,
+    address.pincode,
+  ].filter(Boolean).join(', ');
+}
+
+function getPagePath() {
+  return window.location.pathname.replace(/\/$/, '').replace(/\.html$/, '');
+}
+
+function isProfileHero(config) {
+  const path = getPagePath();
+  const titleText = normalizeInlineHtml(config.title).replace(/<[^>]+>/g, '').trim().toLowerCase();
+  return path === '/profile' || titleText.startsWith('hello,');
+}
+
+function applyAccountSummary(config) {
+  if (!isProfileHero(config) || localStorage.getItem('loggedIn') !== 'true') return config;
+
+  const userName = localStorage.getItem('userName') || 'there';
+  const userEmail = localStorage.getItem('userEmail') || '';
+  const address = getAccountAddress(userEmail);
+
+  return {
+    ...config,
+    title: `Hello, <em>${userName}</em>`,
+    descriptions: userEmail ? [userEmail] : config.descriptions,
+    accountAddress: address,
+  };
+}
+
 function createImage(cell, alt) {
   const picture = cell?.querySelector('picture');
   if (picture) {
@@ -64,6 +112,7 @@ function readConfig(rows) {
     ctaText: '',
     ctaLink: '',
     badges: [],
+    accountAddress: null,
   };
 
   rows.forEach((row) => {
@@ -158,6 +207,31 @@ function buildContent(config) {
     content.append(cta);
   }
 
+  if (config.accountAddress) {
+    const address = document.createElement('div');
+    address.className = 'hero-account-address';
+
+    const icon = document.createElement('span');
+    icon.className = 'hero-account-address-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '\uD83D\uDCCD';
+
+    const text = document.createElement('div');
+    text.className = 'hero-account-address-text';
+
+    const name = document.createElement('strong');
+    name.textContent = [config.accountAddress.fullName, config.accountAddress.phone]
+      .filter(Boolean)
+      .join(' \u00B7 ');
+
+    const detail = document.createElement('span');
+    detail.textContent = getAddressLine(config.accountAddress);
+
+    text.append(name, detail);
+    address.append(icon, text);
+    content.append(address);
+  }
+
   return content;
 }
 
@@ -172,8 +246,12 @@ function buildMedia(config) {
 }
 
 export default function decorate(block) {
-  const config = readConfig([...block.children]);
+  const config = applyAccountSummary(readConfig([...block.children]));
   block.textContent = '';
+
+  if (['/browse', '/ailments'].includes(getPagePath())) {
+    block.classList.add('collection-hero');
+  }
 
   const inner = document.createElement('div');
   inner.className = 'hero-inner';

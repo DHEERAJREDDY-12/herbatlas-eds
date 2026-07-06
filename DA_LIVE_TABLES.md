@@ -68,23 +68,15 @@ Page: `/`
 | Slide | BESTSELLER | /images/ui/hero-slide-4.webp | Ashwagandha powder pack | Ashwagandha Powder | Starting at &#8377;399 | Trusted for 3000+ years | Buy Now | /shop-detail?id=1 |
 | Slide | FREE DELIVERY | /images/ui/hero-slide-5.webp | Herbs ready to ship | Order above &#8377;999 | Pan India delivery | Shipped in 2 to 3 business days | Browse Shop | /shop |
 | Slide | SPECIAL OFFER | /images/shop/turmeric-product.webp | Special offer on herb products | Use code HERB10 | Get 10% off your order | On all herb powder products | Claim Offer | /shop | HERB10 |
-```
-
-### Category Strip
-
-Page: `/`
-
-```text
-| category-strip | |
-| Label | Browse by |
-| Pill | Stress | /ailments?ailment=Stress+%26+Anxiety |
-| Pill | Sleep | /ailments?ailment=Sleep+Issues |
-| Pill | Immunity | /ailments?ailment=Low+Immunity |
+| Pill Label | Browse by |
+| Pill | Stress | /ailments?ailment=Stress%20%26%20Anxiety |
+| Pill | Sleep | /ailments?ailment=Sleep%20Issues |
+| Pill | Immunity | /ailments?ailment=Low%20Immunity |
 | Pill | Digestion | /ailments?ailment=Digestion |
-| Pill | Skin | /ailments?ailment=Skin+Problems |
-| Pill | Energy | /ailments?ailment=Low+Energy |
-| Pill | Joint Pain | /ailments?ailment=Joint+Pain |
-| Pill | Hormonal | /ailments?ailment=Hormonal+Balance |
+| Pill | Skin | /ailments?ailment=Skin%20Problems |
+| Pill | Energy | /ailments?ailment=Low%20Energy |
+| Pill | Joint Pain | /ailments?ailment=Joint%20Pain |
+| Pill | Hormonal | /ailments?ailment=Hormonal%20Balance |
 ```
 
 ### Recommended Herbs
@@ -145,20 +137,16 @@ Future final block should be `shop-results (featured)`.
 Page: `/`
 
 ```text
-| reviews-grid |
+| feature-cards (reviews) |
 | Eyebrow | What Customers Say |
 | Title | User <em>Reviews</em> |
 | CTA Text | Browse shop |
 | CTA Link | /shop |
-| Name | Ananya R. |
-| Rating | 5 |
-| Review | Excellent quality herbs and quick delivery. |
-| Name | Rohit M. |
-| Rating | 5 |
-| Review | The Tulsi powder feels fresh and pure. |
-| Name | Priya S. |
-| Rating | 4 |
-| Review | Helpful herb details and nice product packaging. |
+| Review | Rahul M. | 5 | Absolutely life changing. My stress levels dropped significantly after 3 weeks of daily use. I sleep better and feel more focused at work. | Ashwagandha | yes | R |
+| Review | Sarah K. | 5 | Chamomile tea every night has completely transformed my sleep. From 5 hours broken sleep to 7 hours solid. Amazing. | Chamomile | yes | S |
+| Review | Fatima A. | 5 | Super fine powder that mixes easily. I add it to everything. My iron levels have improved on my last blood test. | Moringa | yes | F |
+| Review | Lakshmi V. | 5 | Rich golden color and strong aroma. I add it to everything now. My skin has also been glowing since I started. | Turmeric | yes | L |
+| Aggregate | 4.6 | out of 5 | 120 verified reviews | 100% Organic, Fast Delivery, Verified Buyers |
 ```
 
 ### How It Works
@@ -345,13 +333,11 @@ Page: `/contact`
 ```
 
 ```text
-| faq |
-| Question | How long does delivery take? |
-| Answer | Orders usually ship in 2 to 3 business days. |
-| Question | Are the products organic? |
-| Answer | HerbAtlas products are sourced from trusted farms and tested for quality. |
-| Question | Is HerbAtlas medical advice? |
-| Answer | No. HerbAtlas is for educational purposes only. Always consult a healthcare professional. |
+| feature-cards (faq) |  |
+| Question | Answer |
+| How long does delivery take? | Orders usually ship in 2 to 3 business days. |
+| Are the products organic? | HerbAtlas products are sourced from trusted farms and tested for quality. |
+| Is HerbAtlas medical advice? | No. HerbAtlas is for educational purposes only. Always consult a healthcare professional. |
 ```
 
 ## Cart Page
@@ -494,11 +480,24 @@ Page: `/orders`
 Page: `/order-success`
 
 ```text
-| order-success |
+| orders (success) |  |
+| Title | Order Placed <em>Successfully!</em> |
+| Subtitle | Thank you for your order. We'll start processing it right away. |
+| Missing Title | Order details could not be found. |
+| Missing Text | The order may have been removed or you may be signed in with a different account. |
+| Order ID Label | Order ID |
+| Order Date Label | Order Date |
+| Payment Label | Payment |
+| Delivery Label | Deliver To |
+| Total Label | Total Paid |
+| Items Label | Ordered Items |
+| Estimate Title | Estimated Delivery |
+| Estimate Fallback | 3-5 Business Days |
+| Estimate Suffix | 3-5 business days |
+| Orders Text | View My Orders |
 | Orders Link | /orders |
+| Shop Text | Continue Shopping |
 | Shop Link | /shop |
-| Missing Title | Order not found |
-| Missing Text | We could not find that order confirmation. |
 ```
 
 ## Herb Detail Page
