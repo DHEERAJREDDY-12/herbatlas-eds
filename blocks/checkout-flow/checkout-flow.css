@@ -499,7 +499,7 @@
 }
 
 .coupon-available-label {
-  color: #8a8a78;
+  color: #5f5f52;
   font-size: 11px;
   letter-spacing: 0.6px;
   text-transform: uppercase;
@@ -681,7 +681,7 @@
 }
 
 .co-item-weight {
-  color: #8a8a78;
+  color: #5f5f52;
   font-size: 12px;
 }
 
@@ -770,7 +770,7 @@
 }
 
 .checkout-secure-note {
-  color: #8a8a78;
+  color: #5f5f52;
   font-size: 12px;
   margin: 8px 0 0;
   text-align: center;

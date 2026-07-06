@@ -991,7 +991,7 @@ function createMedia(cell) {
   return media;
 }
 
-function buildCard(cardData) {
+function buildCard(cardData, options = {}) {
   const isLogout = cardData.action === 'sign-out';
   const isWholeCardLink = Boolean(cardData.linkUrl) && !isLogout;
   let cardTag = 'article';
@@ -1015,7 +1015,7 @@ function buildCard(cardData) {
   if (media) card.append(media);
 
   if (cardData.title) {
-    const title = document.createElement('h3');
+    const title = document.createElement(options.headingLevel || 'h3');
     title.innerHTML = normalizeInlineHtml(cardData.title);
     card.append(title);
   }
@@ -1124,7 +1124,8 @@ export default function decorate(block) {
   block.textContent = '';
   if (header) block.append(header);
 
+  const cardOptions = block.classList.contains('contact') ? { headingLevel: 'h2' } : {};
   cards.forEach((cardData) => {
-    block.append(buildCard(cardData));
+    block.append(buildCard(cardData, cardOptions));
   });
 }

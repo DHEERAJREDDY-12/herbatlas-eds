@@ -289,7 +289,7 @@
 }
 
 .order-success-card h1 em {
-  color: #b8d4a0;
+  color: #3c7a32;
   font-style: italic;
 }
 
@@ -322,7 +322,7 @@
 }
 
 .osd-label {
-  color: #8a8a78;
+  color: #5f5f52;
   flex-shrink: 0;
   font-size: 12px;
   font-weight: 500;
@@ -390,7 +390,7 @@
 }
 
 .order-success-item-copy span {
-  color: #8a8a78;
+  color: #5f5f52;
   font-size: 12px;
 }
 

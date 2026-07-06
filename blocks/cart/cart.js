@@ -543,9 +543,20 @@ function renderSummary(shell, cart, activeCoupon, config) {
   return totals;
 }
 
+function updateCartHero(cart, config) {
+  const heroDescription = document.querySelector('.hero .hero-description');
+  if (!heroDescription) return;
+
+  const { itemCount } = calcTotals(cart, '');
+  heroDescription.textContent = itemCount
+    ? `${itemCount} item${itemCount === 1 ? '' : 's'} in your cart`
+    : config.emptyTitle;
+}
+
 function render(shell, config) {
   const cart = getCartItems();
   const activeCoupon = getActiveCoupon();
+  updateCartHero(cart, config);
 
   if (!cart.length) {
     shell.body.classList.add('hidden');

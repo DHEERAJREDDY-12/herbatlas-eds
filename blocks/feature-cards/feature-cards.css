@@ -1003,6 +1003,7 @@ button.feature-card {
   border-color: rgb(160 0 0 / 15%);
 }
 
+.feature-card h2,
 .feature-card h3 {
   color: #162a0f;
   font-family: "Cormorant Garamond", var(--heading-font-family), Georgia, serif;
@@ -1093,6 +1094,7 @@ button.feature-card {
   font-weight: 500;
 }
 
+.feature-cards.contact .feature-card h2,
 .feature-cards.contact .feature-card h3 {
   font-family: Outfit, var(--body-font-family), sans-serif;
   font-size: clamp(1.25rem, 1.7vw, 1.65rem);
