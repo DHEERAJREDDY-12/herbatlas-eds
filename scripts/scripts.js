@@ -27,6 +27,21 @@ function ensureMetaDescription() {
   document.head.append(meta);
 }
 
+function ensurePreconnect(href, crossOrigin = false) {
+  if (document.head.querySelector(`link[rel="preconnect"][href="${href}"]`)) return;
+
+  const link = document.createElement('link');
+  link.rel = 'preconnect';
+  link.href = href;
+  if (crossOrigin) link.crossOrigin = '';
+  document.head.append(link);
+}
+
+function addFontResourceHints() {
+  ensurePreconnect('https://fonts.googleapis.com');
+  ensurePreconnect('https://fonts.gstatic.com', true);
+}
+
 function getToastRoot() {
   if (toastRoot && document.body.contains(toastRoot)) return toastRoot;
 
@@ -160,25 +175,6 @@ async function loadFonts() {
   }
 }
 
-async function waitForFontsReady() {
-  if (!document.fonts?.load || !document.fonts?.ready) return;
-
-  const criticalFonts = [
-    '300 64px "Cormorant Garamond"',
-    '400 15px "Outfit"',
-    '500 13px "Outfit"',
-    '600 34px "Cormorant Garamond"',
-  ];
-
-  await Promise.race([
-    Promise.all(criticalFonts.map((font) => document.fonts.load(font)))
-      .then(() => document.fonts.ready),
-    new Promise((resolve) => {
-      window.setTimeout(resolve, 1200);
-    }),
-  ]);
-}
-
 /**
  * Turns `/widgets/...` links into widget blocks.
  * @param {Element} main The container element
@@ -292,12 +288,12 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   ensureMetaDescription();
+  addFontResourceHints();
   decorateTemplateAndTheme();
 
-  let eagerFonts = Promise.resolve();
   try {
     if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-      eagerFonts = loadFonts().then(waitForFontsReady);
+      loadFonts();
     }
   } catch (e) {
     // do nothing
@@ -309,7 +305,6 @@ async function loadEager(doc) {
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
 
-  await eagerFonts;
   document.body.classList.add('appear');
 }
 
