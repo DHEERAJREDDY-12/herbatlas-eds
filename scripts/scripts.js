@@ -16,6 +16,7 @@ const TOAST_QUEUE_KEY = 'toastQueue';
 const TOAST_DURATION = 3600;
 const TOAST_TYPES = new Set(['success', 'error', 'warning', 'info']);
 let toastRoot;
+let fontsPromise;
 
 function ensureMetaDescription() {
   if (document.head.querySelector('meta[name="description"]')) return;
@@ -150,12 +151,32 @@ window.queueToast = queueToast;
  * load fonts.css and set a session storage flag
  */
 async function loadFonts() {
-  await loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
+  if (!fontsPromise) fontsPromise = loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
+  await fontsPromise;
   try {
     if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
   } catch (e) {
     // do nothing
   }
+}
+
+async function waitForFontsReady() {
+  if (!document.fonts?.load || !document.fonts?.ready) return;
+
+  const criticalFonts = [
+    '300 64px "Cormorant Garamond"',
+    '400 15px "Outfit"',
+    '500 13px "Outfit"',
+    '600 34px "Cormorant Garamond"',
+  ];
+
+  await Promise.race([
+    Promise.all(criticalFonts.map((font) => document.fonts.load(font)))
+      .then(() => document.fonts.ready),
+    new Promise((resolve) => {
+      window.setTimeout(resolve, 1200);
+    }),
+  ]);
 }
 
 /**
@@ -272,21 +293,24 @@ async function loadEager(doc) {
   document.documentElement.lang = 'en';
   ensureMetaDescription();
   decorateTemplateAndTheme();
-  const main = doc.querySelector('main');
-  if (main) {
-    decorateMain(main);
-    document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), waitForFirstImage);
-  }
 
+  let eagerFonts = Promise.resolve();
   try {
-    /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
     if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
-      loadFonts();
+      eagerFonts = loadFonts().then(waitForFontsReady);
     }
   } catch (e) {
     // do nothing
   }
+
+  const main = doc.querySelector('main');
+  if (main) {
+    decorateMain(main);
+    await loadSection(main.querySelector('.section'), waitForFirstImage);
+  }
+
+  await eagerFonts;
+  document.body.classList.add('appear');
 }
 
 /**
