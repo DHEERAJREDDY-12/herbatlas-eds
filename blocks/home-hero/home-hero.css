@@ -314,13 +314,13 @@
   content: '';
   display: block;
   height: 6px;
-  transition: width 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
   width: 6px;
 }
 
 .home-hero .hh-dot-active::after {
   background: var(--hh-green-pale);
-  width: 20px;
+  transform: scaleX(3.333);
 }
 
 .home-hero.has-category-strip {

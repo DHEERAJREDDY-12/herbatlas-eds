@@ -100,8 +100,10 @@ header .nav-sections a::after {
   height: 2px;
   left: 0;
   position: absolute;
-  transition: width 0.25s ease;
-  width: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.25s ease;
+  width: 100%;
 }
 
 header .nav-sections a:hover,
@@ -111,7 +113,7 @@ header .nav-sections a.active {
 
 header .nav-sections a:hover::after,
 header .nav-sections a.active::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 header .nav-tools {
@@ -130,7 +132,7 @@ header .nav-search {
   font-size: 13px;
   outline: none;
   padding: 8px 16px;
-  transition: border-color 0.2s ease, background 0.2s ease, width 0.25s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
   width: 250px;
 }
 

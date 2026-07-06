@@ -27,21 +27,6 @@ function ensureMetaDescription() {
   document.head.append(meta);
 }
 
-function ensurePreconnect(href, crossOrigin = false) {
-  if (document.head.querySelector(`link[rel="preconnect"][href="${href}"]`)) return;
-
-  const link = document.createElement('link');
-  link.rel = 'preconnect';
-  link.href = href;
-  if (crossOrigin) link.crossOrigin = '';
-  document.head.append(link);
-}
-
-function addFontResourceHints() {
-  ensurePreconnect('https://fonts.googleapis.com');
-  ensurePreconnect('https://fonts.gstatic.com', true);
-}
-
 function getToastRoot() {
   if (toastRoot && document.body.contains(toastRoot)) return toastRoot;
 
@@ -288,8 +273,8 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   ensureMetaDescription();
-  addFontResourceHints();
   decorateTemplateAndTheme();
+  loadHeader(doc.querySelector('header'));
 
   try {
     if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
@@ -313,8 +298,6 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('header'));
-
   const main = doc.querySelector('main');
   await loadSections(main);
 
@@ -333,8 +316,6 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
 }
 
