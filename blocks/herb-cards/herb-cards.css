@@ -140,13 +140,17 @@
   position: relative;
 }
 
+.herb-card-img picture,
 .herb-card-img img {
   display: block;
   height: 100%;
+  width: 100%;
+}
+
+.herb-card-img img {
   object-fit: cover;
   transform: translateY(0) scale(1);
   transition: transform 0.4s ease;
-  width: 100%;
 }
 
 .herb-card-badge {
@@ -263,11 +267,15 @@
   position: relative;
 }
 
+.recommended-herbs-image picture,
 .recommended-herbs-image img {
   display: block;
   height: 100%;
-  object-fit: cover;
   width: 100%;
+}
+
+.recommended-herbs-image img {
+  object-fit: cover;
 }
 
 .herb-card:hover .herb-card-img img {

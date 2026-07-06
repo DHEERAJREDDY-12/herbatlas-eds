@@ -1,6 +1,12 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+
 const INTERVAL_MS = 4000;
 const TRANSITION_MS = 500;
 const HERB_COUNT_FALLBACK = 40;
+const SLIDE_IMAGE_BREAKPOINTS = [
+  { media: '(min-width: 600px)', width: '320' },
+  { width: '280' },
+];
 const DEFAULT_AILMENT_MAP = {
   Stress: 'Stress & Anxiety',
   Sleep: 'Sleep Issues',
@@ -89,43 +95,34 @@ function setImageLoadingPriority(imageRoot, isLcpImage = false) {
   }
 }
 
+function buildOptimizedSlideImage(src, alt, isLcpImage = false) {
+  const picture = createOptimizedPicture(src, alt || '', isLcpImage, SLIDE_IMAGE_BREAKPOINTS);
+  const img = picture.querySelector('img');
+  if (img) {
+    img.width = 260;
+    img.height = 260;
+  }
+  setImageLoadingPriority(picture, isLcpImage);
+  return picture;
+}
+
 function createImage(cell, alt, isLcpImage = false) {
   const picture = cell?.querySelector('picture');
   if (picture) {
-    const clonedPicture = picture.cloneNode(true);
-    const img = clonedPicture.querySelector('img');
-    if (img) {
-      if (alt) img.alt = alt;
-      // Set dimensions to prevent CLS
-      if (!img.width) img.width = 260;
-      if (!img.height) img.height = 173;
-    }
-    setImageLoadingPriority(clonedPicture, isLcpImage);
-    return clonedPicture;
+    const src = picture.querySelector('img')?.getAttribute('src');
+    if (src) return buildOptimizedSlideImage(src, alt, isLcpImage);
   }
 
   const img = cell?.querySelector('img');
   if (img) {
-    const clonedImg = img.cloneNode(true);
-    if (alt) clonedImg.alt = alt;
-    // Set dimensions to prevent CLS
-    if (!clonedImg.width) clonedImg.width = 260;
-    if (!clonedImg.height) clonedImg.height = 173;
-    setImageLoadingPriority(clonedImg, isLcpImage);
-    return clonedImg;
+    const src = img.getAttribute('src');
+    if (src) return buildOptimizedSlideImage(src, alt || img.alt, isLcpImage);
   }
 
   const src = getHref(cell);
   if (!src) return null;
 
-  const fallbackImg = document.createElement('img');
-  fallbackImg.src = src;
-  fallbackImg.alt = alt || '';
-  // Set dimensions to prevent CLS
-  fallbackImg.width = 260;
-  fallbackImg.height = 173;
-  setImageLoadingPriority(fallbackImg, isLcpImage);
-  return fallbackImg;
+  return buildOptimizedSlideImage(src, alt, isLcpImage);
 }
 
 function readConfig(rows) {
