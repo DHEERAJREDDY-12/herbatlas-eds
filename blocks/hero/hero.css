@@ -126,6 +126,10 @@
   text-transform: uppercase;
 }
 
+.hero.image-left .hero-eyebrow {
+  color: #666658;
+}
+
 .hero.dark .hero-eyebrow {
   color: var(--hero-green-pale);
   opacity: 0.85;

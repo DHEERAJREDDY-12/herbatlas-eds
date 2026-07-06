@@ -1,3 +1,11 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+
+const HERO_IMAGE_BREAKPOINTS = [
+  { media: '(min-width: 1000px)', width: '900' },
+  { media: '(min-width: 600px)', width: '700' },
+  { width: '420' },
+];
+
 function getCell(row, index) {
   return row?.children[index] || null;
 }
@@ -81,7 +89,11 @@ function createImage(cell, alt) {
   if (picture) {
     const clonedPicture = picture.cloneNode(true);
     const img = clonedPicture.querySelector('img');
-    if (img && alt) img.alt = alt;
+    if (img) {
+      if (alt) img.alt = alt;
+      img.loading = 'eager';
+      img.fetchPriority = 'high';
+    }
     return clonedPicture;
   }
 
@@ -89,17 +101,17 @@ function createImage(cell, alt) {
   if (img) {
     const clonedImg = img.cloneNode(true);
     if (alt) clonedImg.alt = alt;
+    clonedImg.loading = 'eager';
+    clonedImg.fetchPriority = 'high';
     return clonedImg;
   }
 
   const src = getHref(cell);
   if (!src) return null;
 
-  const fallbackImg = document.createElement('img');
-  fallbackImg.src = src;
-  fallbackImg.alt = alt || '';
-  fallbackImg.loading = 'lazy';
-  return fallbackImg;
+  const optimizedPicture = createOptimizedPicture(src, alt || '', true, HERO_IMAGE_BREAKPOINTS);
+  optimizedPicture.querySelector('img')?.setAttribute('fetchpriority', 'high');
+  return optimizedPicture;
 }
 
 function readConfig(rows) {
