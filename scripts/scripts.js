@@ -17,6 +17,15 @@ const TOAST_DURATION = 3600;
 const TOAST_TYPES = new Set(['success', 'error', 'warning', 'info']);
 let toastRoot;
 
+function ensureMetaDescription() {
+  if (document.head.querySelector('meta[name="description"]')) return;
+
+  const meta = document.createElement('meta');
+  meta.name = 'description';
+  meta.content = 'HerbAtlas documents medicinal herbs, practical uses, safety notes, and premium herbal products for educational wellness research.';
+  document.head.append(meta);
+}
+
 function getToastRoot() {
   if (toastRoot && document.body.contains(toastRoot)) return toastRoot;
 
@@ -261,6 +270,7 @@ export function decorateMain(main) {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  ensureMetaDescription();
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {

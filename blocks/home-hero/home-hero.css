@@ -290,35 +290,35 @@
 .home-hero .hh-dots {
   align-items: center;
   display: flex;
-  gap: 8px;
+  gap: 0;
   justify-content: center;
-  margin-top: 18px;
+  margin-top: 9px;
 }
 
 .home-hero .hh-dot {
-  background: rgb(184 212 160 / 35%);
+  align-items: center;
+  background: transparent;
   border: none;
-  border-radius: 3px;
   cursor: pointer;
-  height: 6px;
+  display: inline-flex;
+  height: 24px;
+  justify-content: center;
   padding: 0;
   position: relative;
+  width: 24px;
+}
+
+.home-hero .hh-dot::after {
+  background: rgb(184 212 160 / 35%);
+  border-radius: 3px;
+  content: '';
+  display: block;
+  height: 6px;
   transition: width 0.3s ease, background 0.3s ease;
   width: 6px;
 }
 
-.home-hero .hh-dot::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
-  cursor: pointer;
-}
-
-.home-hero .hh-dot-active {
+.home-hero .hh-dot-active::after {
   background: var(--hh-green-pale);
   width: 20px;
 }
