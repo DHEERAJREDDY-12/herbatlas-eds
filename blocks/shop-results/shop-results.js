@@ -355,6 +355,9 @@ function buildFeaturedCard(product, config, isFirstVisible = false) {
   image.alt = product.name;
   if (isFirstVisible) {
     image.fetchPriority = 'high';
+    image.setAttribute('fetchpriority', 'high');
+    image.loading = 'eager';
+    image.setAttribute('loading', 'eager');
   } else {
     image.loading = 'lazy';
   }
@@ -718,6 +721,9 @@ function buildCard(product, state, isFirstVisible) {
   image.height = 300;
   if (isFirstVisible) {
     image.fetchPriority = 'high';
+    image.setAttribute('fetchpriority', 'high');
+    image.loading = 'eager';
+    image.setAttribute('loading', 'eager');
   } else {
     image.loading = 'lazy';
   }

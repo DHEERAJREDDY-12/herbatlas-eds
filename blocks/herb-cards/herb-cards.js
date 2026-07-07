@@ -238,13 +238,14 @@ function buildTag(text, className) {
   return tag;
 }
 
-function buildOptimizedCardImage(src, alt) {
-  const picture = createOptimizedPicture(src, alt, false, CARD_IMAGE_BREAKPOINTS);
+function buildOptimizedCardImage(src, alt, isFirst = false) {
+  const picture = createOptimizedPicture(src, alt, isFirst, CARD_IMAGE_BREAKPOINTS);
   const image = picture.querySelector('img');
   if (image) {
     image.width = 300;
     image.height = 190;
     image.decoding = 'async';
+    if (isFirst) image.fetchPriority = 'high';
   }
   return picture;
 }
@@ -329,7 +330,7 @@ function buildRecommendedCard(herb, profile, index, detailBase) {
   imageWrap.className = 'recommended-herbs-image';
 
   if (herb.image) {
-    imageWrap.append(buildOptimizedCardImage(herb.image, herb.name));
+    imageWrap.append(buildOptimizedCardImage(herb.image, herb.name, index === 0));
   }
 
   const badge = document.createElement('span');
@@ -366,7 +367,7 @@ function buildRecommendedCard(herb, profile, index, detailBase) {
   return card;
 }
 
-function buildCard(herb, detailBase) {
+function buildCard(herb, detailBase, isFirst = false) {
   const href = getDetailHref(herb, detailBase);
   const card = document.createElement('a');
   card.className = 'herb-card';
@@ -375,7 +376,7 @@ function buildCard(herb, detailBase) {
   const imageWrap = document.createElement('div');
   imageWrap.className = 'herb-card-img';
 
-  imageWrap.append(buildOptimizedCardImage(herb.image, herb.name));
+  imageWrap.append(buildOptimizedCardImage(herb.image, herb.name, isFirst));
 
   const badge = document.createElement('span');
   badge.className = 'herb-card-badge';
@@ -420,7 +421,7 @@ function buildGrid(herbs, config) {
     grid.append(
       config.mode === 'recommended'
         ? buildRecommendedCard(herb, profile, index, config.detailBase)
-        : buildCard(herb, config.detailBase),
+        : buildCard(herb, config.detailBase, index === 0),
     );
   });
 
