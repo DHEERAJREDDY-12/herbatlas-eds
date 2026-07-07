@@ -129,6 +129,13 @@
   background: #b8d4a0;
 }
 
+.ailments-results-ailment-icon picture,
+.ailments-results-ailment-icon img {
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
 .ailments-results-ailment-icon img {
   display: block;
   height: 32px;

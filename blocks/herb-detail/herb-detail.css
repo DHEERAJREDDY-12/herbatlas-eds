@@ -57,6 +57,12 @@
   width: 100%;
 }
 
+.herb-detail-picture {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 .herb-detail-back {
   color: rgb(248 244 236 / 58%);
   display: inline-flex;

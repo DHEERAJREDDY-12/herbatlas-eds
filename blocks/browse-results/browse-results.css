@@ -143,8 +143,14 @@
   position: relative;
 }
 
+.browse-results-card-img picture,
 .browse-results-card-img img {
   display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.browse-results-card-img img {
   height: 100%;
   object-fit: cover;
   transform: translateY(0) scale(1);

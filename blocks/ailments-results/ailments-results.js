@@ -1,6 +1,9 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+
 const DEFAULT_AILMENTS_DATA = '/data/ailments.json';
 const DEFAULT_HERBS_DATA = '/data/herbs.json';
 const DEFAULT_PAGE_SIZE = 4;
+const AILMENT_ICON_BREAKPOINTS = [{ width: '96' }];
 
 function getCell(row, index) {
   return row?.children[index] || null;
@@ -172,16 +175,21 @@ function buildAilmentCard(ailment) {
   const icon = document.createElement('span');
   icon.className = 'ailments-results-ailment-icon';
 
-  const image = document.createElement('img');
-  image.src = ailment.icon;
-  image.alt = ailment.name;
-  image.width = 32;
-  image.height = 32;
-  image.loading = 'lazy';
-  image.addEventListener('error', () => {
-    icon.textContent = 'Herb';
-  }, { once: true });
-  icon.append(image);
+  const picture = createOptimizedPicture(
+    ailment.icon,
+    ailment.name,
+    false,
+    AILMENT_ICON_BREAKPOINTS,
+  );
+  const image = picture.querySelector('img');
+  if (image) {
+    image.width = 32;
+    image.height = 32;
+    image.addEventListener('error', () => {
+      icon.textContent = 'Herb';
+    }, { once: true });
+  }
+  icon.append(picture);
   card.append(icon);
 
   const title = document.createElement('span');

@@ -1,4 +1,11 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+
 const DATA_URL = '/data/herbs.json';
+const HERO_IMAGE_BREAKPOINTS = [
+  { media: '(min-width: 768px)', width: '480' },
+  { media: '(min-width: 480px)', width: '360' },
+  { width: '320' },
+];
 
 function getCell(row, index) {
   return row?.children[index] || null;
@@ -311,17 +318,25 @@ function buildHero(herb, config) {
   const imageWrap = document.createElement('div');
   imageWrap.className = 'herb-detail-image-wrap';
 
-  const image = document.createElement('img');
-  image.className = 'herb-detail-image';
-  image.src = herb.image;
-  image.alt = herb.name;
-  image.width = 260;
-  image.height = 260;
-  image.fetchPriority = 'high';
-  image.addEventListener('error', () => {
-    image.style.display = 'none';
-  }, { once: true });
-  imageWrap.append(image);
+  const picture = createOptimizedPicture(
+    herb.image,
+    herb.name,
+    true,
+    HERO_IMAGE_BREAKPOINTS,
+  );
+  picture.className = 'herb-detail-picture';
+  const image = picture.querySelector('img');
+  if (image) {
+    image.className = 'herb-detail-image';
+    image.width = 260;
+    image.height = 260;
+    image.fetchPriority = 'high';
+    image.decoding = 'async';
+    image.addEventListener('error', () => {
+      picture.style.display = 'none';
+    }, { once: true });
+  }
+  imageWrap.append(picture);
 
   const content = document.createElement('div');
   content.className = 'herb-detail-hero-content';

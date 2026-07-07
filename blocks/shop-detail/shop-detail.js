@@ -1,5 +1,7 @@
 const DATA_URL = '/data/herbs.json';
 const REVIEWS_URL = '/data/reviews.json';
+const MAIN_IMAGE_WIDTH = 600;
+const THUMB_IMAGE_WIDTH = 180;
 
 const DEFAULT_POLICIES = [
   ['Free Delivery', 'On orders above Rs.999'],
@@ -274,6 +276,16 @@ function prefixPath(path) {
   return `/${path}`;
 }
 
+function getOptimizedImageUrl(src, width) {
+  if (!src) return '';
+  if (src.startsWith('data:')) return src;
+
+  const url = src.startsWith('http')
+    ? new URL(src)
+    : new URL(prefixPath(src), window.location.href);
+  return `${url.origin}${url.pathname}?width=${width}&format=webp&optimize=medium`;
+}
+
 function getSlug(product) {
   return product.image.split('/').pop().replace(/\.(jpg|png|webp)$/i, '');
 }
@@ -532,12 +544,18 @@ function getRelatedProducts(product, products) {
     .map(({ item }) => item);
 }
 
-function buildImage(src, alt, fallback) {
+function buildImage(src, alt, fallback, width = THUMB_IMAGE_WIDTH, priority = false) {
   const image = document.createElement('img');
-  image.src = src;
+  image.src = getOptimizedImageUrl(src, width);
   image.alt = alt;
+  image.decoding = 'async';
+  if (priority) {
+    image.fetchPriority = 'high';
+  } else {
+    image.loading = 'lazy';
+  }
   image.addEventListener('error', () => {
-    image.src = fallback;
+    image.src = getOptimizedImageUrl(fallback, width);
   }, { once: true });
   return image;
 }
@@ -550,7 +568,13 @@ function buildGallery(product, state) {
   imageWrap.className = 'shop-detail-main-image';
 
   const fallback = prefixPath(product.image);
-  const mainImage = buildImage(state.galleryImages[state.imageIndex], product.name, fallback);
+  const mainImage = buildImage(
+    state.galleryImages[state.imageIndex],
+    product.name,
+    fallback,
+    MAIN_IMAGE_WIDTH,
+    true,
+  );
   mainImage.id = 'shopDetailMainImage';
   imageWrap.append(mainImage);
 
@@ -568,7 +592,7 @@ function buildGallery(product, state) {
 
   const updateImage = (index) => {
     state.imageIndex = (index + state.galleryImages.length) % state.galleryImages.length;
-    mainImage.src = state.galleryImages[state.imageIndex];
+    mainImage.src = getOptimizedImageUrl(state.galleryImages[state.imageIndex], MAIN_IMAGE_WIDTH);
     gallery.querySelectorAll('.shop-detail-thumbnail').forEach((button, idx) => {
       button.classList.toggle('active', idx === state.imageIndex);
     });
@@ -588,7 +612,7 @@ function buildGallery(product, state) {
       : 'shop-detail-thumbnail';
     thumb.type = 'button';
     thumb.setAttribute('aria-label', `View image ${index + 1}`);
-    thumb.append(buildImage(src, `${product.name} thumbnail ${index + 1}`, fallback));
+    thumb.append(buildImage(src, `${product.name} thumbnail ${index + 1}`, fallback, THUMB_IMAGE_WIDTH));
     thumb.addEventListener('click', () => updateImage(index));
     thumbs.append(thumb);
   });
@@ -1045,7 +1069,12 @@ function buildRelatedCard(product, config) {
 
   const imageWrap = document.createElement('span');
   imageWrap.className = 'shop-detail-related-img';
-  imageWrap.append(buildImage(`/images/shop/${getSlug(product)}-product.webp`, product.name, prefixPath(product.image)));
+  imageWrap.append(buildImage(
+    `/images/shop/${getSlug(product)}-product.webp`,
+    product.name,
+    prefixPath(product.image),
+    THUMB_IMAGE_WIDTH,
+  ));
 
   const badge = document.createElement('span');
   badge.className = 'shop-detail-related-badge';

@@ -336,7 +336,7 @@ function buildFeaturedHeader(config) {
   return header;
 }
 
-function buildFeaturedCard(product, config) {
+function buildFeaturedCard(product, config, isFirstVisible = false) {
   const weight = getCardWeight(product);
   const price = getPriceForWeight(product, weight);
   const href = getProductHref(product, config, weight);
@@ -353,7 +353,12 @@ function buildFeaturedCard(product, config) {
   const image = document.createElement('img');
   image.src = getProductImage(product);
   image.alt = product.name;
-  image.loading = 'lazy';
+  if (isFirstVisible) {
+    image.fetchPriority = 'high';
+  } else {
+    image.loading = 'lazy';
+  }
+  image.decoding = 'async';
   image.addEventListener('error', () => {
     image.src = product.image;
   }, { once: true });
@@ -415,8 +420,8 @@ function renderFeatured(block, config, products) {
   const grid = document.createElement('div');
   grid.className = 'product-cards-grid';
 
-  selectFeaturedProducts(products, config).forEach((product) => {
-    grid.append(buildFeaturedCard(product, config));
+  selectFeaturedProducts(products, config).forEach((product, index) => {
+    grid.append(buildFeaturedCard(product, config, index === 0));
   });
 
   if (header) block.append(header);
@@ -711,10 +716,10 @@ function buildCard(product, state, isFirstVisible) {
   image.alt = product.name;
   image.width = 400;
   image.height = 300;
-  // First visible product on current page should be eager-loaded for LCP optimization
-  image.loading = isFirstVisible ? 'eager' : 'lazy';
   if (isFirstVisible) {
     image.fetchPriority = 'high';
+  } else {
+    image.loading = 'lazy';
   }
   image.decoding = 'async';
   image.addEventListener('error', () => {

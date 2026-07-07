@@ -1,5 +1,11 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+
 const DATA_URL = '/data/herbs.json';
 const DEFAULT_PAGE_SIZE = 8;
+const CARD_IMAGE_BREAKPOINTS = [
+  { media: '(min-width: 480px)', width: '600' },
+  { width: '420' },
+];
 
 function getCell(row, index) {
   return row?.children[index] || null;
@@ -112,6 +118,25 @@ function buildTag(text, className) {
   return tag;
 }
 
+function buildCardImage(herb, isFirst) {
+  const picture = createOptimizedPicture(
+    herb.image,
+    `${herb.name} - ${herb.scientific_name}`,
+    isFirst,
+    CARD_IMAGE_BREAKPOINTS,
+  );
+  const image = picture.querySelector('img');
+  if (image) {
+    image.width = 300;
+    image.height = 190;
+    if (isFirst) image.fetchPriority = 'high';
+    image.addEventListener('error', () => {
+      image.style.display = 'none';
+    }, { once: true });
+  }
+  return picture;
+}
+
 function buildCard(herb, config, isFirst) {
   const card = document.createElement('a');
   card.className = 'browse-results-card';
@@ -120,21 +145,7 @@ function buildCard(herb, config, isFirst) {
 
   const imageWrap = document.createElement('div');
   imageWrap.className = 'browse-results-card-img';
-
-  const image = document.createElement('img');
-  image.src = herb.image;
-  image.alt = `${herb.name} - ${herb.scientific_name}`;
-  image.width = 300;
-  image.height = 190;
-  if (isFirst) {
-    image.fetchPriority = 'high';
-  } else {
-    image.loading = 'lazy';
-  }
-  image.addEventListener('error', () => {
-    image.style.display = 'none';
-  }, { once: true });
-  imageWrap.append(image);
+  imageWrap.append(buildCardImage(herb, isFirst));
 
   const badge = document.createElement('span');
   badge.className = 'browse-results-card-badge';
