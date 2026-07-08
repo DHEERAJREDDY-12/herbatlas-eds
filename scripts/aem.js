@@ -11,8 +11,9 @@
  */
 
 /* eslint-env browser */
-if (typeof window.__chromium_devtools_metrics_reporter !== 'function') {
-  window.__chromium_devtools_metrics_reporter = () => {};
+const devtoolsMetricsReporter = '__chromium_devtools_metrics_reporter';
+if (typeof window[devtoolsMetricsReporter] !== 'function') {
+  window[devtoolsMetricsReporter] = () => {};
 }
 
 function sampleRUM(checkpoint, data) {
