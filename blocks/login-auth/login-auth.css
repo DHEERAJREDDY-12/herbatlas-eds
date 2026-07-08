@@ -199,7 +199,7 @@
   background: transparent;
   border: 0;
   border-radius: 9px;
-  color: #8a8a78;
+  color: #5f5f52;
   cursor: pointer;
   flex: 1;
   font-family: Outfit, var(--body-font-family), sans-serif;
@@ -255,7 +255,7 @@
 }
 
 .form-header p {
-  color: #8a8a78;
+  color: #5f5f52;
   font-size: 13px;
   margin: 0;
 }
@@ -265,7 +265,7 @@
 }
 
 .form-field label {
-  color: #8a8a78;
+  color: #5f5f52;
   display: block;
   font-size: 10.5px;
   font-weight: 600;
@@ -299,7 +299,7 @@
 }
 
 .form-field input::placeholder {
-  color: #cac4b6;
+  color: #6b6b5d;
 }
 
 .password-wrap {
@@ -310,7 +310,7 @@
   align-items: center;
   background: none;
   border: 0;
-  color: #b0a898;
+  color: #5f5f52;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -350,7 +350,7 @@
 }
 
 .strength-label {
-  color: #8a8a78;
+  color: #5f5f52;
   display: block;
   font-size: 11px;
   margin-top: 5px;
@@ -397,7 +397,7 @@
 
 .password-requirements li {
   align-items: center;
-  color: #8a8a78;
+  color: #5f5f52;
   display: flex;
   font-size: 12px;
   gap: 7px;
@@ -452,7 +452,7 @@
 }
 
 .forgot-link {
-  color: #6a9c52;
+  color: #2f5d24;
   font-size: 12.5px;
   transition: color 0.18s ease;
 }
@@ -504,7 +504,7 @@
 }
 
 .switch-text {
-  color: #8a8a78;
+  color: #5f5f52;
   font-size: 13px;
   margin: 0;
   text-align: center;
