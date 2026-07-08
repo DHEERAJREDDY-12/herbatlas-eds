@@ -11,6 +11,10 @@
  */
 
 /* eslint-env browser */
+if (typeof window.__chromium_devtools_metrics_reporter !== 'function') {
+  window.__chromium_devtools_metrics_reporter = () => {};
+}
+
 function sampleRUM(checkpoint, data) {
   // eslint-disable-next-line max-len
   const timeShift = () => (window.performance ? window.performance.now() : Date.now() - window.hlx.rum.firstReadTime);
