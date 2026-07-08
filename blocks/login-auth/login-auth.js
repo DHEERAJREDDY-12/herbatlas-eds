@@ -35,10 +35,14 @@ function escapeHtml(value) {
 function normalizeInlineHtml(html) {
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
-  if (tmp.children.length === 1 && tmp.firstElementChild.tagName === 'P') {
-    return tmp.firstElementChild.innerHTML.trim();
-  }
-  return html;
+  const inlineHtml = tmp.children.length === 1 && tmp.firstElementChild.tagName === 'P'
+    ? tmp.firstElementChild.innerHTML.trim()
+    : html;
+
+  return inlineHtml
+    .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+    .replace(/&lt;em&gt;/gi, '<em>')
+    .replace(/&lt;\/em&gt;/gi, '</em>');
 }
 
 function readConfig(rows) {
