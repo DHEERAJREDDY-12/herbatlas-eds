@@ -1013,6 +1013,7 @@ button.feature-card {
   margin: 0 0 12px;
 }
 
+.feature-cards.nav .feature-card-logout h2,
 .feature-cards.nav .feature-card-logout h3 {
   color: #a00000;
 }
@@ -1089,6 +1090,7 @@ button.feature-card {
   object-fit: cover;
 }
 
+.feature-cards.nav .feature-card h2,
 .feature-cards.nav .feature-card h3 {
   font-size: 22px;
   font-weight: 500;

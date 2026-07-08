@@ -1124,7 +1124,9 @@ export default function decorate(block) {
   block.textContent = '';
   if (header) block.append(header);
 
-  const cardOptions = block.classList.contains('contact') ? { headingLevel: 'h2' } : {};
+  const cardOptions = block.classList.contains('contact') || block.classList.contains('nav')
+    ? { headingLevel: 'h2' }
+    : {};
   cards.forEach((cardData) => {
     block.append(buildCard(cardData, cardOptions));
   });
