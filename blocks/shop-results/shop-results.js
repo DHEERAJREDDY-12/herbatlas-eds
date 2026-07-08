@@ -237,10 +237,18 @@ function readConfig(rows) {
 }
 
 async function loadProducts() {
-  const response = await fetch(DATA_URL);
-  if (!response.ok) throw new Error(`Unable to load ${DATA_URL}`);
-  const products = await response.json();
-  return Array.isArray(products) ? products : [];
+  if (Array.isArray(window.HERBS_DATA)) return window.HERBS_DATA;
+
+  window.HERBS_DATA_PROMISE ||= fetch(DATA_URL)
+    .then((response) => {
+      if (!response.ok) throw new Error(`Unable to load ${DATA_URL}`);
+      return response.json();
+    })
+    .then((data) => {
+      window.HERBS_DATA = Array.isArray(data) ? data : [];
+      return window.HERBS_DATA;
+    });
+  return window.HERBS_DATA_PROMISE;
 }
 
 function getSafetyLabel(safety) {

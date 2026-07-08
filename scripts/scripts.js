@@ -15,24 +15,8 @@ import {
 const TOAST_QUEUE_KEY = 'toastQueue';
 const TOAST_DURATION = 3600;
 const TOAST_TYPES = new Set(['success', 'error', 'warning', 'info']);
-const FONT_STYLESHEET = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap';
 let toastRoot;
 let fontsPromise;
-
-function addPreconnect(href, crossOrigin = false) {
-  if (document.head.querySelector(`link[rel="preconnect"][href="${href}"]`)) return;
-
-  const link = document.createElement('link');
-  link.rel = 'preconnect';
-  link.href = href;
-  if (crossOrigin) link.crossOrigin = '';
-  document.head.append(link);
-}
-
-function prepareFontConnections() {
-  addPreconnect('https://fonts.googleapis.com');
-  addPreconnect('https://fonts.gstatic.com', true);
-}
 
 function ensureMetaDescription() {
   if (document.head.querySelector('meta[name="description"]')) return;
@@ -167,8 +151,7 @@ window.queueToast = queueToast;
  * Load web fonts and set a session storage flag.
  */
 async function loadFonts() {
-  prepareFontConnections();
-  if (!fontsPromise) fontsPromise = loadCSS(FONT_STYLESHEET);
+  if (!fontsPromise) fontsPromise = loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
   await fontsPromise;
   try {
     if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
@@ -290,7 +273,6 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   ensureMetaDescription();
-  prepareFontConnections();
   decorateTemplateAndTheme();
   loadHeader(doc.querySelector('header'));
 

@@ -203,9 +203,16 @@ async function getAvailableHerbCount() {
   }
 
   try {
-    const resp = await fetch('/data/herbs.json');
-    if (!resp.ok) return HERB_COUNT_FALLBACK;
-    const data = await resp.json();
+    window.HERBS_DATA_PROMISE ||= fetch('/data/herbs.json')
+      .then((resp) => {
+        if (!resp.ok) throw new Error('Unable to load herbs.json');
+        return resp.json();
+      })
+      .then((data) => {
+        window.HERBS_DATA = Array.isArray(data) ? data : [];
+        return window.HERBS_DATA;
+      });
+    const data = await window.HERBS_DATA_PROMISE;
     return Array.isArray(data) && data.length ? data.length : HERB_COUNT_FALLBACK;
   } catch {
     return HERB_COUNT_FALLBACK;

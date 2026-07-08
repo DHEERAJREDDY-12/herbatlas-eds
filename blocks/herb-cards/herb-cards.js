@@ -172,11 +172,23 @@ function getSavedProfile() {
 }
 
 async function loadHerbs(dataUrl = DATA_URL) {
-  const response = await fetch(dataUrl);
-  if (!response.ok) {
-    throw new Error(`Unable to load ${dataUrl}`);
+  if (dataUrl === DATA_URL && Array.isArray(window.HERBS_DATA)) return window.HERBS_DATA;
+
+  if (dataUrl === DATA_URL) {
+    window.HERBS_DATA_PROMISE ||= fetch(dataUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error(`Unable to load ${dataUrl}`);
+        return response.json();
+      })
+      .then((data) => {
+        window.HERBS_DATA = Array.isArray(data) ? data : [];
+        return window.HERBS_DATA;
+      });
+    return window.HERBS_DATA_PROMISE;
   }
 
+  const response = await fetch(dataUrl);
+  if (!response.ok) throw new Error(`Unable to load ${dataUrl}`);
   const herbs = await response.json();
   return Array.isArray(herbs) ? herbs : [];
 }
